@@ -12,12 +12,12 @@ class StoreSectionsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //return view('admin.store-sections')->with('list', StoreSections::all());
         return View('admin.store-sections', [
             'list' => StoreSections::all(),
-            'message' => 'erererw3'
+            'message' => $request->get('message')
         ]);
     }
 
@@ -35,6 +35,23 @@ class StoreSectionsController extends Controller
     public function store(Request $request)
     {
         //Здесь валидация и insert новой категории
+
+        $validated = $request->validate([
+            'name'    => 'array',
+            'sort'    => 'array',
+            'visible' => 'array',
+            'link'    => 'array',
+            'name.*'    => 'string|max:64',
+            'sort.*'    => 'integer|max:999',
+            'visible.*' => 'boolean',
+            'link.*'    => 'boolean',
+        ]);
+        //"name":{"50":"VZazoBUYN21"},
+        //"sort":{"50":"3"},
+        //"visible":{"50":"1"},
+        //"link":{"50":"0"}
+
+        return $request->post();
     }
 
     /**
@@ -56,9 +73,39 @@ class StoreSectionsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //Здесь валидация и update новой категории
+        // Валидация и update категории
+        $validated = $request->validate([
+            'name'    => 'array',
+            'sort'    => 'array',
+            'visible' => 'array',
+            'link'    => 'array',
+            'name.*'    => 'string|max:64',
+            'sort.*'    => 'integer|max:999',
+            'visible.*' => 'boolean',
+            'link.*'    => 'boolean',
+        ]);
+        //"name":{"50":"VZBUYN21"},
+        //"sort":{"50":"3"},
+        //"visible":{"50":"1"},
+        //"link":{"50":"0"}
+
+        //Определяем id измененных записей
+        //$key = [];
+        //foreach ($validated as $item) {
+        //    $key = array_unique(array_merge(array_keys($item), $key));
+        //}
+
+        // Вносим изменения
+        foreach ($validated as $name => $item) {
+            foreach ($item as $id => $value) {
+                StoreSections::where('id', $id)->update([$name => $value]);
+             }
+        }
+
+        return redirect()->route('admin.storesections.index',
+            ['message' => 'save']);
     }
 
     /**

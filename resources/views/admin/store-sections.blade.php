@@ -4,15 +4,17 @@
 {{ __('Store Sections') }}
 </h2>
 </x-slot>
-
-<div class="py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <x-admin.alert :message="$message"/>
-        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-gray-900 dark:text-gray-100">
-                @foreach ($list as $el)
-                    <p>This is section {{ $el->name }}</p>
-                @endforeach
+<x-admin.alert message="{{$message}}" />
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <x-admin.table-form
+                        :action="route('admin.storesections.update')"
+                        method="PATCH"
+                        thead=";#;Название раздела;Сорт;Вкл / Выкл;URL;Изменить"
+                        :tbody="$list"
+                    />
             </div>
         </div>
     </div>
