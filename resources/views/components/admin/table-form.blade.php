@@ -10,7 +10,7 @@
     <script type="module">
         onlyChangedData("f-table");
     </script>
-    <form action="{{$action}}" method="post" class="f-table">
+    <form action="{{route('admin.storesections.update', $id)}}" method="post" class="f-table">
         @if ($method === "PATCH" or $method === "PUT")
             @method($method)
         @endif
@@ -18,6 +18,11 @@
         @csrf
         <table class="container table-auto border border-collapse border-gray-400 mx-auto
         shadow-lg">
+            <caption class="caption-top text-right p-4">
+                <a class="underline" href="{{route('admin.storesections.create', $id)}}">
+                    Создать новый раздел
+                </a>
+            </caption>
             <caption class="caption-bottom mt-3">
                 <button class="rounded-xl shadow-lg w-1/4 p-2 text-white bg-sky-500
                 hover:bg-sky-600 hover:shadow-xl">
@@ -35,31 +40,39 @@
             @foreach($tbody as $el)
                 <tr class="divide-x hover:bg-slate-50">
                     <td class="font-medium">
-                        {{$el->id}}
+                        {{$el['id']}}
                     </td>
                     <td>
-                        <input type="text" class="form-input m-1" value="{{$el->name}}"
-                               name="name[{{$el->id}}]" />
+                        <input type="text" class="form-input m-1 w-3/4" value="{{$el['name']}}"
+                               name="name[{{$el['id']}}]" maxlength="64" />
                     </td>
                     <td>
-                        <input type="number" class="form-input m-1 w-20" value="{{$el->sort}}"
-                               name="sort[{{$el->id}}]" />
+                        <input type="number" class="form-input m-1 w-20" value="{{$el['sort']}}"
+                               name="sort[{{$el['id']}}]" />
                     </td>
                     <td>
-                        <input type="radio" class="" value="0" name="visible[{{$el->id}}]"
-                               {{($el->visible)?'':'checked'}} />
-                        <input type="radio" class="" value="1" name="visible[{{$el->id}}]"
-                            {{($el->visible)?'checked':''}}/>
+                        <label class="px-2">
+                            <input type="radio" class="cursor-pointer" value="1" name="visible[{{$el['id']}}]"
+                                {{($el['visible'])?'checked':''}}/>
+                        </label>
+                        <label class="px-2">
+                            <input type="radio" class="cursor-pointer" value="0" name="visible[{{$el['id']}}]"
+                                   {{($el['visible'])?'':'checked'}} />
+                        </label>
                     </td>
                     <td>
-                        <input type="radio" class="" value="0" name="link[{{$el->id}}]"
-                            {{($el->link)?'':'checked'}} />
-                        <input type="radio" class="" value="1" name="link[{{$el->id}}]"
-                            {{($el->link)?'checked':''}}/>
+                        <label class="px-2">
+                            <input type="radio" class="cursor-pointer" value="1" name="link[{{$el['id']}}]"
+                                {{($el['link'])?'checked':''}}/>
+                        </label>
+                        <label class="px-2">
+                            <input type="radio" class="cursor-pointer" value="0" name="link[{{$el['id']}}]"
+                                {{($el['link'])?'':'checked'}} />
+                        </label>
                     </td>
                     <td>
-                        <a href="{{$action}}/{{$el->parent}}">&#10606;</a>
-                        <a href="{{$action}}/{{$el->parent}}">&#10007;</a>
+                        <a href="{{route('admin.storesections.index', $el['id'])}}">Войти</a>
+                        <a href="{{route('admin.storesections.delete', $el['id'])}}">&#10007;</a>
                     </td>
                 </tr>
             @endforeach

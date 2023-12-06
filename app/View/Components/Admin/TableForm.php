@@ -11,7 +11,7 @@ class TableForm extends Component
     /**
      * @var string
      */
-    public string $action;
+    public string $id;
 
     /**
      * @var string
@@ -26,18 +26,18 @@ class TableForm extends Component
     /**
      * @var object
      */
-    public object $tbody;
+    public array $tbody;
 
     /**
      * Create a new component instance.
-     * @param $action
+     * @param $id
      * @param $method
      * @param $thead
      * @param $tbody
      */
-    public function __construct($action, $method, $thead, $tbody)
+    public function __construct($id, $method, $thead, $tbody)
     {
-        $this->action = $action;
+        $this->id = $id;
         $this->method = $method;
         $this->thead = explode($thead[0], substr($thead, 1, strlen($thead)));
         $this->tbody = $tbody;

@@ -46,9 +46,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 
     Route::controller(StoreSectionsController::class)->group(function () {
-        Route::get('/storesections', 'index')->name('storesections.index');
-        Route::post('/storesections', 'store')->name('storesections.store');
-        Route::patch('/storesections', 'update')->name('storesections.update');
+        Route::get('/storesections/{id?}', 'index')->name('storesections.index');
+        //Route::post('/storesections', 'store')->name('storesections.store');
+        Route::patch('/storesections/{id?}', 'update')->name('storesections.update');
+        Route::get('/storesections/new/{id}', 'create')->name('storesections.create');
+        Route::post('/storesections/new/{id}', 'store')->name('storesections.store');
+        Route::delete('/storesections/delete/{id}', 'destroy')->name('storesections.delete');
     });
 
 
