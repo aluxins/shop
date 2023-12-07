@@ -13,6 +13,10 @@
                 <div class="text-red-500">{{ __('Раздел не существует') }}</div>
                 @break
 
+            @case('delete')
+                <div class="text-red-500">{{ __('Раздел(ы) удалены') }}</div>
+                @break
+
             @default
 
         @endswitch

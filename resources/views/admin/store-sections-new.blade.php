@@ -12,12 +12,14 @@
                     <x-admin.tree
                         :tree="$tree"
                         route="admin.storesections.index" />
-                    new {{ $id }}
                     <form action="{{ route('admin.storesections.store', ['id' => $id]) }}"
                           method="post" class="f-table">
                     @csrf
                         <table class="container table-auto border border-collapse
                         border-gray-400 mx-auto shadow-lg">
+                            <caption class="caption-top mt-3 text-lg font-medium">
+                                Создание нового раздела
+                            </caption>
                             <caption class="caption-bottom mt-3">
                                 <button class="rounded-xl shadow-lg w-1/4 p-2 text-white
                                 bg-sky-500 hover:bg-sky-600 hover:shadow-xl">

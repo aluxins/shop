@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\StoreSections;
-use Illuminate\View\View;
+//use Illuminate\View\View;
 
 class StoreSectionsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, $id = 0): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        $id = (int) $request->id;
+        $id = (int) $id;
         $array_all = StoreSections::orderBy('sort')->orderBy('id')->get()->toArray();
         return View('admin.store-sections', [
             'list' => self::child($array_all, $id),
@@ -28,16 +32,15 @@ class StoreSectionsController extends Controller
      * Show the form for creating a new resource.
      * Вид формы создания новой категории.
      */
-    public function create(Request $request)
+    public function create(Request $request, $id): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse
     {
-        $id = (int) $request->id;
         $array_all = StoreSections::orderBy('sort')->orderBy('id')->get()->toArray();
-        return !$request->id || StoreSections::where('id', $request->id)->exists()
+        return !$id || StoreSections::where('id', (int) $id)->exists()
             ?
             View('admin.store-sections-new', [
-                'id' => $id,
+                'id' => (int) $id,
                 'message' => $request->get('message'),
-                'tree' => self::recurs($array_all, $id)
+                'tree' => self::recurs($array_all, (int) $id)
             ])
             :
             redirect()->route('admin.storesections.index',
@@ -48,14 +51,14 @@ class StoreSectionsController extends Controller
      * Store a newly created resource in storage.
      * Валидация и insert новой категории.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id): RedirectResponse
     {
+        $id = (int) $id;
         $validated = $request->validate([
             'name'    => 'string|max:64',
             'sort'    => 'integer|max:999',
             'visible' => 'boolean',
             'link'    => 'boolean',
-            'id'      => 'integer'
         ]);
 
         $newSection = new StoreSections;
@@ -64,12 +67,12 @@ class StoreSectionsController extends Controller
         $newSection->sort = $validated['sort'];
         $newSection->visible = $validated['visible'];
         $newSection->link = $validated['link'];
-        $newSection->parent = $request->id;
+        $newSection->parent = $id;
 
         $newSection->save();
 
         return redirect()->route('admin.storesections.index',
-            ['message' => 'store', 'id' => $request->id]);
+            ['message' => 'store', 'id' => $id]);
     }
 
     /**
@@ -92,8 +95,9 @@ class StoreSectionsController extends Controller
      * Update the specified resource in storage.
      * Валидация и update категории.
      */
-    public function update(Request $request)
+    public function update(Request $request, $id = 0): RedirectResponse
     {
+        $id = (int) $id;
         $validated = $request->validate([
             'name'    => 'array',
             'sort'    => 'array',
@@ -105,16 +109,6 @@ class StoreSectionsController extends Controller
             'link.*'    => 'boolean',
             'id'      => 'integer'
         ]);
-        //"name":{"50":"VZBUYN21"},
-        //"sort":{"50":"3"},
-        //"visible":{"50":"1"},
-        //"link":{"50":"0"}
-
-        //Определяем id измененных записей
-        //$key = [];
-        //foreach ($validated as $item) {
-        //    $key = array_unique(array_merge(array_keys($item), $key));
-        //}
 
         // Вносим изменения
         foreach ($validated as $name => $item) {
@@ -124,32 +118,77 @@ class StoreSectionsController extends Controller
         }
 
         return redirect()->route('admin.storesections.index',
-            ['message' => 'update', 'id' => $request->id]);
+            ['message' => 'update', 'id' => $id]);
+    }
+
+    /**
+     * Форма подтверждения удаления раздела и всех вложенных разделов.
+     * @param Request $request
+     * @param $id
+     * @return View|\Illuminate\Foundation\Application|Factory|RedirectResponse|Application
+     */
+    public function delete(Request $request, $id): View|\Illuminate\Foundation\Application|Factory|RedirectResponse|Application
+    {
+        $id = (int) $id;
+        if(StoreSections::where('id', $id)->doesntExist())
+            return redirect()->route('admin.storesections.index');
+
+        $array_all = StoreSections::orderBy('sort')->orderBy('id')->get()->toArray();
+        $array_del = self::recurs($array_all, $id, false);
+        return View('admin.store-sections-delete', [
+            'id' => $id,
+            'message' => $request->get('message'),
+            'tree' => self::recurs($array_all, $id),
+            'delete' => $array_del
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id): RedirectResponse
     {
-        //
+        $id = (int) $id;
+        if(StoreSections::where('id', $id)->doesntExist())
+            return redirect()->route('admin.storesections.index');
+
+        $array_all = StoreSections::orderBy('sort')->orderBy('id')->get()->toArray();
+        $array_del = self::recurs($array_all, $id, false);
+
+        // ID родителя удаляемого раздела и его подразделов.
+        $id_redirect = 0;
+        foreach ($array_all as $el){
+            if($id === $el['id'])
+                $id_redirect = $el['parent'];
+        }
+
+        // Список удаляемых разделов.
+        $key_del[] = $id;
+        foreach ($array_del as $el){
+            $key_del[] = $el['id'];
+        }
+
+        StoreSections::destroy($key_del);
+
+        return redirect()->route('admin.storesections.index',
+            ['message' => 'delete', 'id' => $id_redirect]);
     }
 
     /**
      * Глубина вложенности разделов.
      * @param $array
      * @param $id
-     * @param $search
+     * @param bool $direction *true - поиск parents* or *false - поиск children
+     * @param array $search
      * @return array
      */
-    private function recurs($array, $id, &$search = []): array
+    private function recurs($array, $id, bool $direction = true, array &$search = []): array
     {
         foreach($array as $el){
-            if($el['id'] === $id){
-                $search[] = ['id' => $id, 'name' => $el['name']];
-                self::recurs($array, $el['parent'], $search);
+            if(($direction ? $el['id'] : $el['parent']) === $id){
+                $search[] = ['id' => $el['id'], 'name' => $el['name']];
+                self::recurs($array, $direction ? $el['parent'] : $el['id'], $direction, $search);
             }
-
         }
         return $search;
     }
