@@ -30,3 +30,9 @@ window.onlyChangedData = function (cls) {
         });
     }
 }
+
+window.addClassList = function(idElement, list) {
+
+    const element = document.getElementById(idElement);
+    element.classList.add(...list);
+}

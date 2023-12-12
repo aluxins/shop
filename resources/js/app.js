@@ -1,5 +1,6 @@
 import './bootstrap';
 import './my';
+import './dropdown-menu';
 
 import Alpine from 'alpinejs';
 
@@ -9,10 +10,15 @@ Alpine.start();
 
 
 import {
+    Tab,
     Collapse,
     Dropdown,
     Ripple,
     initTE,
 } from "tw-elements";
 
-initTE({ Collapse, Dropdown, Ripple });
+initTE({ Tab, Collapse, Dropdown, Ripple });
+
+import jQuery from 'jquery';
+window.$ = jQuery;
+

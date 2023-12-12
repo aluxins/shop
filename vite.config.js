@@ -7,8 +7,15 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                'resources/js/dropdown-menu.js',
+                'node_modules/tw-elements/dist/js/tw-elements.umd.min.js',
             ],
             refresh: true,
         }),
     ],
+    resolve: {
+        alias: {
+            '$': 'jQuery'
+        },
+    },
 });

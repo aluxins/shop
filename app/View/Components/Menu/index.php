@@ -10,39 +10,40 @@ use App\Models\StoreSections;
 class index extends Component
 {
     /**
-     * @var string
-     */
-    public string $ulSections;
-
-    public static $ulSSections;
-    /**
      * @var array
      */
     public array $arraySections;
+
     /**
      * Create a new component instance.
+     * @param int $idStart Начальный ID родителя
+     * @param int $tabI Начальное значение отступов
      */
-    public function __construct($idStart, $tabI)
+    public function __construct(int $idStart = 0, int $tabI = 0)
     {
-        $array_all = StoreSections::orderBy('sort')->orderBy('id')->get()->toArray();
-        $this->arraySections = $this->recurs($array_all, $idStart, $tabI);
-        $this->ulSections = self::$ulSSections;
+        $this->arraySections = $this->recurs(
+            StoreSections::orderBy('sort')->orderBy('id')->get()->toArray(),
+            $idStart,
+            $tabI);
     }
 
-    public function recurs(array $array, int $id = 0, int $i = 0){
-        $i++;
+    /**
+     * @param array $array
+     * @param int $id
+     * @param int $i
+     * @return array
+     */
+    public function recurs(array $array, int $id = 0, int $i = 0): array
+    {
         $search = [];
-        $tab = "    ";
         foreach($array as $el){
-            if($el['parent'] === $id){
-                self::$ulSSections .= "\n" . str_repeat($tab, $i) . "[ul]";
-                self::$ulSSections .= "\n" . str_repeat($tab, $i) . "[li]" . $el['name'];
+            if($el['parent'] === $id) {
                 $search[] = [
+                    'id' => $el['id'],
                     'name' => $el['name'],
+                    'link' => $el['link'],
                     'children' => self::recurs($array, $el['id'], $i)
                 ];
-                self::$ulSSections .= "\n" . str_repeat($tab, $i) . "[/li]";
-                self::$ulSSections .= "\n" . str_repeat($tab, $i) . "[/ul]";
             }
         }
         return $search;
