@@ -2,7 +2,7 @@
 
 
     <header class="bg-white dark:bg-gray-800 shadow flex flex-row items-center p-5 justify-start">
-        <x-menu.index idStart="0" tabI="4"  />
+        <x-menu.index idStart="0" type="menu" />
             <!-- Logo -->
             <div class="shrink-0 flex items-center font-semibold text-xl text-gray-800 dark:text-gray-200 mx-5">
                 <a href="{{ route('dashboard') }}" class="mx-2">

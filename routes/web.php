@@ -47,7 +47,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::controller(StoreSectionsController::class)->group(function () {
         Route::get('/storesections/{id?}', 'index')->name('storesections.index');
-        //Route::post('/storesections', 'store')->name('storesections.store');
         Route::patch('/storesections/{id?}', 'update')->name('storesections.update');
         Route::get('/storesections/new/{id}', 'create')->name('storesections.create');
         Route::post('/storesections/new/{id}', 'store')->name('storesections.store');
@@ -55,6 +54,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/storesections/delete/{id}', 'destroy')->name('storesections.destroy');
     });
 
+    Route::controller(\App\Http\Controllers\Admin\StoreProductsController::class)->group(function () {
+        Route::get('/products/{id?}', 'index')->name('products.index');
+        Route::post('/products/new', 'store')->name('products.store');
+        Route::patch('/products/{id}', 'store')->name('products.update');
+    });
 
 });
 

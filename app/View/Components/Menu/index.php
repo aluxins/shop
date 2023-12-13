@@ -15,25 +15,29 @@ class index extends Component
     public array $arraySections;
 
     /**
+     * @var string
+     */
+    public string $type;
+
+    /**
      * Create a new component instance.
      * @param int $idStart Начальный ID родителя
-     * @param int $tabI Начальное значение отступов
+     * @param string $type Начальное значение отступов
      */
-    public function __construct(int $idStart = 0, int $tabI = 0)
+    public function __construct(int $idStart = 0, string $type = 'menu')
     {
         $this->arraySections = $this->recurs(
             StoreSections::orderBy('sort')->orderBy('id')->get()->toArray(),
-            $idStart,
-            $tabI);
+            $idStart);
+        $this->type = $type;
     }
 
     /**
      * @param array $array
      * @param int $id
-     * @param int $i
      * @return array
      */
-    public function recurs(array $array, int $id = 0, int $i = 0): array
+    public function recurs(array $array, int $id = 0): array
     {
         $search = [];
         foreach($array as $el){
@@ -42,7 +46,7 @@ class index extends Component
                     'id' => $el['id'],
                     'name' => $el['name'],
                     'link' => $el['link'],
-                    'children' => self::recurs($array, $el['id'], $i)
+                    'children' => self::recurs($array, $el['id'])
                 ];
             }
         }
@@ -54,7 +58,7 @@ class index extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.menu.index');
+        return view('components.menu.index', ['type' => $this->type]);
     }
 
 }
