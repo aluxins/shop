@@ -1,5 +1,5 @@
 {{-- https://codepen.io/martinridgway/pen/KVdKQJ --}}
-<div id="dropdown-menu" class="mx-5">
+<div id="dropdown-menu">
     <div class="cd-dropdown-wrapper">
         {{-- cd-index-close скрывает кнопку меню на главной странице --}}
         <a class="cd-dropdown-trigger" href="#0">Каталог</a>
@@ -8,11 +8,13 @@
             <h2>Title</h2>
             <a href="#0" class="cd-close">Close</a>
             <ul class="cd-dropdown-content">
+                {{-- Поле поиска
                 <li>
                     <form class="cd-search">
                         <input type="search" placeholder="Search...">
                     </form>
                 </li>
+                --}}
                     @foreach($arraySections as $el)
                         <x-menu.children-1
                             :id="$el['id']"

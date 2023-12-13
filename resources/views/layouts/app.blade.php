@@ -17,7 +17,7 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
+
 
             <!-- Page Heading -->
             @if (isset($header))
@@ -28,18 +28,10 @@
                 </header>
             @endif
 
-            <x-menu.index idStart="0" tabI="4"  />
-            <div class="flex flex-row mx-5">
-                <div class="basis-72 hidden lg:block">
-
-                </div>
-                <div class="basis-auto">
-                    <!-- Page Content -->
-                    <main>
-                        {{ $slot }}
-                    </main>
-                </div>
-            </div>
+                <!-- Page Content -->
+                <main>
+                    {{ $slot }}
+                </main>
         </div>
     </body>
 </html>

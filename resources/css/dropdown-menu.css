@@ -290,7 +290,7 @@
     @media only screen and (min-width: 1024px) {
         .cd-dropdown {
             position: absolute;
-            top: calc(100% - 2px);
+            top: calc(100% + 22px);
             /* reset style*/
             height: auto;
             width: auto;
