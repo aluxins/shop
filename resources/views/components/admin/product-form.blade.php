@@ -1,15 +1,17 @@
 @props([
     'id' => 0,
-    'name' => '',
-    'article' => '',
-    'description' => '',
-    'brand' => [],
-    'brand_new' => '',
-    'price' => '0.00',
-    'old_price' => '0.00',
-    'available' => 0,
-    'visible' => true,
-    'section' => 0,
+    'name' => !empty(old('name')) ?  : (!empty($data['name']) ? $data['name'] : ''),
+    //!empty(old('name')) ? old('name') : (!empty($data['name']) ? $data['name'] : ''),
+    'article' => old('article'),
+    'description' => old('description'),
+    'brand' => old('brand'),
+    'brand_new' => old('brand_new'),
+    'brand_array' => [],
+    'price' => old('price'),
+    'old_price' => old('old_price'),
+    'available' => old('available'),
+    'visible' => old('visible'),
+    'section' => old('section'),
 ])
 
 @if ($errors->any())
@@ -67,7 +69,7 @@
                 <label>
                     <select class="form-select w-3/4" name="section">
                         <option>Выберите раздел:</option>
-                        <x-menu.index idStart="0" type="select" />
+                        <x-menu.index idStart="0" type="select" :selected="($section)?$section:''" />
                     </select>
                 </label>
             </td>
@@ -80,14 +82,14 @@
                 <label>
                     <select class="form-select w-3/4" name="brand">
                         <option></option>
-                        @foreach($brand as $el)
-                            <option value="{{ $el['id'] }}">
+                        @foreach($brand_array as $el)
+                            <option value="{{ $el['id'] }}" {{ ($brand == $el['id'])?'selected':'' }}>
                             {{ $el['name'] }}
                             </option>
                         @endforeach
                     </select>
                     <input type="text" class="form-input m-1 w-3/4" name="brand_new"
-                           title="sdsss" placeholder="Новый бренд"
+                           title="" placeholder="Новый бренд"
                            maxlength="256" value="{{ $brand_new }}"
                     />
 
@@ -156,7 +158,7 @@
             </td>
             <td>
                 <label class="px-2">
-                    <input type="file" name="images" multiple="multiple" class="m-1 w-3/4"
+                    <input type="file" name="images[]" multiple="multiple" class="m-1 w-3/4"
                            accept="image/png, image/jpeg, image/gif, image/webp" />
                 </label>
             </td>

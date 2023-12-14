@@ -11,7 +11,8 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <x-admin.product-form
                         :id="$id"
-                        :brand="$brand"
+                        :brand_array="$brand_array"
+                        :data="$data"
                       />
                 </div>
             </div>

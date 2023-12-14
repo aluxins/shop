@@ -16,7 +16,8 @@ return new class extends Migration
             $table->bigInteger('product')->index();
             $table->string('name', 255);
             $table->tinyInteger('sort');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

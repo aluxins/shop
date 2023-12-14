@@ -34,12 +34,12 @@
 
     @case('select')
             @foreach($arraySections as $el)
-                <x-menu.option
+                 <x-menu.option
                     :id="$el['id']"
                     :name="$el['name']"
                     :link="$el['link']"
                     :children="$el['children']"
-                    selected=""
+                    :selected="$selected"
                     i="0"
                 />
             @endforeach

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed $old_price;
  * @property mixed $available;
  * @property mixed $section;
+ * @property mixed $id
  */
 class StoreProduct extends Model
 {

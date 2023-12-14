@@ -20,16 +20,23 @@ class index extends Component
     public string $type;
 
     /**
+     * @var string
+     */
+    public string $selected;
+
+    /**
      * Create a new component instance.
      * @param int $idStart Начальный ID родителя
      * @param string $type Начальное значение отступов
+     * @param string $selected
      */
-    public function __construct(int $idStart = 0, string $type = 'menu')
+    public function __construct(int $idStart = 0, string $type = 'menu', string $selected = '')
     {
         $this->arraySections = $this->recurs(
             StoreSections::orderBy('sort')->orderBy('id')->get()->toArray(),
             $idStart);
         $this->type = $type;
+        $this->selected = $selected;
     }
 
     /**
