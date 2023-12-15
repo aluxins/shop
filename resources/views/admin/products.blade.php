@@ -13,6 +13,7 @@
                         :id="$id"
                         :brand_array="$brand_array"
                         :data="$data"
+                        :images="$images"
                       />
                 </div>
             </div>

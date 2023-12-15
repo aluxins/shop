@@ -1,18 +1,27 @@
-@props([
+@php
+$arr = [
     'id' => 0,
-    'name' => !empty(old('name')) ?  : (!empty($data['name']) ? $data['name'] : ''),
-    //!empty(old('name')) ? old('name') : (!empty($data['name']) ? $data['name'] : ''),
-    'article' => old('article'),
-    'description' => old('description'),
-    'brand' => old('brand'),
     'brand_new' => old('brand_new'),
     'brand_array' => [],
-    'price' => old('price'),
-    'old_price' => old('old_price'),
-    'available' => old('available'),
-    'visible' => old('visible'),
-    'section' => old('section'),
-])
+    'images' => [],
+    ];
+
+$arr_for = [
+    'name' => '',
+    'article' => '',
+    'description' => '',
+    'brand' => 0,
+    'price' => '0.00',
+    'old_price' => '0.00',
+    'available' => 0,
+    'visible' => 1,
+    'section' => 0,
+    ];
+
+foreach($arr_for as $key => $value)
+        $arr[$key] = !empty(old()) ? old($key) : $data[$key] ?? $value;
+@endphp
+@props($arr)
 
 @if ($errors->any())
     <div class="alert alert-danger">
@@ -30,7 +39,7 @@
     <table class="container table-auto border border-collapse
                         border-gray-400 mx-auto shadow-lg">
         <caption class="caption-top mt-3 text-lg font-medium">
-            Создание нового раздела
+            {{ $id ? 'Редактирование' : 'Создание' }}
         </caption>
         <caption class="caption-bottom mt-3">
             <button class="rounded-xl shadow-lg w-1/4 p-2 text-white
@@ -69,7 +78,7 @@
                 <label>
                     <select class="form-select w-3/4" name="section">
                         <option>Выберите раздел:</option>
-                        <x-menu.index idStart="0" type="select" :selected="($section)?$section:''" />
+                        <x-menu.index idStart="0" type="select" :selected="$section" />
                     </select>
                 </label>
             </td>
@@ -83,7 +92,7 @@
                     <select class="form-select w-3/4" name="brand">
                         <option></option>
                         @foreach($brand_array as $el)
-                            <option value="{{ $el['id'] }}" {{ ($brand == $el['id'])?'selected':'' }}>
+                            <option value="{{ $el['id'] }}" {{ ($brand == $el['id']) ? 'selected' : '' }}>
                             {{ $el['name'] }}
                             </option>
                         @endforeach
@@ -154,13 +163,30 @@
         </tr>
         <tr class="divide-x hover:bg-slate-50">
             <td class="font-medium">
-                {{ __('Изображения') }}
+                {{ __('Загрузить') }}
             </td>
             <td>
                 <label class="px-2">
                     <input type="file" name="images[]" multiple="multiple" class="m-1 w-3/4"
                            accept="image/png, image/jpeg, image/gif, image/webp" />
                 </label>
+            </td>
+        </tr>
+        <tr class="divide-x hover:bg-slate-50">
+            <td class="font-medium">
+                {{ __('Изображения') }}
+            </td>
+            <td class="flex flex-wrap gap-4 justify-center p-4">
+                @foreach($images as $image)
+                    <div class="border bg-slate-100 grid grid-cols-1 gap-1 justify-items-center content-between p-2 rounded w-fit">
+                        <img class="w-1/2" src="{{Storage::url(
+                        config('image.folder').config('image.modification.th.prefix').$image['name']
+                            )}}"  alt=""/>
+                        <label>
+                            <input class="w-1/2" name="sort[]" value="{{$image['sort']}}" />
+                        </label>
+                    </div>
+                @endforeach
             </td>
         </tr>
         </tbody>

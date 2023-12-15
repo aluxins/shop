@@ -13,34 +13,50 @@ use App\Models\StoreProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
-
-//use Intervention\Image\Facades\Image as Image;
-//use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Validation\Rule;
 
 class StoreProductsController extends Controller
 {
-    public function index(Request $request, $id = 0): \Illuminate\View\View
+    public function index(Request $request, $id = 0): \Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
     {
         $id = (int) $id;
-        return View('admin.products', [
-            'message' => $request->get('message'),
-            'id' => $id,
-            'brand_array' => StoreBrand::orderBy('name')->get()->toArray(),
-            'data' => $id ? StoreProduct::find($id)->toArray():[],
-        ]);
+        $product = StoreProduct::find($id);
+        $images = StoreImage::where('product', $id);
+        return (!$id or $product) ?
+            View('admin.products', [
+                'message' => $request->get('message'),
+                'id' => $id,
+                'brand_array' => StoreBrand::orderBy('name')->get()->toArray(),
+                'data' => $product ? $product->toArray() : [],
+                'images' => $images ? $images->get()->toArray() : [],
+            ])
+        :
+            redirect()->route('admin.products.index');
     }
 
     /**
      * Store a newly created resource in storage.
      * Валидация и insert новой категории.
      */
-    public function store(Request $request, $id = 0): array //RedirectResponse
+    public function store(Request $request, $id = 0): \Illuminate\Http\RedirectResponse //RedirectResponse
     {
         $id = (int) $id;
+
+        //Валидация входных данных.
         $validated = $request->validate([
             'section' => 'required|integer|min:1',
             'name'    => 'required|string|max:256',
-            'article'    => 'required|string|max:32|unique:store_products',
+            'article'    => ['required','string','max:32',
+
+                // Проверка уникальности поля article. Если редактируется товар и
+                // артикул не изменился, то проверка не выполняется.
+                Rule::when(
+                    $id and $request->input('article') === StoreProduct::find($id)->article,
+                    '',
+                    'unique:store_products'
+                    ),
+                ],
+
             'description' => 'max:65535',
             'brand' => 'nullable|integer',
             'brand_new' => 'nullable|string|max:256|unique:store_brands,name',
@@ -52,81 +68,84 @@ class StoreProductsController extends Controller
             'images.*' => 'nullable|mimes:jpg,png,gif,webp|dimensions:max_width=3000,max_height=3000|max:5120',
          ]);
 
-        $newProduct = new StoreProduct();
+        $product = $id ? StoreProduct::find($id) : new StoreProduct();
 
-        //Добавляем название нового бренда и определяем ID
-        if(!empty($validated['brand_new'])){
-            $newBrand = new StoreBrand();
-            $newBrand->name = $validated['brand_new'];
-            $newBrand->save();
-            $newProduct->brand = $newBrand->id;
-        }
-        else
-            $newProduct->brand = $validated['brand'];
+        if($product) {
 
-        $newProduct->section = $validated['section'];
-        $newProduct->name = $validated['name'];
-        $newProduct->article = $validated['article'];
-        $newProduct->description = $validated['description'];
-        $newProduct->price = $validated['price'];
-        $newProduct->old_price = $validated['old_price'];
-        $newProduct->available = $validated['available'];
-        $newProduct->visible = $validated['visible'];
+            //Добавляем название нового бренда и определяем ID.
+            if (!empty($validated['brand_new'])) {
+                $newBrand = new StoreBrand();
+                $newBrand->name = $validated['brand_new'];
+                $newBrand->save();
+                $product->brand = $newBrand->id;
+            } else
+                $product->brand = $validated['brand'];
 
-        $newProduct->save();
+            $product->section = $validated['section'];
+            $product->name = $validated['name'];
+            $product->article = $validated['article'];
+            $product->description = $validated['description'];
+            $product->price = $validated['price'];
+            $product->old_price = $validated['old_price'];
+            $product->available = $validated['available'];
+            $product->visible = $validated['visible'];
 
-        /*
-         * Загрузка изображений.
-         * Изменение размера изображения при превышении одной из стороны.
-         * Создание уменьшенных копий изображения.
-        */
+            $product->save();
 
-        if(!empty($validated['images'])){
-            $insert = [];
-            $folder = config('image.folder');
+            /*
+             * Загрузка изображений.
+             * Изменение размера изображения при превышении одной из стороны.
+             * Создание уменьшенных копий изображения.
+            */
 
-            foreach($request->file('images') as $key => $file) {
+            if (!empty($validated['images'])) {
+                $insert = [];
+                $folder = config('image.folder');
 
-                $insert[] = [
-                    'product' => $newProduct->id,
-                    'sort' => $key,
-                    'name' => $file->hashName(),
-                ];
+                foreach ($request->file('images') as $file) {
 
-                $img_tmp = $file->getPathname();
-                $img_name = $file->hashName();
+                    //Массив данных для вставки в БД.
+                    $insert[] = [
+                        'product' => $product->id,
+                        'sort' => 0,
+                        'name' => $file->hashName(),
+                    ];
 
-                $img = Image::make($img_tmp)->
-                resize(config('image.modification.original.resize'), config('image.modification.original.resize'),
-                    function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                $img->save(Storage::path($folder).config('image.modification.original.prefix').$img_name);
+                    $img_tmp = $file->getPathname();
+                    $img_name = $file->hashName();
 
-                $img_th = Image::make($img_tmp)->
-                resize(config('image.modification.th.resize'), config('image.modification.th.resize'),
-                    function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                $img_th->save(Storage::path($folder).config('image.modification.th.prefix').$img_name);
+                    $img = Image::make($img_tmp)->
+                    resize(config('image.modification.original.resize'), config('image.modification.original.resize'),
+                        function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                    $img->save(Storage::path($folder) . config('image.modification.original.prefix') . $img_name);
 
-                $img_th_fit = Image::make($img_tmp)->fit(config('image.modification.fit.resize'));
-                $img_th_fit->save(Storage::path($folder).config('image.modification.fit.prefix').$img_name);
+                    $img_th = Image::make($img_tmp)->
+                    resize(config('image.modification.th.resize'), config('image.modification.th.resize'),
+                        function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                    $img_th->save(Storage::path($folder) . config('image.modification.th.prefix') . $img_name);
+
+                    $img_th_fit = Image::make($img_tmp)->fit(config('image.modification.fit.resize'));
+                    $img_th_fit->save(Storage::path($folder) . config('image.modification.fit.prefix') . $img_name);
+                }
+
+                if (count($insert) > 0) {
+                    StoreImage::insert($insert);
+                }
+
             }
-
-            if (count($insert) > 0){
-                StoreImage::insert($insert);
-            }
-
+            $request->session()->flash('message', $id ? 'update' : 'store');
+            return redirect()->route('admin.products.index',
+                ['id' => $product->id]);
         }
-
-        /*
-
-        return redirect()->route('admin.storesections.index',
-            ['message' => 'store', 'id' => $id]);
-        */
-        return [$validated, $insert];
+        else{
+            $request->session()->flash('message', 'product-not-exists');
+            return redirect()->route('admin.products.index');
+          }
     }
 }

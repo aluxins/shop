@@ -6,7 +6,7 @@
                 @break
 
             @case('store')
-                <div class="text-green-500">{{ __('Новый раздел создан') }}</div>
+                <div class="text-green-500">{{ __('Создано') }}</div>
                 @break
 
             @case('section-not-exist')
@@ -14,12 +14,16 @@
                 @break
 
             @case('delete')
-                <div class="text-red-500">{{ __('Раздел(ы) удалены') }}</div>
+                <div class="text-red-500">{{ __('Удалено') }}</div>
                 @break
 
-            @default
+            @case('product-not-exists')
+                <div class="text-red-500">{{ __('Товар не существует') }}</div>
+                @break
 
-        @endswitch
+    @default
+
+@endswitch
 
 </div>
 @endif

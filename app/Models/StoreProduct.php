@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed $available;
  * @property mixed $section;
  * @property mixed $id
+ * @method static find(int $id)
  */
 class StoreProduct extends Model
 {

@@ -56,8 +56,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::controller(\App\Http\Controllers\Admin\StoreProductsController::class)->group(function () {
         Route::get('/products/{id?}', 'index')->name('products.index');
-        Route::post('/products/new', 'store')->name('products.store');
-        Route::patch('/products/{id}', 'store')->name('products.update');
+        Route::post('/products/{id}', 'store')->name('products.store');
     });
 
 });

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static insert(array $insert)
+ * @method static where(string $string, int $id)
  */
 class StoreImage extends Model
 {
