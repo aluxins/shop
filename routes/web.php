@@ -46,17 +46,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 
     Route::controller(StoreSectionsController::class)->group(function () {
-        Route::get('/storesections/{id?}', 'index')->name('storesections.index');
-        Route::patch('/storesections/{id?}', 'update')->name('storesections.update');
-        Route::get('/storesections/new/{id}', 'create')->name('storesections.create');
-        Route::post('/storesections/new/{id}', 'store')->name('storesections.store');
-        Route::get('/storesections/delete/{id}', 'delete')->name('storesections.delete');
-        Route::delete('/storesections/delete/{id}', 'destroy')->name('storesections.destroy');
+        Route::get('/sections/{id?}', 'index')->name('sections.index');
+        Route::patch('/sections/{id?}', 'update')->name('sections.update');
+        Route::get('/sections/new/{id}', 'create')->name('sections.create');
+        Route::post('/sections/new/{id}', 'store')->name('sections.store');
+        Route::get('/sections/delete/{id}', 'delete')->name('sections.delete');
+        Route::delete('/sections/delete/{id}', 'destroy')->name('sections.destroy');
     });
 
     Route::controller(\App\Http\Controllers\Admin\StoreProductsController::class)->group(function () {
         Route::get('/products/{id?}', 'index')->name('products.index');
         Route::post('/products/{id}', 'store')->name('products.store');
+        Route::DELETE('/products/{id}', 'destroy')->name('products.delete');
+        Route::get('/products/delete/{id}/image/{image}', 'imageDelete')->name('products.imageDelete');
     });
 
 });

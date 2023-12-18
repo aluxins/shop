@@ -10,7 +10,7 @@
     <script type="module">
         onlyChangedData("f-table");
     </script>
-    <form action="{{route('admin.storesections.update', $id)}}" method="post" class="f-table">
+    <form action="{{route('admin.sections.update', $id)}}" method="post" class="f-table">
         @if ($method === "PATCH" or $method === "PUT")
             @method($method)
         @endif
@@ -19,7 +19,7 @@
         <table class="container table-auto border border-collapse border-gray-400 mx-auto
         shadow-lg">
             <caption class="caption-top text-right p-4">
-                <a class="underline" href="{{route('admin.storesections.create', $id)}}">
+                <a class="underline" href="{{route('admin.sections.create', $id)}}">
                     Создать новый раздел
                 </a>
             </caption>
@@ -71,8 +71,8 @@
                         </label>
                     </td>
                     <td>
-                        <a href="{{route('admin.storesections.index', $el['id'])}}">Войти</a>
-                        <a href="{{route('admin.storesections.delete', $el['id'])}}">&#10007;</a>
+                        <a href="{{route('admin.sections.index', $el['id'])}}">Войти</a>
+                        <a href="{{route('admin.sections.delete', $el['id'])}}">&#10007;</a>
                     </td>
                 </tr>
             @endforeach

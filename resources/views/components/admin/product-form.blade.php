@@ -178,10 +178,18 @@ foreach($arr_for as $key => $value)
             </td>
             <td class="flex flex-wrap gap-4 justify-center p-4">
                 @foreach($images as $image)
-                    <div class="border bg-slate-100 grid grid-cols-1 gap-1 justify-items-center content-between p-2 rounded w-fit">
-                        <img class="w-1/2" src="{{Storage::url(
-                        config('image.folder').config('image.modification.th.prefix').$image['name']
-                            )}}"  alt=""/>
+                    <div class="border bg-slate-100 relative grid grid-cols-1 gap-1 justify-items-center content-between p-2 rounded w-fit">
+                        <div class="absolute w-16 h-16 right-0">
+                            <a href="{{route('admin.products.imageDelete', ['id' => $id, 'image' => $image['id']])}}"
+                            title="Удалить изображение?">X</a>
+                        </div>
+                        <a class="w-1/2" target="_blank" href="{{Storage::url(
+                            config('image.folder').config('image.modification.original.prefix').$image['name']
+                                )}}">
+                            <img class="m-auto" src="{{Storage::url(
+                            config('image.folder').config('image.modification.th.prefix').$image['name']
+                                )}}"  alt=""/>
+                        </a>
                         <label>
                             <input class="w-1/2" name="sort[]" value="{{$image['sort']}}" />
                         </label>
@@ -192,3 +200,12 @@ foreach($arr_for as $key => $value)
         </tbody>
     </table>
 </form>
+<div class="w-full text-right">
+    <form method="post" action="{{route('admin.products.delete', ['id' => $id])}}">
+        @csrf
+        {{ method_field('DELETE') }}
+    <button>
+        Удалить товар
+    </button>
+    </form>
+</div>

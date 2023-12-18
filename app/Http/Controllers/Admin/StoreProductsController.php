@@ -10,6 +10,9 @@ use App\Models\StoreProduct;
 //use Illuminate\Contracts\View\Factory;
 //use Illuminate\Contracts\View\View;
 //use Illuminate\Http\RedirectResponse;
+//use Illuminate\Config\Repository;
+//use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -92,47 +95,13 @@ class StoreProductsController extends Controller
 
             $product->save();
 
-            /*
-             * Загрузка изображений.
-             * Изменение размера изображения при превышении одной из стороны.
-             * Создание уменьшенных копий изображения.
-            */
-
             if (!empty($validated['images'])) {
-                $insert = [];
-                $folder = config('image.folder');
 
-                foreach ($request->file('images') as $file) {
-
-                    //Массив данных для вставки в БД.
-                    $insert[] = [
-                        'product' => $product->id,
-                        'sort' => 0,
-                        'name' => $file->hashName(),
-                    ];
-
-                    $img_tmp = $file->getPathname();
-                    $img_name = $file->hashName();
-
-                    $img = Image::make($img_tmp)->
-                    resize(config('image.modification.original.resize'), config('image.modification.original.resize'),
-                        function ($constraint) {
-                            $constraint->aspectRatio();
-                            $constraint->upsize();
-                        });
-                    $img->save(Storage::path($folder) . config('image.modification.original.prefix') . $img_name);
-
-                    $img_th = Image::make($img_tmp)->
-                    resize(config('image.modification.th.resize'), config('image.modification.th.resize'),
-                        function ($constraint) {
-                            $constraint->aspectRatio();
-                            $constraint->upsize();
-                        });
-                    $img_th->save(Storage::path($folder) . config('image.modification.th.prefix') . $img_name);
-
-                    $img_th_fit = Image::make($img_tmp)->fit(config('image.modification.fit.resize'));
-                    $img_th_fit->save(Storage::path($folder) . config('image.modification.fit.prefix') . $img_name);
-                }
+                $insert = self::imageUpload(
+                    $id,
+                    config('image.folder'),
+                    $request->file('images')
+                );
 
                 if (count($insert) > 0) {
                     StoreImage::insert($insert);
@@ -147,5 +116,115 @@ class StoreProductsController extends Controller
             $request->session()->flash('message', 'product-not-exists');
             return redirect()->route('admin.products.index');
           }
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $id = (int) $id;
+        $product = StoreProduct::find($id);
+
+        if($product) {
+            self::imageDestroy($product->id);
+            $product->delete();
+            $request->session()->flash('message', 'product-delete');
+        }
+        else
+            $request->session()->flash('message', 'product-not-exists');
+
+        return redirect()->route('admin.products.index');
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @param $image
+     * @return RedirectResponse
+     */
+    public function imageDelete(Request $request, int $id, int $image): RedirectResponse
+    {
+        self::imageDestroy($id, $image) ?
+            $request->session()->flash('message', 'image-delete')
+            :
+            $request->session()->flash('message', 'image-not-exists');
+
+        //return var_dump($store_image);
+        return redirect()->route('admin.products.index', ['id' => $id]);
+    }
+
+    /**
+     * Загрузка изображений.
+     * Изменение размера изображения при превышении одной из сторон.
+     * Создание уменьшенных копий изображения.
+     * @param int $id
+     * @param string $folder
+     * @param array $images
+     * @return array
+     */
+    public function imageUpload(int $id, string $folder, array $images): array
+    {
+        $insert = [];
+        foreach ($images as $file) {
+
+            //Массив данных для вставки в БД.
+            $insert[] = [
+                'product' => $id,
+                'sort' => 0,
+                'name' => $file->hashName(),
+            ];
+
+            $img_tmp = $file->getPathname();
+            $img_name = $file->hashName();
+
+            $img = Image::make($img_tmp)->
+            resize(config('image.modification.original.resize'), config('image.modification.original.resize'),
+                function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+            $img->save(Storage::path($folder) . config('image.modification.original.prefix') . $img_name);
+
+            $img_th = Image::make($img_tmp)->
+            resize(config('image.modification.th.resize'), config('image.modification.th.resize'),
+                function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+            $img_th->save(Storage::path($folder) . config('image.modification.th.prefix') . $img_name);
+
+            $img_th_fit = Image::make($img_tmp)->fit(config('image.modification.fit.resize'));
+            $img_th_fit->save(Storage::path($folder) . config('image.modification.fit.prefix') . $img_name);
+        }
+        return $insert;
+    }
+
+    /**
+     * Удаление изображения и его уменьшенных копий.
+     * @param int $id
+     * @param int $product
+     * @return bool
+     */
+    public function imageDestroy(int $product, int $id = 0): bool
+    {
+        $images = StoreImage::where('product', $product)
+            ->where(function($query) use ($id){
+                if($id != 0)$query->where('id', $id);
+            })->get();
+
+        if($images) {
+            foreach ($images as $image) {
+                $img_name = $image->name;
+
+                $folder = config('image.folder');
+                Storage::delete([
+                    $folder . config('image.modification.original.prefix') . $img_name,
+                    $folder . config('image.modification.th.prefix') . $img_name,
+                    $folder . config('image.modification.fit.prefix') . $img_name,
+                ]);
+
+                $image->delete();
+            }
+            return true;
+        }
+        else return false;
     }
 }

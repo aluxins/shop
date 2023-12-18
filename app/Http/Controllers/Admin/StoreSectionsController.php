@@ -16,11 +16,11 @@ class StoreSectionsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, $id = 0): View|\Illuminate\Foundation\Application|Factory|Application
+    public function index($id = 0): View|\Illuminate\Foundation\Application|Factory|Application
     {
         $id = (int) $id;
         $array_all = StoreSections::orderBy('sort')->orderBy('id')->get()->toArray();
-        return View('admin.store-sections', [
+        return View('admin.sections', [
             'list' => self::child($array_all, $id),
             'tree' => self::recurs($array_all, $id),
             //'message' => $request->get('message'),
@@ -36,7 +36,7 @@ class StoreSectionsController extends Controller
     {
         $array_all = StoreSections::orderBy('sort')->orderBy('id')->get()->toArray();
         if(!$id || StoreSections::where('id', (int) $id)->exists()) {
-            return View('admin.store-sections-new', [
+            return View('admin.sections-new', [
                 'id' => (int)$id,
                 //'message' => $request->get('message'),
                 'tree' => self::recurs($array_all, (int)$id)
@@ -44,7 +44,7 @@ class StoreSectionsController extends Controller
         }
         else {
             $request->session()->flash('message', 'section-not-exist');
-            return redirect()->route('admin.storesections.index');
+            return redirect()->route('admin.sections.index');
         }
     }
 
@@ -73,7 +73,7 @@ class StoreSectionsController extends Controller
         $newSection->save();
 
         $request->session()->flash('message', 'store');
-        return redirect()->route('admin.storesections.index',
+        return redirect()->route('admin.sections.index',
             ['id' => $id]);
     }
 
@@ -120,27 +120,25 @@ class StoreSectionsController extends Controller
         }
 
         $request->session()->flash('message', 'update');
-        return redirect()->route('admin.storesections.index',
+        return redirect()->route('admin.sections.index',
             ['id' => $id]);
     }
 
     /**
      * Форма подтверждения удаления раздела и всех вложенных разделов.
-     * @param Request $request
      * @param $id
      * @return View|\Illuminate\Foundation\Application|Factory|RedirectResponse|Application
      */
-    public function delete(Request $request, $id): View|\Illuminate\Foundation\Application|Factory|RedirectResponse|Application
+    public function delete($id): View|\Illuminate\Foundation\Application|Factory|RedirectResponse|Application
     {
         $id = (int) $id;
         if(StoreSections::where('id', $id)->doesntExist())
-            return redirect()->route('admin.storesections.index');
+            return redirect()->route('admin.sections.index');
 
         $array_all = StoreSections::orderBy('sort')->orderBy('id')->get()->toArray();
         $array_del = self::recurs($array_all, $id, false);
-        return View('admin.store-sections-delete', [
+        return View('admin.sections-delete', [
             'id' => $id,
-            //'message' => $request->get('message'),
             'tree' => self::recurs($array_all, $id),
             'delete' => $array_del
         ]);
@@ -153,7 +151,7 @@ class StoreSectionsController extends Controller
     {
         $id = (int) $id;
         if(StoreSections::where('id', $id)->doesntExist())
-            return redirect()->route('admin.storesections.index');
+            return redirect()->route('admin.sections.index');
 
         $array_all = StoreSections::orderBy('sort')->orderBy('id')->get()->toArray();
         $array_del = self::recurs($array_all, $id, false);
@@ -174,7 +172,7 @@ class StoreSectionsController extends Controller
         StoreSections::destroy($key_del);
 
         $request->session()->flash('message', 'delete');
-        return redirect()->route('admin.storesections.index',
+        return redirect()->route('admin.sections.index',
             ['id' => $id_redirect]);
     }
 

@@ -21,6 +21,18 @@
                 <div class="text-red-500">{{ __('Товар не существует') }}</div>
                 @break
 
+            @case('image-delete')
+                <div class="text-green-500">{{ __('Изображение удалено') }}</div>
+                @break
+
+            @case('image-not-exists')
+                <div class="text-red-500">{{ __('Изображение не найдено') }}</div>
+                @break
+
+            @case('product-delete')
+                <div class="text-green-500">{{ __('Товар удален') }}</div>
+                @break
+
     @default
 
 @endswitch
