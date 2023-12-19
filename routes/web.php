@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\{StoreProductsController, StoreSectionsController};
 use Illuminate\Support\Facades\Route;
@@ -19,7 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::get('/catalog{id}', [CatalogController::class, 'index'])->name('catalog');
+Route::get('/catalog/{id?}', [CatalogController::class, 'index'])->name('catalog');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

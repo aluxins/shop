@@ -23,6 +23,7 @@
                                     :name="$el['name']"
                                     :link="$el['link']"
                                     :children="$el['children']"
+                                    base="{{route('catalog')}}"
                                 />
                             @endforeach
                     </ul>

@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed $id
  * @method static find(int $id)
  * @method static where(\Closure $param)
+ *
  */
 class StoreProduct extends Model
 {
