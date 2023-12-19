@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed $section;
  * @property mixed $id
  * @method static find(int $id)
+ * @method static where(\Closure $param)
  */
 class StoreProduct extends Model
 {

@@ -1,9 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\{
-    StoreSectionsController
-};
+use App\Http\Controllers\Admin\{StoreProductsController, StoreSectionsController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Route::get('/catalog{id}', [CatalogController::class, 'index'])->name('catalog');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -43,6 +43,9 @@ Route::middleware('auth')->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
 
     //Route::resource('storesections', StoreSectionsController::class);
+    Route::get('/', function () {
+        return view('admin.index');
+    })->name('panel.index');
 
 
     Route::controller(StoreSectionsController::class)->group(function () {
@@ -54,11 +57,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/sections/delete/{id}', 'destroy')->name('sections.destroy');
     });
 
-    Route::controller(\App\Http\Controllers\Admin\StoreProductsController::class)->group(function () {
+    Route::controller(StoreProductsController::class)->group(function () {
         Route::get('/products/{id?}', 'index')->name('products.index');
         Route::post('/products/{id}', 'store')->name('products.store');
-        Route::DELETE('/products/{id}', 'destroy')->name('products.delete');
+        Route::delete('/products/{id}', 'destroy')->name('products.delete');
         Route::get('/products/delete/{id}/image/{image}', 'imageDelete')->name('products.imageDelete');
+        Route::post('/products/s/s', 'search')->name('products.search');
     });
 
 });

@@ -6,12 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\StoreBrand;
 use App\Models\StoreImage;
 use App\Models\StoreProduct;
-//use Illuminate\Contracts\Foundation\Application;
-//use Illuminate\Contracts\View\Factory;
-//use Illuminate\Contracts\View\View;
-//use Illuminate\Http\RedirectResponse;
-//use Illuminate\Config\Repository;
-//use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -20,16 +15,16 @@ use Illuminate\Validation\Rule;
 
 class StoreProductsController extends Controller
 {
-    public function index(Request $request, $id = 0): \Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+    public function index(Request $request, $id = 0): View|RedirectResponse
     {
         $id = (int) $id;
         $product = StoreProduct::find($id);
-        $images = StoreImage::where('product', $id);
+        $images = StoreImage::where('product', $id)->orderBy('sort');
         return (!$id or $product) ?
             View('admin.products', [
                 'message' => $request->get('message'),
                 'id' => $id,
-                'brand_array' => StoreBrand::orderBy('name')->get()->toArray(),
+                'brand_array' => StoreBrand::orderBy('name')->orderBy('id')->get()->toArray(),
                 'data' => $product ? $product->toArray() : [],
                 'images' => $images ? $images->get()->toArray() : [],
             ])
@@ -41,7 +36,7 @@ class StoreProductsController extends Controller
      * Store a newly created resource in storage.
      * Валидация и insert новой категории.
      */
-    public function store(Request $request, $id = 0): \Illuminate\Http\RedirectResponse //RedirectResponse
+    public function store(Request $request, $id = 0): RedirectResponse
     {
         $id = (int) $id;
 
@@ -69,6 +64,8 @@ class StoreProductsController extends Controller
             'visible' => 'required|boolean',
             'images' => 'nullable|array',
             'images.*' => 'nullable|mimes:jpg,png,gif,webp|dimensions:max_width=3000,max_height=3000|max:5120',
+            'sort' => 'nullable|array',
+            'sort.*' => 'nullable|numeric',
          ]);
 
         $product = $id ? StoreProduct::find($id) : new StoreProduct();
@@ -95,10 +92,11 @@ class StoreProductsController extends Controller
 
             $product->save();
 
+            //Загрузка изображений.
             if (!empty($validated['images'])) {
 
                 $insert = self::imageUpload(
-                    $id,
+                    $product->id,
                     config('image.folder'),
                     $request->file('images')
                 );
@@ -108,6 +106,15 @@ class StoreProductsController extends Controller
                 }
 
             }
+
+            //Сортировка изображений.
+            if (!empty($validated['sort'])) {
+                foreach($validated['sort'] as $key => $val){
+                    StoreImage::where('id', $key)->where('product', $product->id)
+                        ->update(['sort' => $val]);
+                }
+            }
+
             $request->session()->flash('message', $id ? 'update' : 'store');
             return redirect()->route('admin.products.index',
                 ['id' => $product->id]);
@@ -118,7 +125,7 @@ class StoreProductsController extends Controller
           }
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, $id): RedirectResponse
     {
         $id = (int) $id;
         $product = StoreProduct::find($id);
@@ -136,8 +143,8 @@ class StoreProductsController extends Controller
 
     /**
      * @param Request $request
-     * @param $id
-     * @param $image
+     * @param int $id
+     * @param int $image
      * @return RedirectResponse
      */
     public function imageDelete(Request $request, int $id, int $image): RedirectResponse
@@ -147,7 +154,6 @@ class StoreProductsController extends Controller
             :
             $request->session()->flash('message', 'image-not-exists');
 
-        //return var_dump($store_image);
         return redirect()->route('admin.products.index', ['id' => $id]);
     }
 
@@ -226,5 +232,32 @@ class StoreProductsController extends Controller
             return true;
         }
         else return false;
+    }
+
+    /**
+     * Поиск товара по артикулу или ID
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function search(Request $request): RedirectResponse
+    {
+        //Валидация входных данных.
+        $validated = $request->validate([
+            'searchId' => 'nullable|required_without:searchArticle|integer|min:1',
+            'searchArticle'    => 'nullable|required_without:searchId|string|max:32',
+        ]);
+
+            $product = StoreProduct::
+                where(function($query) use ($validated){
+                    if($validated['searchId'] != 0)$query->where('id', $validated['searchId']);
+                })
+                ->where(function($query) use ($validated){
+                    if($validated['searchArticle'] != 0)$query->where('article', $validated['searchArticle']);
+                })->first();
+
+        if(!$product)
+            $request->session()->flash('message', 'product-not-exists');
+
+        return redirect()->route('admin.products.index', ['id' => $product->id ?? 0]);
     }
 }

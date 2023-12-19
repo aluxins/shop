@@ -19,7 +19,7 @@ $arr_for = [
     ];
 
 foreach($arr_for as $key => $value)
-        $arr[$key] = !empty(old()) ? old($key) : $data[$key] ?? $value;
+        $arr[$key] = !empty(old($key)) ? old($key) : $data[$key] ?? $value;
 @endphp
 @props($arr)
 
@@ -39,7 +39,7 @@ foreach($arr_for as $key => $value)
     <table class="container table-auto border border-collapse
                         border-gray-400 mx-auto shadow-lg">
         <caption class="caption-top mt-3 text-lg font-medium">
-            {{ $id ? 'Редактирование' : 'Создание' }}
+            {{ $id ? 'Редактирование [ID: '.$id.']' : 'Создание' }}
         </caption>
         <caption class="caption-bottom mt-3">
             <button class="rounded-xl shadow-lg w-1/4 p-2 text-white
@@ -191,7 +191,9 @@ foreach($arr_for as $key => $value)
                                 )}}"  alt=""/>
                         </a>
                         <label>
-                            <input class="w-1/2" name="sort[]" value="{{$image['sort']}}" />
+                            <input class="w-1/2" name="sort[{{$image['id']}}]"
+                                   value="{{!empty(old('sort')[$image['id']]) ?
+                                   old('sort')[$image['id']] : $image['sort'] ?? 0}}" />
                         </label>
                     </div>
                 @endforeach
@@ -201,6 +203,7 @@ foreach($arr_for as $key => $value)
     </table>
 </form>
 <div class="w-full text-right">
+    @if($id)
     <form method="post" action="{{route('admin.products.delete', ['id' => $id])}}">
         @csrf
         {{ method_field('DELETE') }}
@@ -208,4 +211,5 @@ foreach($arr_for as $key => $value)
         Удалить товар
     </button>
     </form>
+    @endif
 </div>
