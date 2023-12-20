@@ -6,7 +6,7 @@
                 {{-- cd-index-close скрывает кнопку меню на главной странице --}}
                 <a class="cd-dropdown-trigger" href="#0">Каталог</a>
                 {{-- cd-index-open отображает меню на главной странице --}}
-                <nav class="cd-dropdown cd-index-open">
+                <nav class="cd-dropdown {{ $open ? 'cd-index-open' : '' }}">
                     <h2>Title</h2>
                     <a href="#0" class="cd-close">Close</a>
                     <ul class="cd-dropdown-content">

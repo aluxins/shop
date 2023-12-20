@@ -25,18 +25,25 @@ class index extends Component
     public string $selected;
 
     /**
+     * @var bool
+     */
+    public bool $open;
+
+    /**
      * Create a new component instance.
      * @param int $idStart Начальный ID родителя
-     * @param string $type Начальное значение отступов
-     * @param string $selected
+     * @param string $type Тип меню
+     * @param string $selected Выбранный пункт списка select
+     * @param bool $open true - открытое меню
      */
-    public function __construct(int $idStart = 0, string $type = 'menu', string $selected = '')
+    public function __construct(int $idStart = 0, string $type = 'menu', string $selected = '', bool $open = false)
     {
         $this->arraySections = $this->recurs(
             StoreSections::orderBy('sort')->orderBy('id')->get()->toArray(),
             $idStart);
         $this->type = $type;
         $this->selected = $selected;
+        $this->open = $open;
     }
 
     /**

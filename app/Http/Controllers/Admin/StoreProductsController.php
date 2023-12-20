@@ -65,7 +65,7 @@ class StoreProductsController extends Controller
             'images' => 'nullable|array',
             'images.*' => 'nullable|mimes:jpg,png,gif,webp|dimensions:max_width=3000,max_height=3000|max:5120',
             'sort' => 'nullable|array',
-            'sort.*' => 'nullable|numeric',
+            'sort.*' => 'nullable|numeric|min:-128|max:127',
          ]);
 
         $product = $id ? StoreProduct::find($id) : new StoreProduct();

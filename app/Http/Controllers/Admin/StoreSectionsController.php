@@ -106,7 +106,7 @@ class StoreSectionsController extends Controller
             'visible' => 'array',
             'link'    => 'array',
             'name.*'    => 'string|max:64',
-            'sort.*'    => 'integer|max:999',
+            'sort.*'    => 'integer|min:-128|max:127',
             'visible.*' => 'boolean',
             'link.*'    => 'boolean',
             'id'      => 'integer'
