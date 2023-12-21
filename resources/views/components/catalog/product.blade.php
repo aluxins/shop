@@ -2,7 +2,8 @@
 @php
 //Определяем главное изображение
 $image_src = "";
-$image_sort = 128;
+if(!empty($product['images'])){
+    $image_sort = 128;
     foreach(json_decode($product['images']) as $name => $sort)
         {
             if($sort <= $image_sort){
@@ -10,6 +11,8 @@ $image_sort = 128;
                 $image_sort = $sort;
             }
         }
+}
+else $image_src = "default.jpg";
 @endphp
             <div class="group relative">
                 <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75">
@@ -22,7 +25,7 @@ $image_sort = 128;
                     <div>
                         <h3 class="text-sm text-gray-700">
                             <a href="#">
-                                <span aria-hidden="true" class="absolute inset-0"></span>
+                                {{-- <span aria-hidden="true" class="absolute inset-0"></span> --}}
                                 {{ $product['name'] }}
                             </a>
                         </h3>

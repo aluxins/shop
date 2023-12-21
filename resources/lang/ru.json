@@ -4,5 +4,8 @@
     "Products": "Товары",
     "Sections": "Разделы",
     "Admin panel": "Панель администратора",
-    "Panel": "Панель"
+    "Panel": "Панель",
+    "pagination.next": "Вперед &raquo;",
+    "pagination.previous": "&laquo; Назад",
+    "pagination.pages": "Страницы"
 }

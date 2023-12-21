@@ -23,7 +23,7 @@ class CatalogController extends Controller
                     'price', 'old_price', 'available',
                     DB::raw('JSON_OBJECTAGG(store_images.name, store_images.sort) as images'))
                 ->groupBy('id', 'name', 'article', 'price', 'old_price', 'available')
-                ->get()->toArray(),
+                ->paginate(6),
         ]);
     }
 }
