@@ -8,7 +8,7 @@
     @else
         <li>
     @endif
-    <a href="{{ $id }}">
+    <a href="{{ $base }}/{{ $id }}">
         {{ $name }}
     </a>
     @if(count($children) > 0)

@@ -15,6 +15,11 @@ class index extends Component
     public array $arraySections;
 
     /**
+     * @var array
+     */
+    public array $arrayTree;
+
+    /**
      * @var string
      */
     public string $type;
@@ -38,9 +43,9 @@ class index extends Component
      */
     public function __construct(int $idStart = 0, string $type = 'menu', string $selected = '', bool $open = false)
     {
-        $this->arraySections = $this->recurs(
-            StoreSections::orderBy('sort')->orderBy('id')->get()->toArray(),
-            $idStart);
+        $array_all = StoreSections::orderBy('sort')->orderBy('id')->get()->toArray();
+        $this->arraySections = $this->recurs($array_all);
+        $this->arrayTree = $this->recursTree($array_all, $idStart);
         $this->type = $type;
         $this->selected = $selected;
         $this->open = $open;
@@ -62,6 +67,25 @@ class index extends Component
                     'link' => $el['link'],
                     'children' => self::recurs($array, $el['id'])
                 ];
+            }
+        }
+        return $search;
+    }
+
+    /**
+     * Глубина вложенности разделов.
+     * @param $array
+     * @param $id
+     * @param bool $direction *true - поиск parents* or *false - поиск children
+     * @param array $search
+     * @return array
+     */
+    private function recursTree($array, $id, bool $direction = true, array &$search = []): array
+    {
+        foreach($array as $el){
+            if(($direction ? $el['id'] : $el['parent']) === $id){
+                $search[] = ['id' => $el['id'], 'name' => $el['name']];
+                self::recursTree($array, $direction ? $el['parent'] : $el['id'], $direction, $search);
             }
         }
         return $search;

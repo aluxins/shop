@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <header class="bg-white dark:bg-gray-800 shadow flex flex-row items-center p-5 justify-start">
-        <x-menu.index idStart="0" type="menu" open="true" />
+        <x-menu.index idStart="{{$id}}" type="menu" open="true" />
         <!-- Logo -->
         <div class="shrink-0 flex items-center font-semibold text-xl text-gray-800 dark:text-gray-200 mx-5">
             <a href="{{ route('dashboard') }}" class="mx-2">
@@ -9,7 +9,6 @@
             </a>
             {{ __('Catalog') }}
         </div>
-
 
         <div class="grow flex flex-row justify-end">
             @include('layouts.navigation')
@@ -28,10 +27,10 @@
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="p-6 text-gray-900 dark:text-gray-100">
-                            {{ __("Catalog") }} {{ $id }}
+                            <x-menu.index idStart="{{$id}}" type="tree" open="true" />
 
                             <div class="bg-white">
-                                <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+                                <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-8 lg:max-w-7xl lg:px-8">
                                     <h2 class="text-2xl font-bold tracking-tight text-gray-900">Customers also purchased</h2>
                                     <div class="my-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
 

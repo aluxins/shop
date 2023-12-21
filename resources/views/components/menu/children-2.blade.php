@@ -1,6 +1,6 @@
 @props(['id', 'name', 'children', 'parent', 'base'])
 <li class="@if(count($children) > 0) has-children @endif">
-    <a href="{{ $id }}">
+    <a href="{{ $base }}/{{ $id }}">
         {{ $name }}
     </a>
 

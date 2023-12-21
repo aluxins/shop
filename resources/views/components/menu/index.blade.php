@@ -33,8 +33,26 @@
 
         @break;
 
+    @case('tree')
+        <div class="text-gray-300 text-sm">
+            @if(count($arrayTree) > 0)
+                <a class="text-gray-500 font-medium" href="{{ route('catalog') }}">
+                    {{ __('catalog.home') }}
+                </a>
+            @endif
+            @php
+                krsort($arrayTree);
+            @endphp
+            @foreach($arrayTree as $el)
+                / <a class="text-gray-500 font-medium"  href="{{ route('catalog', ['id' => $el['id']]) }}">
+                    {{ $el['name'] }}
+                </a>
+            @endforeach
+        </div>
+        @break;
+
     @case('select')
-            @foreach($arraySections as $el)
+        @foreach($arraySections as $el)
                  <x-menu.option
                     :id="$el['id']"
                     :name="$el['name']"
@@ -43,7 +61,7 @@
                     :selected="$selected"
                     i="0"
                 />
-            @endforeach
+        @endforeach
         @break;
 
 @endswitch
