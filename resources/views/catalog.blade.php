@@ -27,11 +27,13 @@
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="p-6 text-gray-900 dark:text-gray-100">
-                            <x-menu.index idStart="{{$id}}" type="tree" open="true" />
+                            <x-menu.index idStart="{{$id}}" type="tree" />
 
                             <div class="bg-white">
                                 <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-8 lg:max-w-7xl lg:px-8">
-                                    <h2 class="text-2xl font-bold tracking-tight text-gray-900">Customers also purchased</h2>
+                                    <h2 class="text-2xl font-bold tracking-tight text-gray-900">
+                                        @yield('nameSection') {{ $products->count() }} товаров
+                                    </h2>
                                     <div class="my-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
 
                                         @foreach($products as $product)

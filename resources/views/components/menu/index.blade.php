@@ -49,6 +49,7 @@
                 </a>
             @endforeach
         </div>
+        @section("nameSection", $el['name'])
         @break;
 
     @case('select')
