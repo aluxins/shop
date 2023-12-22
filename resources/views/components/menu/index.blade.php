@@ -49,7 +49,7 @@
                 </a>
             @endforeach
         </div>
-        @section("nameSection", $el['name'])
+        @section("nameSection", $el['name'] ?? __('catalog.home'))
         @break;
 
     @case('select')

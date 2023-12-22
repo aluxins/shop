@@ -16,20 +16,12 @@ if (!function_exists('declensionWord')) {
             $num = $num % 10;
         }
 
-        $out = ($show) ? $value . ' ' : '';
-        switch ($num) {
-            case 1:
-                $out .= $words[0];
-                break;
-            case 2:
-            case 3:
-            case 4:
-                $out .= $words[1];
-                break;
-            default:
-                $out .= $words[2];
-                break;
-        }
+        $out = $show ? $value . ' ' : '';
+        $out .= match ($num) {
+            1 => $words[0],
+            2, 3, 4 => $words[1],
+            default => $words[2],
+        };
 
         return $out;
     }
