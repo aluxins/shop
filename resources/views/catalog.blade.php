@@ -37,7 +37,7 @@
                                             {{ declensionWord($products->total(), ['товар', 'товара', 'товаров']) }}
                                         @endif
                                     </h2>
-                                    <div class="my-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+                                    <div class="my-6 grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
                                         @if($id != 0)
                                         @foreach($products as $product)
                                             <x-catalog.product :product="$product" />
