@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{ProfileController, CatalogController, ProductController};
+use App\Http\Controllers\{ProfileController, CatalogController, ProductController, AccountController};
 use App\Http\Controllers\Admin\{StoreProductsController, StoreSectionsController};
 use Illuminate\Support\Facades\Route;
 
@@ -34,18 +34,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/account', [AccountController::class, 'index'])->name('account.index');
 });
-/*
-Route::middleware('auth')->group(function () {
-    Route::resource('admin/storesections', StoreSectionsController::class)
-        ->name('', 'admin.store-section');
-    //Route::get('/admin/storesections', [StoreSectionsController::class, 'index'])
-    //    ->name('admin.store-section');
-});
-*/
+
+
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    //Route::resource('storesections', StoreSectionsController::class);
     Route::get('/', function () {
         return view('admin.index');
     })->name('panel.index');

@@ -1,22 +1,14 @@
 <x-app-layout>
 
-    <header class="bg-white dark:bg-gray-800 shadow flex flex-row items-center p-5 justify-start">
-        <x-menu.index idStart="{{$id}}" type="menu" />
-        <!-- Logo -->
-        <div class="shrink-0 flex items-center font-semibold text-xl text-gray-800 dark:text-gray-200 mx-5">
-            <a href="{{ route('dashboard') }}" class="mx-2">
-                <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
-            </a>
-            {{ __('Product') }}
-        </div>
+    <x-slot name="title">
+        {{ $product['name'] }}
+    </x-slot>
 
-        <div class="grow flex flex-row justify-end">
-            @include('layouts.navigation')
+    <x-slot name="header">
+        @include('layouts.header', ['open' => false])
+    </x-slot>
 
-        </div>
-    </header>
 
-    <div class="py-12 mx-5">
         <div class="w-auto">
             <div class="">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -34,6 +26,6 @@
                 </div>
             </div>
         </div>
-    </div>
+
 
 </x-app-layout>

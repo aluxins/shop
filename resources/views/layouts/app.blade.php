@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ !empty($title) ? $title.' - ' : '' }}{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -21,16 +21,24 @@
 
             <!-- Page Heading -->
             @if (isset($header))
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
+                <header class="bg-white dark:bg-gray-800 shadow flex flex-row items-center pl-1 lg:p-5 justify-start">
+                    {{ $header }}
                 </header>
             @endif
 
                 <!-- Page Content -->
-                <main class="max-w-[1180px] mx-auto">
-                    {{ $slot }}
+                <main class="w-full lg:max-w-[1180px] mx-auto">
+
+                    <!-- Page Title -->
+                    @if (isset($heading))
+                        <h2 class="font-semibold text-xl text-center pt-6 text-gray-800 dark:text-gray-200 leading-tight">
+                            {{ $heading }}
+                        </h2>
+                    @endif
+
+                    <div class="mt-12 mx-5">
+                        {{ $slot }}
+                    </div>
                 </main>
         </div>
     </body>
