@@ -8,6 +8,9 @@
         @include('layouts.header', ['open' => true])
     </x-slot>
 
+    <script type="module">
+        cartAdd("cart");
+    </script>
 
         <div class="w-[300px] hidden pt-5 lg:block float-left">
         </div>

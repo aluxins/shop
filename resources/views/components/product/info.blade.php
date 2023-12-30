@@ -15,7 +15,7 @@
             <span class="text-xs font-medium text-gray-900 align-top line-through">{{ $old_price }}</span>
         @endif
         <form class="mt-10">
-            <button type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <button type="submit" class="cart mt-10 flex w-full items-center justify-center rounded-2xl border border-transparent bg-yellow-500 px-8 py-3 text-base font-medium text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2">
                 Добавить в корзину
             </button>
         </form>

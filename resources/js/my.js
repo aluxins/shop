@@ -6,10 +6,10 @@
  */
 window.onlyChangedData = function (cls) {
     // Находим все формы с классом cls
-    let srhf = document.querySelectorAll('form.'+cls);
+    let elements = document.querySelectorAll('form.'+cls);
 
     // Перебираем найденные формы
-    for (let els of srhf) {
+    for (let els of elements) {
 
         // Добавляем каждому элементу формы отслеживание события изменения - change
         // и измененному элементу добавляем класс changed.
@@ -19,7 +19,7 @@ window.onlyChangedData = function (cls) {
             });
         }
 
-        // Добавляем форме отслеживание собития submit и при наступлении
+        // Добавляем форме отслеживание события submit и при наступлении
         // события устанавливаем неизмененным элементам формы свойство disabled.
         els.addEventListener("submit", async () => {
             for (let el of els) {
@@ -31,8 +31,117 @@ window.onlyChangedData = function (cls) {
     }
 }
 
-window.addClassList = function(idElement, list) {
+/**
+ * Функция добавления товаров в корзину.
+ * Выполняется перехват формы и отправка данных на сервер через HTTP-клиент axios.
+ * @param {string} cls
+ */
+window.cartAdd = function(cls) {
 
-    const element = document.getElementById(idElement);
-    element.classList.add(...list);
+    // Находим все формы с классом cls
+    let elements = document.querySelectorAll('form.'+cls);
+
+    // Для перехвата отправки формы добавляем отслеживание события - submit
+    if(elements.length > 0){
+        for (let els of elements) {
+            els.addEventListener("submit", function(e){
+                e.preventDefault();
+
+                // Создаем объект данных.
+                let values = {
+                    'product' : e.target['product']['value'],
+                    'quantity' : e.target['quantity']['value']
+                }
+
+                // Записываем Cookie
+                cartCookie('cart', values, 'add');
+
+                // Выполняем отправку данных
+                axios({
+                    url: '/cart/add',
+                    method: 'post',
+                    timeout: 3000,
+                    headers: {'Content-Type': 'application/json'},
+                    data: JSON.stringify(values)
+                })
+                    .then(function (response) {
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+                return false;
+            });
+        }
+    }
+}
+
+window.cartDelete = function(id) {
+    // Создаем объект данных.
+    let values = {
+        'product' : id,
+        'quantity' : 0
+    }
+    // Записываем Cookie
+    cartCookie('cart', values, 'add');
+}
+
+/**
+ * Обработка Cookie корзины товаров.
+ * @param {*} cookieName
+ * @param {{product, quantity}} data
+ * @param {string} type
+ */
+window.cartCookie = function(cookieName, data, type){
+    if (navigator.cookieEnabled){
+        // Считывание Cookie.
+        let oldData = getCookie(cookieName);
+
+        // Изменение или добавление данных.
+        if(type === 'add')
+            oldData[data['product']] = data['quantity'];
+
+        // Удаление данных.
+        else if(type === 'delete')
+            delete oldData[data['product']];
+
+        // Установка Cookie.
+        setCookie(cookieName, oldData, 1, '', '', '');
+    }
+}
+
+/**
+ * Установка Cookie в браузере.
+ * @param {*} value
+ * @param {number} expires
+ * @param {string} path
+ * @param {string} domain
+ * @param {string} secure
+ */
+window.setCookie = function(cookieName, value, expires, path, domain, secure) {
+    if (!cookieName) return false;
+    let cookieDate = new Date();
+    cookieDate.setFullYear(cookieDate.getFullYear() + expires);
+    let str = cookieName + '=' + JSON.stringify(value);
+    if (expires) str += '; expires=' + cookieDate.toGMTString();
+    if (path)    str += '; path=' + path;
+    if (domain)  str += '; domain=' + domain;
+    if (secure)  str += '; secure';
+    document.cookie = str;
+    return true;
+}
+
+
+/**
+ * Поиск Cookie по имени.
+ * В случае успеха функция возвращает JSON-объект искомой Cookie, иначе пустой объект.
+ * @param {string} name
+ */
+window.getCookie = function(name) {
+    var pattern = "(?:; )?" + name + "=([^;]*);?";
+    var regexp  = new RegExp(pattern);
+    if (regexp.test(document.cookie))
+        return JSON.parse(RegExp["$1"]);
+    return {};
 }

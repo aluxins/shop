@@ -8,6 +8,9 @@
         @include('layouts.header', ['open' => false])
     </x-slot>
 
+    <script type="module">
+        cartAdd("cart");
+    </script>
 
         <div class="w-auto">
             <div class="">

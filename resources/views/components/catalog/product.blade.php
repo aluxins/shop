@@ -41,8 +41,12 @@ else $image_src = config('image.defaultSrc');
                             <span class="text-xs font-medium text-gray-900 align-top line-through">{{ $product['old_price'] }}</span>
                         @endif
                     </div>
-                    <button class="rounded-2xl shadow-lg p-2 text-white bg-yellow-500
-                    hover:bg-yellow-600 hover:shadow-xl">В&#160;корзину</button>
+                    <form class="cart">
+                        <input name="product" type="hidden" value="{{ $product['id'] }}" />
+                        <input name="quantity" type="hidden" value="1" />
+                        <button class="rounded-2xl shadow-lg p-2 text-white bg-yellow-500 hover:bg-yellow-600 hover:shadow-xl"
+                            >В&#160;корзину</button>
+                    </form>
                 </div>
             </div>
 
