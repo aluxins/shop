@@ -113,18 +113,19 @@ window.cartCookie = function(cookieName, data, type){
 
 /**
  * Установка Cookie в браузере.
+ * @param {string} name
  * @param {*} value
  * @param {number} expires
  * @param {string} path
  * @param {string} domain
  * @param {string} secure
  */
-window.setCookie = function(cookieName, value, expires, path, domain, secure) {
-    if (!cookieName) return false;
+window.setCookie = function(name, value, expires, path, domain, secure) {
+    if (!name) return false;
     let cookieDate = new Date();
     cookieDate.setFullYear(cookieDate.getFullYear() + expires);
-    let str = cookieName + '=' + JSON.stringify(value);
-    if (expires) str += '; expires=' + cookieDate.toGMTString();
+    let str = name + '=' + JSON.stringify(value);
+    if (expires) str += '; expires=' + cookieDate.toUTCString();
     if (path)    str += '; path=' + path;
     if (domain)  str += '; domain=' + domain;
     if (secure)  str += '; secure';
@@ -139,8 +140,8 @@ window.setCookie = function(cookieName, value, expires, path, domain, secure) {
  * @param {string} name
  */
 window.getCookie = function(name) {
-    var pattern = "(?:; )?" + name + "=([^;]*);?";
-    var regexp  = new RegExp(pattern);
+    let pattern = "(?:; )?" + name + "=([^;]*);?";
+    let regexp  = new RegExp(pattern);
     if (regexp.test(document.cookie))
         return JSON.parse(RegExp["$1"]);
     return {};
