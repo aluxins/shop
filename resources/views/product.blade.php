@@ -9,7 +9,7 @@
     </x-slot>
 
     <script type="module">
-        cartAdd("cart");
+        Cart.add("cart");
     </script>
 
         <div class="w-auto">

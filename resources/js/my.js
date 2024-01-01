@@ -32,82 +32,124 @@ window.onlyChangedData = function (cls) {
 }
 
 /**
- * Функция добавления товаров в корзину.
- * Выполняется перехват формы и отправка данных на сервер через HTTP-клиент axios.
- * @param {string} cls
+ * Класс корзины товаров.
  */
-window.cartAdd = function(cls) {
+window.Cart  = class Cart{
+    /**
+     * Функция добавления товаров в корзину.
+     * Выполняется перехват формы и отправка данных на сервер через HTTP-клиент axios.
+     * @param {string} cls
+     */
+    static add(cls) {
 
-    // Находим все формы с классом cls
-    let elements = document.querySelectorAll('form.'+cls);
+        // Находим все формы с классом cls
+        let elements = document.querySelectorAll('form.' + cls);
 
-    // Для перехвата отправки формы добавляем отслеживание события - submit
-    if(elements.length > 0){
-        for (let els of elements) {
-            els.addEventListener("submit", function(e){
-                e.preventDefault();
+        // Для перехвата отправки формы добавляем отслеживание события - submit
+        if (elements.length > 0) {
+            for (let els of elements) {
+                els.addEventListener("submit", function (e) {
+                    e.preventDefault();
 
-                // Создаем объект данных.
-                let values = {
-                    'product' : e.target['product']['value'],
-                    'quantity' : e.target['quantity']['value']
-                }
+                    // Создаем объект данных.
+                    let values = {
+                        'product': e.target['product']['value'],
+                        'quantity': e.target['quantity']['value']
+                    }
 
-                // Записываем Cookie
-                cartCookie('cart', values, 'add');
+                    // Записываем Cookie.
+                    let cartObj = Cart.cookie('cart', values, 'add');
 
-                // Выполняем отправку данных
-                axios({
-                    url: '/cart/add',
-                    method: 'post',
-                    timeout: 3000,
-                    headers: {'Content-Type': 'application/json'},
-                    data: JSON.stringify(values)
-                })
-                    .then(function (response) {
-                        console.log(response);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                    if(cartObj) {
+                        let count = Cart.count(cartObj);
+                        Cart.text(count);
 
-                return false;
-            });
+                        // Отправка данных на сервер.
+                        // Cart.server(values);
+                    }
+
+                    return false;
+                });
+            }
         }
     }
-}
 
-window.cartDelete = function(id) {
-    // Создаем объект данных.
-    let values = {
-        'product' : id,
-        'quantity' : 0
+    /**
+     * Функция вычисляет сумму значений объекта.
+     */
+    static count(cartObj) {
+        const sumValues = obj => Object.values(obj).reduce((a, b) => parseInt(''+a) + parseInt(''+b), 0);
+        return sumValues(cartObj);
     }
-    // Записываем Cookie
-    cartCookie('cart', values, 'add');
-}
 
-/**
- * Обработка Cookie корзины товаров.
- * @param {*} cookieName
- * @param {{product, quantity}} data
- * @param {string} type
- */
-window.cartCookie = function(cookieName, data, type){
-    if (navigator.cookieEnabled){
-        // Считывание Cookie.
-        let oldData = getCookie(cookieName);
+    /**
+     * Количество товаров в корзине.
+     */
+    static text(number) {
+        let elem = document.querySelector("button.cart-button span");
+        if(elem) elem.innerText = number > 0 ? number : '';
+    }
 
-        // Изменение или добавление данных.
-        if(type === 'add')
-            oldData[data['product']] = data['quantity'];
+    /**
+     * Удаление товара из корзины.
+     * @param {int} id
+     */
+    static delete(id) {
+        // Создаем объект данных.
+        let values = {
+            'product': id,
+            'quantity': 0
+        }
+        // Записываем Cookie
+        Cart.cookie('cart', values, 'add');
+    }
 
-        // Удаление данных.
-        else if(type === 'delete')
-            delete oldData[data['product']];
+    /**
+     * Обработка Cookie корзины товаров.
+     * @param {*} cookieName
+     * @param {{product, quantity}} data
+     * @param {string} type
+     */
+    static cookie(cookieName, data, type) {
+        if (navigator.cookieEnabled) {
+            // Считывание Cookie.
+            let oldData = window.getCookie(cookieName);
 
-        // Установка Cookie.
-        setCookie(cookieName, oldData, 1, '', '', '');
+            // Изменение или добавление данных.
+            if (type === 'add')
+                oldData[data['product']] = data['quantity'];
+
+            // Удаление данных.
+            else if (type === 'delete')
+                delete oldData[data['product']];
+
+            // Установка Cookie.
+            window.setCookie(cookieName, oldData, 1, '', '', '');
+
+            return oldData;
+        }
+        return false;
+    }
+
+    /**
+     * Отправка данных на сервер через HTTP-клиент axios.
+     * @param {{product, quantity}} values
+     */
+    static server(values){
+        // Выполняем отправку данных
+        axios({
+            url: '/cart/add',
+            method: 'post',
+            timeout: 3000,
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify(values)
+        })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 }
 
