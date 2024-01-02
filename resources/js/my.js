@@ -35,6 +35,26 @@ window.onlyChangedData = function (cls) {
  * Класс корзины товаров.
  */
 window.Cart  = class Cart{
+
+    static init(cls){
+        // Определяем количество товаров в корзине и отображаем на иконке корзины.
+        Cart.text(
+            Cart.count(
+                Cart.cookie('cart')
+            )
+        );
+
+        // Событие добавления товаров в корзину.
+        Cart.add(cls);
+
+        // Добавляем событие рендера корзины при ее открытии.
+        let elem = document.querySelector("div.cart-button button");
+        elem.addEventListener("click", function () {
+            let cart = Cart.cookie('cart');
+            Cart.render(cart);
+        });
+    }
+
     /**
      * Функция добавления товаров в корзину.
      * Выполняется перехват формы и отправка данных на сервер через HTTP-клиент axios.
@@ -60,8 +80,8 @@ window.Cart  = class Cart{
                     // Записываем Cookie.
                     let cartObj = Cart.cookie('cart', values, 'add');
 
-                    if(cartObj) {
-                        let count = Cart.count(cartObj);
+                    let count = Cart.count(cartObj);
+                    if(count > 0) {
                         Cart.text(count);
 
                         // Отправка данных на сервер.
@@ -76,6 +96,8 @@ window.Cart  = class Cart{
 
     /**
      * Функция вычисляет сумму значений объекта.
+     * @param {object} cartObj
+     * @return {number}
      */
     static count(cartObj) {
         const sumValues = obj => Object.values(obj).reduce((a, b) => parseInt(''+a) + parseInt(''+b), 0);
@@ -84,9 +106,10 @@ window.Cart  = class Cart{
 
     /**
      * Количество товаров в корзине.
+     * @return {void}
      */
     static text(number) {
-        let elem = document.querySelector("button.cart-button span");
+        let elem = document.querySelector("div.cart-button button span");
         if(elem) elem.innerText = number > 0 ? number : '';
     }
 
@@ -108,12 +131,13 @@ window.Cart  = class Cart{
      * Обработка Cookie корзины товаров.
      * @param {*} cookieName
      * @param {{product, quantity}} data
-     * @param {string} type
+     * @param {'add', 'delete', ''} type
+     * @return {object, boolean}
      */
-    static cookie(cookieName, data, type) {
+    static cookie(cookieName, data= {}, type= '') {
         if (navigator.cookieEnabled) {
             // Считывание Cookie.
-            let oldData = window.getCookie(cookieName);
+            let oldData = window.getCookie(cookieName, 'json');
 
             // Изменение или добавление данных.
             if (type === 'add')
@@ -124,11 +148,25 @@ window.Cart  = class Cart{
                 delete oldData[data['product']];
 
             // Установка Cookie.
-            window.setCookie(cookieName, oldData, 1, '', '', '');
+            if (type === 'add' || type === 'delete')
+                window.setCookie(cookieName, oldData, 'json');
 
             return oldData;
         }
         return false;
+    }
+
+    /**
+     * Функция рендера корзины товаров.
+     * @param {object} data
+     * @return {void}
+     */
+    static render(data){
+        let pattern = document.querySelector("div.cart-button ul li");
+        //for (let el in data) {
+        //    console.log(data[el]);
+        //}
+        Cart.server(data);
     }
 
     /**
@@ -138,14 +176,14 @@ window.Cart  = class Cart{
     static server(values){
         // Выполняем отправку данных
         axios({
-            url: '/cart/add',
+            url: '/cart',
             method: 'post',
             timeout: 3000,
             headers: {'Content-Type': 'application/json'},
             data: JSON.stringify(values)
         })
             .then(function (response) {
-                console.log(response);
+                console.log(response.data);
             })
             .catch(function (error) {
                 console.log(error);
@@ -157,34 +195,47 @@ window.Cart  = class Cart{
  * Установка Cookie в браузере.
  * @param {string} name
  * @param {*} value
+ * @param {'json' || 'string'} type
  * @param {number} expires
  * @param {string} path
  * @param {string} domain
  * @param {string} secure
+ * @return {boolean}
  */
-window.setCookie = function(name, value, expires, path, domain, secure) {
-    if (!name) return false;
-    let cookieDate = new Date();
-    cookieDate.setFullYear(cookieDate.getFullYear() + expires);
-    let str = name + '=' + JSON.stringify(value);
-    if (expires) str += '; expires=' + cookieDate.toUTCString();
-    if (path)    str += '; path=' + path;
-    if (domain)  str += '; domain=' + domain;
-    if (secure)  str += '; secure';
-    document.cookie = str;
-    return true;
+window.setCookie = function(name, value, type = 'string', expires= 1,
+                            path= '', domain= '', secure= '') {
+    try {
+        let cookieDate = new Date();
+        cookieDate.setFullYear(cookieDate.getFullYear() + expires);
+        let str = (type === 'json') ? name + '=' + JSON.stringify(value) : name + '=' + value;
+        if (expires) str += '; expires=' + cookieDate.toUTCString();
+        if (path) str += '; path=' + path;
+        if (domain) str += '; domain=' + domain;
+        if (secure) str += '; secure';
+        document.cookie = str;
+        return true;
+    }
+    catch {}
+    return false;
 }
 
 
 /**
  * Поиск Cookie по имени.
- * В случае успеха функция возвращает JSON-объект искомой Cookie, иначе пустой объект.
+ * В случае успеха функция возвращает строковое значение искомой Cookie, иначе пустую строку.
+ * В зависимости от параметра type преобразует строку в JSON-объект, в случае неудачи возвращает пустой объект.
  * @param {string} name
+ * @param {'json' || 'string'} type
+ * @return {object, string}
  */
-window.getCookie = function(name) {
-    let pattern = "(?:; )?" + name + "=([^;]*);?";
-    let regexp  = new RegExp(pattern);
-    if (regexp.test(document.cookie))
-        return JSON.parse(RegExp["$1"]);
-    return {};
+window.getCookie = function(name, type = 'string') {
+    const regex = new RegExp('(^| )' + name + '=([^;]+)');
+    const match = document.cookie.match(regex);
+    if (match) {
+        try {
+            return type === 'json' ? JSON.parse(match[2]) : match[2];
+        }
+        catch {}
+    }
+    return type === 'json' ? {} : '';
 }
