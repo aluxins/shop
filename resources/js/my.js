@@ -80,13 +80,7 @@ window.Cart  = class Cart{
                     // Записываем Cookie.
                     let cartObj = Cart.cookie('cart', values, 'add');
 
-                    let count = Cart.count(cartObj);
-                    if(count > 0) {
-                        Cart.text(count);
-
-                        // Отправка данных на сервер.
-                        // Cart.server(values);
-                    }
+                    Cart.text(Cart.count(cartObj));
 
                     return false;
                 });
@@ -117,21 +111,25 @@ window.Cart  = class Cart{
      * Удаление товара из корзины.
      * @param {int} id
      */
-    static delete(id) {
+    static remove(id) {
         // Создаем объект данных.
         let values = {
             'product': id,
             'quantity': 0
         }
         // Записываем Cookie
-        Cart.cookie('cart', values, 'add');
+        Cart.cookie('cart', values, 'remove');
+
+        let cart = Cart.cookie('cart');
+        Cart.text(Cart.count(cart));
+        Cart.render(cart);
     }
 
     /**
      * Обработка Cookie корзины товаров.
      * @param {*} cookieName
      * @param {{product, quantity}} data
-     * @param {'add', 'delete', ''} type
+     * @param {'add', 'remove', ''} type
      * @return {object, boolean}
      */
     static cookie(cookieName, data= {}, type= '') {
@@ -144,11 +142,11 @@ window.Cart  = class Cart{
                 oldData[data['product']] = data['quantity'];
 
             // Удаление данных.
-            else if (type === 'delete')
+            else if (type === 'remove')
                 delete oldData[data['product']];
 
             // Установка Cookie.
-            if (type === 'add' || type === 'delete')
+            if (type === 'add' || type === 'remove')
                 window.setCookie(cookieName, oldData, 'json');
 
             return oldData;
@@ -162,11 +160,70 @@ window.Cart  = class Cart{
      * @return {void}
      */
     static render(data){
+        // Объект-шаблон товара
         let pattern = document.querySelector("div.cart-button ul li");
-        //for (let el in data) {
-        //    console.log(data[el]);
-        //}
-        Cart.server(data);
+
+        // Отчистка списка товаров.
+        document.querySelectorAll("div.cart-button ul li.flex").forEach(e => e.remove());
+        document.querySelector("div.cart-order").classList.add('hidden');
+        document.querySelector("div.cart-button h1").classList.remove('hidden');
+        pattern.classList.remove('hidden');
+
+        if(Object.keys(data).length !== 0) {
+            // Подготавливаем данные
+            let dataServer = {}
+            for (let el in data) {
+                dataServer[el] = {
+                    'product': el,
+                    'quantity': data[el]
+                };
+            }
+
+            // Отправляем запрос
+            let response = Cart.server({'products': dataServer});
+            response.then(function (response) {
+
+                pattern.classList.add('hidden');
+
+                let total = 0;
+                for (let el in response.data) {
+                    // Создаем новый объект-шаблон.
+                    let newPattern = pattern.cloneNode(true);
+
+                    // Наполняем объект-шаблон данными.
+                    newPattern.classList.remove('hidden');
+                    newPattern.classList.add('flex');
+                    newPattern.querySelector("h3 a").href = response.data[el]['id'];
+                    newPattern.querySelector("h3 a").innerText = response.data[el]['name'];
+                    newPattern.querySelectorAll("p")[0].innerHTML = response.data[el]['price'] + ' &#8381;';
+                    newPattern.querySelectorAll("p")[1].innerText = response.data[el]['article'];
+                    newPattern.querySelectorAll("p")[2].innerText = data[response.data[el]['id']];
+                    newPattern.querySelector("img").src = response.data[el]['path'] + '' + Object.keys(JSON.parse(String(response.data[el]['images'])))[0];
+                    newPattern.querySelector("img").alt = response.data[el]['name'];
+                    newPattern.addEventListener("click", function() {
+                        Cart.remove(response.data[el]['id']);
+                        //this.remove();
+                    }, false);
+
+                    // Добавляем новый объект-шаблон товара в DOM.
+                    pattern.after(newPattern);
+
+                    total += parseFloat(response.data[el]['price']);
+                }
+
+                if (total > 0) {
+                    document.querySelector("div.cart-button p.total").innerHTML = total.toFixed(2) + ' &#8381;';
+                    document.querySelector("div.cart-order").classList.remove('hidden');
+                }
+                document.querySelector("div.cart-button h1").classList.add('hidden');
+            })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+        else{
+            pattern.classList.add('hidden');
+        }
     }
 
     /**
@@ -175,19 +232,13 @@ window.Cart  = class Cart{
      */
     static server(values){
         // Выполняем отправку данных
-        axios({
+        return axios({
             url: '/cart',
             method: 'post',
             timeout: 3000,
             headers: {'Content-Type': 'application/json'},
             data: JSON.stringify(values)
         })
-            .then(function (response) {
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
     }
 }
 

@@ -21,9 +21,9 @@
                 <!-- / Image gallery -->
                 <div class="lg:flex lg:flex-row lg:gap-6 lg:justify-center mx-auto lg:h-[calc({{config('image.modification.fit.resize')}}px)]"
                      x-data="{imageUrl: '{{ Storage::url(
-                                config('image.folder').config('image.modification.fit.prefix').$image_src) }}',
+                                config('image.folder')).config('image.modification.fit.prefix').$image_src }}',
                               imageUrlFull: '{{ Storage::url(
-                                config('image.folder').config('image.modification.original.prefix').$image_src) }}'}">
+                                config('image.folder')).config('image.modification.original.prefix').$image_src }}'}">
 
                 <div x-data="{ open: false }">
             @endif
@@ -35,11 +35,11 @@
                              :src="imageUrl"
                          @else
                              src="{{ Storage::url(
-                                    config('image.folder').config('image.modification.fit.prefix').$image_src) }}"
+                                    config('image.folder')).config('image.modification.fit.prefix').$image_src }}"
                              @click="imageUrl = '{{ Storage::url(
-                                    config('image.folder').config('image.modification.fit.prefix').$image_src) }}';
+                                    config('image.folder')).config('image.modification.fit.prefix').$image_src }}';
                                     imageUrlFull = '{{ Storage::url(
-                                    config('image.folder').config('image.modification.original.prefix').$image_src) }}'"
+                                    config('image.folder')).config('image.modification.original.prefix').$image_src }}'"
                          @endif
                          alt="{{ $product['name'] }}">
                 </div>

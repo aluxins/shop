@@ -18,8 +18,8 @@ else $image_src = config('image.defaultSrc');
                 <div>
                     <div class="w-full overflow-hidden rounded-md group-hover:opacity-75">
                         <a href="{{ route('product', ['id' => $product['id']]) }}">
-                            <img src="{{Storage::url( config('image.folder').config('image.modification.fit.prefix').$image_src
-                                        )}}" alt="{{ $product['name'] }}"
+                            <img src="{{Storage::url(config('image.folder')).config('image.modification.fit.prefix').$image_src}}"
+                                 alt="{{ $product['name'] }}"
                                  class="h-full w-full object-cover object-center lg:h-full lg:w-full">
                         </a>
                     </div>
