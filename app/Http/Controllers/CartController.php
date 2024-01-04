@@ -43,7 +43,9 @@ class CartController extends Controller
             StoreProduct::whereIn('store_products.id', $productId)
                 ->leftJoin('store_images', 'store_products.id', '=', 'store_images.product')
                 ->select('store_products.id','store_products.name','article',
-                    'price', 'old_price', 'available', DB::raw('"' . Storage::url(config('image.folder')).config('image.modification.fit.prefix') . '" as path'),
+                    'price', 'old_price', 'available',
+                    DB::raw('"' . Storage::url(config('image.folder')).config('image.modification.fit.prefix') . '" as path_images'),
+                    DB::raw('"' . route('product') . '" as path_products'),
                     DB::raw('JSON_OBJECTAGG(store_images.name, store_images.sort) as images'))
                 ->groupBy('id', 'name', 'article', 'price', 'old_price', 'available')
                 ->get()->toArray()

@@ -33,7 +33,7 @@
                                     </div>
                                 </div>
 
-                                <h1 class="text-2xl font-light text-center text-gray-900 mt-6" id="slide-over-title">Корзина пуста</h1>
+                                <h1 class="hidden text-2xl font-light text-center text-gray-900 mt-6" id="slide-over-title">Корзина пуста</h1>
 
                                 <div class="mt-8">
                                     <div class="flow-root">
@@ -43,21 +43,29 @@
                                                     <img src="{{Storage::url('/public/loading-thumb.gif')}}" alt="Загрузка" class="h-full w-full object-cover object-center">
                                                 </div>
 
-                                                <div class="ml-4 flex flex-1 flex-col">
+                                                <div class="hidden ml-4 flex flex-1 flex-col">
                                                     <div>
                                                         <div class="flex justify-between text-base font-medium text-gray-900">
                                                             <h3>
                                                                 <a href="#"><!-- Name --></a>
                                                             </h3>
+                                                            <div>
                                                             <p class="ml-4 whitespace-nowrap"><!-- Price --></p>
+                                                            <p class="ml-4 whitespace-nowrap text-xs font-medium text-gray-900 align-top line-through"><!-- Old Price --></p>
+                                                            </div>
                                                         </div>
                                                         <p class="mt-1 text-sm text-gray-500"><!-- Article --></p>
                                                     </div>
                                                     <div class="flex flex-1 items-end justify-between text-sm">
-                                                        <p class="text-gray-500"><!-- Quantity --></p>
+                                                        <p class="text-gray-500">
+                                                            <label>
+                                                                <!-- Quantity -->
+                                                                <input type="number" class="form-input w-20 rounded-2xl" value="" name="quantity" min="1" max="999" />
+                                                            </label>
+                                                        </p>
 
                                                         <div class="flex">
-                                                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                                                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Удалить</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -69,12 +77,21 @@
 
                             <div class="cart-order border-t border-gray-200 px-4 py-6 sm:px-6">
                                 <div class="flex justify-between text-base font-medium text-gray-900">
+                                    <p>Итого</p>
+                                    <p class="full whitespace-nowrap line-through"></p>
+                                </div>
+                                <div class="flex justify-between text-sm font-medium text-red-500">
+                                    <p>Скидка</p>
+                                    <p class="sale whitespace-nowrap"></p>
+                                </div>
+                                <div class="flex justify-between text-base font-medium text-gray-900">
                                     <p>К оплате</p>
                                     <p class="total whitespace-nowrap"></p>
                                 </div>
                                 <p class="mt-0.5 text-sm text-gray-500">Доставка рассчитывается после оформления заказа.</p>
                                 <div class="mt-6">
-                                    <a href="#" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Оформить</a>
+                                    <a href="#" class="flex items-center justify-center rounded-2xl border border-transparent bg-yellow-500
+                                        px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-yellow-600">Оформить</a>
                                 </div>
                                 <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                                     <p>

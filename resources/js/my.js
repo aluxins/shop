@@ -36,7 +36,13 @@ window.onlyChangedData = function (cls) {
  */
 window.Cart  = class Cart{
 
+    /**
+     * Инициализация корзины.
+     * @param {string} cls
+     * @return {void}
+     */
     static init(cls){
+
         // Определяем количество товаров в корзине и отображаем на иконке корзины.
         Cart.text(
             Cart.count(
@@ -56,7 +62,7 @@ window.Cart  = class Cart{
     }
 
     /**
-     * Функция добавления товаров в корзину.
+     * Метод добавления товаров в корзину.
      * Выполняется перехват формы и отправка данных на сервер через HTTP-клиент axios.
      * @param {string} cls
      */
@@ -68,14 +74,38 @@ window.Cart  = class Cart{
         // Для перехвата отправки формы добавляем отслеживание события - submit
         if (elements.length > 0) {
             for (let els of elements) {
+
+                let data = window.getCookie('cart', 'json');
+                let product = els.querySelector('input[name=product]');
+                let quantity = els.querySelector('input[name=quantity]');
+
+                // Определяем присутствие товара в корзине и добавляем фон полю quantity.
+                let addCart = data[product.value];
+                if(addCart){
+                    quantity.value = addCart;
+                    quantity.classList.add(
+                        quantity.dataset.add
+                    );
+                }
+
+                // Событие нажатия на кнопку добавления товара в корзину.
                 els.addEventListener("submit", function (e) {
                     e.preventDefault();
+
+                    // Добавляем событие изменения значения поля quantity.
+                    Cart.change(e.target['quantity'], product.value);
 
                     // Создаем объект данных.
                     let values = {
                         'product': e.target['product']['value'],
                         'quantity': e.target['quantity']['value']
                     }
+
+                    // Добавляем фон полю quantity.
+                    if(e.target['quantity']['value'] < 1)
+                        e.target['quantity'].classList.remove( e.target['quantity'].dataset.add );
+                    else
+                        e.target['quantity'].classList.add( e.target['quantity'].dataset.add );
 
                     // Записываем Cookie.
                     let cartObj = Cart.cookie('cart', values, 'add');
@@ -89,7 +119,7 @@ window.Cart  = class Cart{
     }
 
     /**
-     * Функция вычисляет сумму значений объекта.
+     * Метод вычисляет сумму значений объекта.
      * @param {object} cartObj
      * @return {number}
      */
@@ -137,9 +167,11 @@ window.Cart  = class Cart{
             // Считывание Cookie.
             let oldData = window.getCookie(cookieName, 'json');
 
-            // Изменение или добавление данных.
-            if (type === 'add')
-                oldData[data['product']] = data['quantity'];
+            // Изменение или добавление данных. Если количество меньше 1, тогда - удаление.
+            if (type === 'add') {
+                if(data['quantity'] < 1)delete oldData[data['product']];
+                else oldData[data['product']] = data['quantity'];
+            }
 
             // Удаление данных.
             else if (type === 'remove')
@@ -155,7 +187,7 @@ window.Cart  = class Cart{
     }
 
     /**
-     * Функция рендера корзины товаров.
+     * Метод рендера корзины товаров.
      * @param {object} data
      * @return {void}
      */
@@ -166,7 +198,6 @@ window.Cart  = class Cart{
         // Отчистка списка товаров.
         document.querySelectorAll("div.cart-button ul li.flex").forEach(e => e.remove());
         document.querySelector("div.cart-order").classList.add('hidden');
-        document.querySelector("div.cart-button h1").classList.remove('hidden');
         pattern.classList.remove('hidden');
 
         if(Object.keys(data).length !== 0) {
@@ -179,38 +210,76 @@ window.Cart  = class Cart{
                 };
             }
 
-            // Отправляем запрос
+            // Отправляем запрос для наполнения корзины товарами по шаблону.
             let response = Cart.server({'products': dataServer});
             response.then(function (response) {
 
                 pattern.classList.add('hidden');
 
                 let total = 0;
+                let sale = 0;
+                let full = 0;
                 for (let el in response.data) {
                     // Создаем новый объект-шаблон.
                     let newPattern = pattern.cloneNode(true);
 
                     // Наполняем объект-шаблон данными.
+                    // Class
                     newPattern.classList.remove('hidden');
                     newPattern.classList.add('flex');
-                    newPattern.querySelector("h3 a").href = response.data[el]['id'];
+                    newPattern.querySelector("div.hidden").classList.remove('hidden');
+
+                    // URL
+                    newPattern.querySelector("h3 a").href = response.data[el]['path_products'] + '/' + response.data[el]['id'];
+
+                    // Name
                     newPattern.querySelector("h3 a").innerText = response.data[el]['name'];
-                    newPattern.querySelectorAll("p")[0].innerHTML = response.data[el]['price'] + ' &#8381;';
-                    newPattern.querySelectorAll("p")[1].innerText = response.data[el]['article'];
-                    newPattern.querySelectorAll("p")[2].innerText = data[response.data[el]['id']];
-                    newPattern.querySelector("img").src = response.data[el]['path'] + '' + Object.keys(JSON.parse(String(response.data[el]['images'])))[0];
+
+                    // Price
+                    newPattern.querySelectorAll("p")[0].innerHTML =  (parseFloat(response.data[el]['price']) * data[response.data[el]['id']]).toFixed(2) + ' &#8381;';
+
+                    // Old price
+                    if(response.data[el]['old_price'] > 0 && response.data[el]['old_price'] > response.data[el]['price']) {
+                        newPattern.querySelectorAll("p")[0].classList.add('text-red-500');
+                        newPattern.querySelectorAll("p")[1].innerHTML = (parseFloat(response.data[el]['old_price']) * data[response.data[el]['id']]).toFixed(2) + ' &#8381;';
+                        sale += (parseFloat(response.data[el]['old_price']) - parseFloat(response.data[el]['price'])) * data[response.data[el]['id']];
+                        full += parseFloat(response.data[el]['old_price']) * data[response.data[el]['id']];
+                    }
+                    else full += parseFloat(response.data[el]['price']) * data[response.data[el]['id']];
+
+                    // Article
+                    newPattern.querySelectorAll("p")[2].innerText = response.data[el]['article'];
+
+                    // Quantity
+                    newPattern.querySelector("input").value = data[response.data[el]['id']] <= response.data[el]['available'] ?
+                        data[response.data[el]['id']] : response.data[el]['available'];
+                    newPattern.querySelector("input").max = response.data[el]['available'];
+                    if(response.data[el]['available'] < 1) newPattern.querySelector("input").min = 0;
+
+                    Cart.change(newPattern.querySelector("input"), response.data[el]['id']);
+
+                    // Image
+                    newPattern.querySelector("img").src = response.data[el]['path_images'] + '' + Object.keys(JSON.parse(String(response.data[el]['images'])))[0];
                     newPattern.querySelector("img").alt = response.data[el]['name'];
-                    newPattern.addEventListener("click", function() {
+
+                    // Remove
+                    newPattern.querySelector("button").addEventListener("click", function() {
                         Cart.remove(response.data[el]['id']);
-                        //this.remove();
                     }, false);
 
                     // Добавляем новый объект-шаблон товара в DOM.
                     pattern.after(newPattern);
 
-                    total += parseFloat(response.data[el]['price']);
+                    total += parseFloat(response.data[el]['price']) * data[response.data[el]['id']];
                 }
 
+                // Full
+                document.querySelector("div.cart-button p.full").innerHTML = full.toFixed(2) + ' &#8381;';
+
+                // Sale
+                document.querySelector("div.cart-button p.sale").innerHTML = -(sale.toFixed(2)) + ' &#8381;';
+
+                // Total
                 if (total > 0) {
                     document.querySelector("div.cart-button p.total").innerHTML = total.toFixed(2) + ' &#8381;';
                     document.querySelector("div.cart-order").classList.remove('hidden');
@@ -223,7 +292,37 @@ window.Cart  = class Cart{
         }
         else{
             pattern.classList.add('hidden');
+            document.querySelector("div.cart-button h1").classList.remove('hidden');
         }
+    }
+
+    /**
+     * Метод change поля quantity.
+     * @param {object} obj
+     * @param {int} product
+     * @return {void}
+     */
+    static change(obj, product){
+        obj.addEventListener("change", function (e) {
+            // Устанавливаем фон.
+            if(e.target['value'] < 1) obj.classList.remove(obj.dataset.add);
+            else obj.classList.add(obj.dataset.add);
+
+            // Создаем объект данных.
+            let values = {
+                'product': product,
+                'quantity': e.target['value']
+            }
+
+            // Записываем Cookie.
+            let cartObj = Cart.cookie('cart', values, 'add');
+
+            // Изменяем количество товаров в корзине.
+            Cart.text(Cart.count(cartObj));
+
+            // Рендер корзины товаров.
+            Cart.render(cartObj);
+        });
     }
 
     /**
@@ -274,7 +373,8 @@ window.setCookie = function(name, value, type = 'string', expires= 1,
 /**
  * Поиск Cookie по имени.
  * В случае успеха функция возвращает строковое значение искомой Cookie, иначе пустую строку.
- * В зависимости от параметра type преобразует строку в JSON-объект, в случае неудачи возвращает пустой объект.
+ * В зависимости от параметра type преобразует строку в JSON-объект {productId : quantity},
+ * в случае неудачи возвращает пустой объект.
  * @param {string} name
  * @param {'json' || 'string'} type
  * @return {object, string}

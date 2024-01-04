@@ -22,7 +22,7 @@ Route::get('/', function () {
 Route::get('/catalog/{id?}', [CatalogController::class, 'index'])->name('catalog');
 
 Route::redirect('/product', '/catalog');
-Route::get('/product/{id}', [ProductController::class, 'index'])->name('product');
+Route::get('/product/{id?}', [ProductController::class, 'index'])->name('product');
 
 Route::post('/cart', [CartController::class, 'index'])->name('cart');
 
