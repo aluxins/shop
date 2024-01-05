@@ -353,7 +353,7 @@ window.Cart  = class Cart{
  * @return {boolean}
  */
 window.setCookie = function(name, value, type = 'string', expires= 1,
-                            path= '', domain= '', secure= '') {
+                            path= '/', domain= '', secure= '') {
     try {
         let cookieDate = new Date();
         cookieDate.setFullYear(cookieDate.getFullYear() + expires);

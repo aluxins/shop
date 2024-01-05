@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\StoreProfiles;
 
 class ProfileController extends Controller
 {
@@ -18,23 +19,42 @@ class ProfileController extends Controller
     {
         return view('profile.edit', [
             'user' => $request->user(),
+            'information' => StoreProfiles::where('user', $request->user()->id)->first(),
         ]);
     }
 
     /**
-     * Update the user's profile information.
+     * Update the user's profile information or email address.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        if($request->validated('email')) {
+            $request->user()->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+            if ($request->user()->isDirty('email')) {
+                $request->user()->email_verified_at = null;
+            }
+
+            $request->user()->save();
+        }
+        else{
+
+            $profile = StoreProfiles::where('user', $request->user()->id)->first() ?? new StoreProfiles;
+
+            $profile->user = $request->user()->id;
+            $profile->first_name = $request->validated('firstName');
+            $profile->last_name = $request->validated('lastName');
+            $profile->patronymic = $request->validated('patronymic');
+            $profile->city = $request->validated('city');
+            $profile->street_address = $request->validated('street-address');
+            $profile->telephone = $request->validated('telephone');
+            $profile->about = $request->validated('about');
+
+            $profile->save();
         }
 
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('status',
+            $request->validated('email') ? 'email-updated' : 'information-updated');
     }
 
     /**
