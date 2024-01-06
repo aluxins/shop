@@ -36,7 +36,7 @@ else $image_src = config('image.defaultSrc');
                 </div>
                 <div class="mt-4 flex justify-between flex-nowrap">
                     <div class="text-lg lg:text-sm font-medium {{ $product['old_price'] > $product['price'] ? 'text-red-500' : 'text-gray-900'}}">
-                        <span class="text-nowrap">{{ $product['price'] }}&nbsp;&#8381;</span>
+                        <span class="text-nowrap after:content-['{{ __('currency-icon') }}']">{{ $product['price'] }}</span>
                         @if($product['old_price'] > $product['price'])
                             <span class="text-xs font-medium text-gray-900 align-top line-through">{{ $product['old_price'] }}</span>
                         @endif

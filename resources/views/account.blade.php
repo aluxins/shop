@@ -4,6 +4,10 @@
         {{ __("Account") }}
     </x-slot>
 
+    <x-slot name="heading">
+        {{ __("Account") }}
+    </x-slot>
+
     <x-slot name="header">
         @include('layouts.header', ['open' => false])
     </x-slot>

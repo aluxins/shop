@@ -50,8 +50,8 @@
                                                                 <a href="#"><!-- Name --></a>
                                                             </h3>
                                                             <div>
-                                                            <p class="ml-4 whitespace-nowrap"><!-- Price --></p>
-                                                            <p class="ml-4 whitespace-nowrap text-xs font-medium text-gray-900 align-top line-through"><!-- Old Price --></p>
+                                                            <p class="ml-4 whitespace-nowrap after:content-['{{ __('currency-icon') }}']"><!-- Price --></p>
+                                                            <p class="ml-4 whitespace-nowrap text-xs font-medium text-gray-900 align-top line-through after:content-['{{ __('currency-icon') }}']"><!-- Old Price --></p>
                                                             </div>
                                                         </div>
                                                         <p class="mt-1 text-sm text-gray-500"><!-- Article --></p>
@@ -78,19 +78,19 @@
                             <div class="cart-order border-t border-gray-200 px-4 py-6 sm:px-6">
                                 <div class="flex justify-between text-base font-medium text-gray-900">
                                     <p>Итого</p>
-                                    <p class="full whitespace-nowrap line-through"></p>
+                                    <p class="full whitespace-nowrap line-through after:content-['{{ __('currency-icon') }}']"></p>
                                 </div>
                                 <div class="flex justify-between text-sm font-medium text-red-500">
                                     <p>Скидка</p>
-                                    <p class="sale whitespace-nowrap"></p>
+                                    <p class="sale whitespace-nowrap after:content-['{{ __('currency-icon') }}']"></p>
                                 </div>
                                 <div class="flex justify-between text-base font-medium text-gray-900">
                                     <p>К оплате</p>
-                                    <p class="total whitespace-nowrap"></p>
+                                    <p class="total whitespace-nowrap after:content-['{{ __('currency-icon') }}']"></p>
                                 </div>
                                 <p class="mt-0.5 text-sm text-gray-500">Доставка рассчитывается после оформления заказа.</p>
                                 <div class="mt-6">
-                                    <a href="#" class="flex items-center justify-center rounded-2xl border border-transparent bg-yellow-500
+                                    <a href="{{ route('order') }}" class="flex items-center justify-center rounded-2xl border border-transparent bg-yellow-500
                                         px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-yellow-600">Оформить</a>
                                 </div>
                                 <div class="mt-6 flex justify-center text-center text-sm text-gray-500">

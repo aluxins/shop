@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{ProfileController, CatalogController, ProductController, AccountController, CartController};
+use App\Http\Controllers\{ProfileController, CatalogController, ProductController, AccountController, CartController, OrderController};
 use App\Http\Controllers\Admin\{StoreProductsController, StoreSectionsController};
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('index');;
 
 Route::get('/catalog/{id?}', [CatalogController::class, 'index'])->name('catalog');
 
@@ -25,11 +25,11 @@ Route::redirect('/product', '/catalog');
 Route::get('/product/{id?}', [ProductController::class, 'index'])->name('product');
 
 Route::post('/cart', [CartController::class, 'index'])->name('cart');
-
+/*
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
+*/
 
 
 Route::middleware('auth')->group(function () {
@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/account', [AccountController::class, 'index'])->name('account.index');
+    Route::get('/order', [OrderController::class, 'index'])->name('order');
 });
 
 

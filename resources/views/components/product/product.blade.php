@@ -61,11 +61,7 @@
             @endforeach
 
         <x-product.info
-            :name="$product['name']"
-            :article="$product['article']"
-            :description="$product['description']"
-            :price="$product['price']"
-            :old_price="$product['old_price']"
+            :product="$product"
         />
     </div>
 </div>

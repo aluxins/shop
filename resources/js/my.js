@@ -236,12 +236,12 @@ window.Cart  = class Cart{
                     newPattern.querySelector("h3 a").innerText = response.data[el]['name'];
 
                     // Price
-                    newPattern.querySelectorAll("p")[0].innerHTML =  (parseFloat(response.data[el]['price']) * data[response.data[el]['id']]).toFixed(2) + ' &#8381;';
+                    newPattern.querySelectorAll("p")[0].innerHTML =  (parseFloat(response.data[el]['price']) * data[response.data[el]['id']]).toFixed(2);
 
                     // Old price
                     if(response.data[el]['old_price'] > 0 && response.data[el]['old_price'] > response.data[el]['price']) {
                         newPattern.querySelectorAll("p")[0].classList.add('text-red-500');
-                        newPattern.querySelectorAll("p")[1].innerHTML = (parseFloat(response.data[el]['old_price']) * data[response.data[el]['id']]).toFixed(2) + ' &#8381;';
+                        newPattern.querySelectorAll("p")[1].innerHTML = (parseFloat(response.data[el]['old_price']) * data[response.data[el]['id']]).toFixed(2);
                         sale += (parseFloat(response.data[el]['old_price']) - parseFloat(response.data[el]['price'])) * data[response.data[el]['id']];
                         full += parseFloat(response.data[el]['old_price']) * data[response.data[el]['id']];
                     }
@@ -274,14 +274,14 @@ window.Cart  = class Cart{
                 }
 
                 // Full
-                document.querySelector("div.cart-button p.full").innerHTML = full.toFixed(2) + ' &#8381;';
+                document.querySelector("div.cart-button p.full").innerHTML = full.toFixed(2);
 
                 // Sale
-                document.querySelector("div.cart-button p.sale").innerHTML = -(sale.toFixed(2)) + ' &#8381;';
+                document.querySelector("div.cart-button p.sale").innerHTML = -(sale.toFixed(2));
 
                 // Total
                 if (total > 0) {
-                    document.querySelector("div.cart-button p.total").innerHTML = total.toFixed(2) + ' &#8381;';
+                    document.querySelector("div.cart-button p.total").innerHTML = total.toFixed(2);
                     document.querySelector("div.cart-order").classList.remove('hidden');
                 }
                 document.querySelector("div.cart-button h1").classList.add('hidden');
