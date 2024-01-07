@@ -26,15 +26,15 @@
                                 <dl class="divide-y divide-gray-100">
                                     <div class="p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">Subtotal</dt>
-                                        <dd class="mt-1 text-sm text-right leading-6 text-gray-700 sm:col-span-2 sm:mt-0 after:content-['{{ __('currency-icon') }}']">100.00</dd>
+                                        <dd class="mt-1 text-sm text-right leading-6 text-gray-700 sm:col-span-2 sm:mt-0 after:content-['{{ __('currency-icon') }}']">{{ number_format($order['full'], 2) }}</dd>
                                     </div>
                                     <div class="p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">Discount</dt>
-                                        <dd class="mt-1 text-sm text-right leading-6 text-gray-700 sm:col-span-2 sm:mt-0 after:content-['{{ __('currency-icon') }}']">20.00</dd>
+                                        <dd class="mt-1 text-sm text-right leading-6 text-gray-700 sm:col-span-2 sm:mt-0 after:content-['{{ __('currency-icon') }}']">{{ number_format($order['sale'], 2) }}</dd>
                                     </div>
                                     <div class="p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">Order total</dt>
-                                        <dd class="mt-1 text-sm text-right leading-6 font-semibold text-indigo-600 sm:col-span-2 sm:mt-0 after:content-['{{ __('currency-icon') }}']">80.00</dd>
+                                        <dd class="mt-1 text-sm text-right leading-6 font-semibold text-indigo-600 sm:col-span-2 sm:mt-0 after:content-['{{ __('currency-icon') }}']">{{ number_format($order['total'], 2) }}</dd>
                                     </div>
                                 </dl>
                             </div>
@@ -54,27 +54,27 @@
                                 <dl class="divide-y divide-gray-100">
                                     <div class="p-2 md:grid md:grid-cols-3 md:gap-4 md:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">Full name</dt>
-                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">Иванов Андрей Валерьевич</dd>
+                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">{{ $information['first_name'] }} {{ $information['last_name'] }} {{ $information['patronymic'] }}</dd>
                                     </div>
                                     <div class="p-2 md:grid md:grid-cols-3 md:gap-4 md:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">Telephone</dt>
-                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">79025168751</dd>
+                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">{{ $information['telephone'] }}</dd>
                                     </div>
                                     <div class="p-2 md:grid md:grid-cols-3 md:gap-4 md:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">City</dt>
-                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">Moscow</dd>
+                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">{{ $information['city'] }}</dd>
                                     </div>
                                     <div class="p-2 md:grid md:grid-cols-3 md:gap-4 md:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">Street address</dt>
-                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">Ленина 5, д. 134, кв. 15</dd>
+                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">{{ $information['street_address'] }}</dd>
                                     </div>
                                     <div class="p-2 md:grid md:grid-cols-3 md:gap-4 md:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">Email address</dt>
-                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">margotfoster@example.com</dd>
+                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">{{ $user->email }}</dd>
                                     </div>
                                     <div class="p-2 md:grid md:grid-cols-3 md:gap-4 md:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">About</dt>
-                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.</dd>
+                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">{{ $information['about'] }}</dd>
                                     </div>
                                 </dl>
                             </div>
