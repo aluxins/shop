@@ -39,8 +39,9 @@
                                 </dl>
                             </div>
                             <div class="px-4 sm:px-0">
-                                <form>
-                                    <button href="http://laravel/order" class="rounded-2xl border border-transparent bg-yellow-500 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-yellow-600 w-full">Оформить</button>
+                                <form action="{{ route('order.store') }}" method="post">
+                                    @csrf
+                                    <button class="rounded-2xl border border-transparent bg-yellow-500 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-yellow-600 w-full">Оформить</button>
                                 </form>
                             </div>
                         </div>

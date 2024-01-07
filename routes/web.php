@@ -38,7 +38,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/account', [AccountController::class, 'index'])->name('account.index');
-    Route::get('/order', [OrderController::class, 'index'])->name('order');
+
+    Route::controller(OrderController::class)->group(function () {
+        Route::get('/order/create', 'create')->name('order.create');
+        Route::post('/order/store', 'store')->name('order.store');
+        Route::get('/order/{id?}', 'index')->name('order.index');
+    });
 });
 
 

@@ -90,7 +90,7 @@
                                 </div>
                                 <p class="mt-0.5 text-sm text-gray-500">Доставка рассчитывается после оформления заказа.</p>
                                 <div class="mt-6">
-                                    <a href="{{ route('order') }}" class="flex items-center justify-center rounded-2xl border border-transparent bg-yellow-500
+                                    <a href="{{ route('order.create') }}" class="flex items-center justify-center rounded-2xl border border-transparent bg-yellow-500
                                         px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-yellow-600">Оформить</a>
                                 </div>
                                 <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
