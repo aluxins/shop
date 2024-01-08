@@ -32,6 +32,58 @@ window.onlyChangedData = function (cls) {
 }
 
 /**
+ * Класс конвертации Timestamp в date time.
+ */
+window.ConvertTimestamp  = class ConvertTimestamp{
+    /**
+     * Инициализация. Поиск элементов с классом cls и конвертация содержимого innerText.
+     * @param {string} cls
+     */
+    static init(cls){
+        let elements = document.querySelectorAll('.' + cls);
+        if (elements.length > 0) {
+            for (let els of elements) {
+
+                (/^([0-9]{1,10})$/).test(els.innerText) ?
+                els.innerText = ConvertTimestamp.convert(els.innerText)
+                : els.innerText = 'It is not the Timestamp';
+            }
+        }
+
+    }
+
+    /**
+     * Конвертация timestamp.
+     * @param {string} timestamp
+     * @param {string} type
+     */
+    static convert(timestamp, type= '') {
+        let d = new Date(timestamp * 1000),
+            yyyy = d.getFullYear(),
+            mm = ('0' + (d.getMonth() + 1)).slice(-2),
+            dd = ('0' + d.getDate()).slice(-2),
+            h = ('0' + d.getHours()).slice(-2),
+            min = ('0' + d.getMinutes()).slice(-2),
+            time;
+
+        switch (type) {
+            case 'time':
+                time = h + ':' + min;
+                break;
+            case 'date':
+                time = dd + '.' + mm + '.' + yyyy;
+                break;
+            default:
+                time = dd + '.' + mm + '.' + yyyy.toString().slice(2) + ' ' + h + ':' + min;
+        }
+        return time;
+    }
+
+}
+
+
+
+/**
  * Класс корзины товаров.
  */
 window.Cart  = class Cart{

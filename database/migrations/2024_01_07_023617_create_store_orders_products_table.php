@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigInteger('product');
             $table->integer('quantity');
             $table->decimal('price');
-            $table->timestamps();
+            //$table->timestamps();
         });
     }
 

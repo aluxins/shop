@@ -12,11 +12,45 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
-    public function index(Request $request, $id = 0)
+    public function index(Request $request, $id = 0): \Illuminate\Contracts\View\View
     {
-        return 'Создан заказ'. $id;
+        $orders = $id > 0 ?
+            StoreOrders::where('store_orders.id', $id)->where('store_orders.user', '=', $request->user()->id)
+                ->leftJoin('store_orders_products', 'store_orders.id', '=', 'store_orders_products.order')
+                ->leftJoin('store_products', 'store_orders_products.product', '=', 'store_products.id')
+                ->select('store_orders.id','store_orders.status','store_orders.created_at','store_orders.updated_at',
+                    DB::raw('
+                        JSON_OBJECTAGG(store_orders_products.id, store_orders_products.product) as product,
+                        JSON_OBJECTAGG(store_orders_products.id, store_products.name) as name,
+                        JSON_OBJECTAGG(store_orders_products.id, store_orders_products.quantity) as quantity,
+                        JSON_OBJECTAGG(store_orders_products.id, store_orders_products.price) as price,
+                        JSON_OBJECTAGG(store_orders_products.id, (
+                            SELECT `name`
+                            FROM `store_images`
+                            WHERE `store_images`.`product` = `store_products`.`id`
+                            ORDER BY `sort`, `id` ASC
+                            limit 1
+                        ))  AS `image`
+                    '),
+                )
+                ->groupBy('id', 'status', 'created_at', 'updated_at')
+                ->first()->toArray()
+            :
+            StoreOrders::where('user', $request->user()->id)
+                ->leftJoin('store_orders_products', 'store_orders.id', '=', 'store_orders_products.order')
+                ->select('store_orders.id','store_orders.status','store_orders.created_at','store_orders.updated_at',
+                    DB::raw('SUM(store_orders_products.quantity * store_orders_products.price) as price')
+                )
+                ->groupBy('id', 'status', 'created_at', 'updated_at')
+                ->orderByDesc('store_orders.id')->paginate(10);
+
+        return ($id > 0 and $orders) ?
+            view('order.id',['id' => $id, 'order' => $orders])
+            :
+            view('order.list',['orders' => $orders]);
+
     }
-    public function create(Request $request)
+    public function create(Request $request): \Illuminate\Contracts\View\View|RedirectResponse
     {
         $validator = self::cookie($request);
 
@@ -38,7 +72,7 @@ class OrderController extends Controller
                 $order['full'] += max($product->price, $product->old_price) * $quantity;
              }
 
-            return view('order',[
+            return view('order.create',[
                 'user' => $request->user(),
                 'order' => $order,
                 'information' => StoreProfiles::where('user', $request->user()->id)->first()

@@ -30,8 +30,6 @@
                                         @foreach($products as $product)
                                             <x-catalog.product :product="$product" />
                                         @endforeach
-                                        @else
-                                            sdsdsd
                                     @endif
                                 </div>
                                 {{ $products->onEachSide(1)->links() }}

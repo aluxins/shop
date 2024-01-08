@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static create(array $array)
+ * @method static where(string $string, mixed $id)
  */
 class StoreOrders extends Model
 {
@@ -19,5 +20,10 @@ class StoreOrders extends Model
     protected $fillable = [
         'user',
         'status',
+    ];
+
+    protected $casts = [
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp'
     ];
 }
