@@ -14,7 +14,16 @@ class OrderController extends Controller
 {
     public function index(Request $request, $id = 0): \Illuminate\Contracts\View\View
     {
+        // Валидация параметров фильра.
+        $validated = Validator::make($request->isMethod('get') ? $_GET : $_POST, [
+            'date-start'    => 'nullable|date',
+            'date-end'    => 'nullable|date',
+            'status' => 'nullable|numeric',
+        ])->validate();
+
+
         $orders = $id > 0 ?
+            // Заказ # $id
             StoreOrders::where('store_orders.id', $id)->where('store_orders.user', '=', $request->user()->id)
                 ->leftJoin('store_orders_products', 'store_orders.id', '=', 'store_orders_products.order')
                 ->leftJoin('store_products', 'store_orders_products.product', '=', 'store_products.id')
@@ -36,7 +45,13 @@ class OrderController extends Controller
                 ->groupBy('id', 'status', 'created_at', 'updated_at')
                 ->first()->toArray()
             :
+            // Список заказов пользователя.
             StoreOrders::where('user', $request->user()->id)
+                ->where(function($query) use ($validated){
+                    if(!empty($validated['date-start']))$query->where('created_at', '>=', $validated['date-start']);
+                    if(!empty($validated['date-end']))$query->where('created_at', '<=', $validated['date-end']);
+                    if(isset($validated['status']))$query->where('status', '=', $validated['status']);
+                })
                 ->leftJoin('store_orders_products', 'store_orders.id', '=', 'store_orders_products.order')
                 ->select('store_orders.id','store_orders.status','store_orders.created_at','store_orders.updated_at',
                     DB::raw('SUM(store_orders_products.quantity * store_orders_products.price) as price')
@@ -44,10 +59,16 @@ class OrderController extends Controller
                 ->groupBy('id', 'status', 'created_at', 'updated_at')
                 ->orderByDesc('store_orders.id')->paginate(10);
 
+        if(!$id > 0)$orders->appends([
+            'date-start' => $validated['date-start'] ?? '',
+            'date-end' => $validated['date-end'] ?? '',
+            'status' => $validated['status'] ?? '',
+        ]);
+
         return ($id > 0 and $orders) ?
             view('order.id',['id' => $id, 'order' => $orders])
             :
-            view('order.list',['orders' => $orders]);
+            view('order.list',['orders' => $orders, 'filter' => $validated]);
 
     }
     public function create(Request $request): \Illuminate\Contracts\View\View|RedirectResponse

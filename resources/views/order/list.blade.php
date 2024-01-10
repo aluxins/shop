@@ -20,7 +20,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="w-full">
-                    <x-order.filter />
+                    <x-order.filter :filter="$filter" />
                 </div>
                         <table class="table-auto w-full divide-y divide-gray-200 border-spacing-2 mt-6">
                             <thead>
