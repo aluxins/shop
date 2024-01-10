@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/order/create', 'create')->name('order.create');
         Route::post('/order/store', 'store')->name('order.store');
         Route::get('/order/{id?}', 'index')->name('order.index');
+        Route::post('/order', 'index')->name('order.index');
     });
 });
 
