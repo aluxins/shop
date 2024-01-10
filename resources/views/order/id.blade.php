@@ -50,7 +50,7 @@
                     </div>
                     <div class="flex flex-row sm:flex-col justify-between border-b sm:border-0 py-4">
                         <div class="font-semibold">Status</div>
-                        <div class="text-gray-500">{{ $order['status'] }} <span class="timestamp text-sm">{{ $order['updated_at'] }}</span></div>
+                        <div class="text-gray-500">{{ $siteSettings['order_status'][$order['status']] ?? '' }} <span class="timestamp text-sm">{{ $order['updated_at'] }}</span></div>
                     </div>
                     <div class="flex flex-row sm:flex-col justify-between py-4">
                         <div class="font-semibold">Total amount</div>
