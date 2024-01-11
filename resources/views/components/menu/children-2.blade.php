@@ -6,8 +6,8 @@
 
     @if(count($children) > 0)
         <ul class="is-hidden">
-            <li class="go-back"><a href="#0">{{ $parent }}</a></li>
-            <li class="see-all"><a href="{{ $base }}/{{ $id }}">All {{ $name }}</a></li>
+            <li class="go-back"><a href="#">{{ $parent }}</a></li>
+            <li class="see-all"><a href="{{ $base }}/{{ $id }}">{{ __('navigation.menu.all') }} {{ $name }}</a></li>
             @foreach($children as $el)
                 <x-menu.children-2
                     :id="$el['id']"

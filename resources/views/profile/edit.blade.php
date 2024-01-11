@@ -1,11 +1,11 @@
 <x-app-layout>
 
     <x-slot name="title">
-        {{ __('Profile') }}
+        {{ __('profile.title') }}
     </x-slot>
 
     <x-slot name="heading">
-        {{ __('Profile') }}
+        {{ __('profile.heading') }}
     </x-slot>
 
     <x-slot name="header">

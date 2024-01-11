@@ -1,7 +1,7 @@
 <script type="module">
     Cart.init("cart");
 </script>
-<div x-data="{ open: false }" class="cart-button inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 transition duration-150 ease-in-out">
+<div x-data="{ open: false }" class="cart-button inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 transition duration-150 ease-in-out">
     <button @click="open = !open" class="relative w-10 h-10">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="p-1 w-8 h-8">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -21,7 +21,7 @@
                         <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                             <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                                 <div class="flex items-start justify-between">
-                                    <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Корзина товаров</h2>
+                                    <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">{{ __('cart.name') }}</h2>
                                     <div class="ml-3 flex h-7 items-center">
                                         <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500" @click="open = false">
                                             <span class="absolute -inset-0.5"></span>
@@ -33,7 +33,7 @@
                                     </div>
                                 </div>
 
-                                <h1 class="hidden text-2xl font-light text-center text-gray-900 mt-6" id="slide-over-title">Корзина пуста</h1>
+                                <h1 class="hidden text-2xl font-light text-center text-gray-900 mt-6" id="slide-over-title">{{ __('cart.empty') }}</h1>
 
                                 <div class="mt-8">
                                     <div class="flow-root">
@@ -65,7 +65,7 @@
                                                         </p>
 
                                                         <div class="flex">
-                                                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Удалить</button>
+                                                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">{{ __('cart.delete') }}</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -77,27 +77,26 @@
 
                             <div class="cart-order border-t border-gray-200 px-4 py-6 sm:px-6">
                                 <div class="flex justify-between text-base font-medium text-gray-900">
-                                    <p>Итого</p>
+                                    <p>{{ __('cart.subtotal') }}</p>
                                     <p class="full whitespace-nowrap line-through after:content-['{{ __('currency-icon') }}']"></p>
                                 </div>
                                 <div class="flex justify-between text-sm font-medium text-red-500">
-                                    <p>Скидка</p>
+                                    <p>{{ __('cart.discount') }}</p>
                                     <p class="sale whitespace-nowrap after:content-['{{ __('currency-icon') }}']"></p>
                                 </div>
                                 <div class="flex justify-between text-base font-medium text-gray-900">
-                                    <p>К оплате</p>
+                                    <p>{{ __('cart.total') }}</p>
                                     <p class="total whitespace-nowrap after:content-['{{ __('currency-icon') }}']"></p>
                                 </div>
-                                <p class="mt-0.5 text-sm text-gray-500">Доставка рассчитывается после оформления заказа.</p>
+                                <p class="mt-0.5 text-sm text-gray-500">{{ __('cart.description') }}</p>
                                 <div class="mt-6">
                                     <a href="{{ route('order.create') }}" class="flex items-center justify-center rounded-2xl border border-transparent bg-yellow-500
-                                        px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-yellow-600">Оформить</a>
+                                        px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-yellow-600">{{ __('cart.checkout') }}</a>
                                 </div>
                                 <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                                     <p>
-                                        или
                                         <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500" @click="open = false">
-                                            продолжить покупки
+                                            {{ __('cart.continue') }}
                                             <span aria-hidden="true"> →</span>
                                         </button>
                                     </p>

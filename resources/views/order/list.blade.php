@@ -1,11 +1,11 @@
 <x-app-layout>
 
     <x-slot name="title">
-        История заказов
+        {{ __('order.list.title') }}
     </x-slot>
 
     <x-slot name="heading">
-        История заказов
+        {{ __('order.list.heading') }}
     </x-slot>
 
     <x-slot name="header">
@@ -25,17 +25,17 @@
                         <table class="table-auto w-full divide-y divide-gray-200 border-spacing-2 mt-6">
                             <thead>
                             <tr class="text-gray-500">
-                                <td class="p-2">Order</td>
-                                <td class="p-2">Price</td>
-                                <td class="p-2 hidden sm:table-cell">Status</td>
-                                <td class="p-2 text-right">Info</td>
+                                <td class="p-2">{{ __('order.list.order') }}</td>
+                                <td class="p-2">{{ __('order.list.price') }}</td>
+                                <td class="p-2 hidden sm:table-cell">{{ __('order.list.status') }}</td>
+                                <td class="p-2 text-right">{{ __('order.list.info') }}</td>
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
                             @foreach($orders as $order)
                                 <tr class="hover:bg-gray-50">
                                     <td class="p-2 flex justify-start items-center gap-4">
-                                        <div class="h-min">{{ $order['id'] }} <span class="timestamp text-sm text-gray-500">{{ $order['created_at'] }}</span>
+                                        <div class="h-min"><span class="text-sm text-gray-500">#</span>{{ $order['id'] }} <span class="timestamp text-sm text-gray-500">{{ $order['created_at'] }}</span>
                                             <div class="block sm:hidden text-sm text-gray-500 ">
                                                 {{ $order['status'] }} {{ $order['updated_at'] }}
                                             </div>
@@ -43,7 +43,7 @@
                                     </td>
                                     <td class="p-2 text-gray-500 after:content-['{{ __('currency-icon') }}']">{{ number_format($order['price'], 2) }}</td>
                                     <td class="p-2 hidden sm:table-cell">{{ $siteSettings['order_status'][$order['status']] ?? '' }} <span class="timestamp text-sm text-gray-500">{{ $order['updated_at'] }}</span></td>
-                                    <td class="p-2 text-right"><a class="font-medium text-indigo-600 hover:text-indigo-500" href="{{ route('order.index', ['id' => $order['id']]) }}">view</a></td>
+                                    <td class="p-2 text-right"><a class="font-medium text-indigo-600 hover:text-indigo-500" href="{{ route('order.index', ['id' => $order['id']]) }}">{{ __('order.list.view') }}</a></td>
                                 </tr>
                             @endforeach
                             </tbody>

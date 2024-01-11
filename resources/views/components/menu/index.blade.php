@@ -4,11 +4,11 @@
         <div id="dropdown-menu">
             <div class="cd-dropdown-wrapper">
                 {{-- cd-index-close скрывает кнопку меню на главной странице --}}
-                <a class="cd-dropdown-trigger" href="#0">Каталог</a>
+                <a class="cd-dropdown-trigger" href="#0">{{ __('navigation.menu.name') }}</a>
                 {{-- cd-index-open отображает меню на главной странице --}}
                 <nav class="cd-dropdown {{ $open ? 'cd-index-open' : '' }}">
-                    <h2>Title</h2>
-                    <a href="#0" class="cd-close">Close</a>
+                    <h2>{{ __('navigation.menu.name') }}</h2>
+                    <a href="#" class="cd-close">{{ __('navigation.menu.close') }}</a>
                     <ul class="cd-dropdown-content">
                         {{-- Поле поиска
                         <li>
