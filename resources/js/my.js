@@ -38,14 +38,15 @@ window.ConvertTimestamp  = class ConvertTimestamp{
     /**
      * Инициализация. Поиск элементов с классом cls и конвертация содержимого innerText.
      * @param {string} cls
+     * @param {string} type time (только время), date (только дата)
      */
-    static init(cls){
+    static init(cls, type = ''){
         let elements = document.querySelectorAll('.' + cls);
         if (elements.length > 0) {
             for (let els of elements) {
 
                 (/^([0-9]{1,10})$/).test(els.innerText) ?
-                els.innerText = ConvertTimestamp.convert(els.innerText)
+                els.innerText = ConvertTimestamp.convert(els.innerText, type)
                 : els.innerText = 'It is not the Timestamp';
             }
         }

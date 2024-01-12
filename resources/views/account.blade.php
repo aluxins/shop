@@ -12,6 +12,10 @@
         @include('layouts.header', ['open' => false])
     </x-slot>
 
+    <script type="module">
+        ConvertTimestamp.init("timestamp", "date");
+    </script>
+
     <div class="w-auto">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -25,18 +29,27 @@
                     >{{ __('account.success-auth') }}</p>
                 @endif
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <div class="flex flex-col sm:flex-row justify-between p-2 gap-6">
-                        <div class="sm:basis-1/2 border  rounded-xl">
+                    <div class="flex flex-col md:flex-row justify-between p-2 gap-6">
+                        <div class="md:basis-1/2 border  rounded-xl">
                             <div class="font-medium bg-gray-100 rounded-t-xl py-4 px-2 text-gray-900">{{ __("account.active") }}</div>
 
-                            @foreach($orders as $order)
-                            <div class="flex gap-2 p-2 m-1 hover:bg-gray-50 rounded-xl text-gray-800">
+                            @forelse($orders as $order)
+                            <div class="flex gap-2 p-2 m-1 hover:bg-gray-50 rounded-xl text-gray-800 text-clip overflow-hidden">
                                 <span class="flex-none"># {{ $order['id'] }}</span>
-                                <span class="flex-none"> {{ $order['status'] }}</span>
-                                <span class="flex-none text-sm text-gray-400 pt-1 timestamp"> {{ $order['updated_at'] }}</span>
-                                <span class="grow text-right"><a class="text-indigo-600 hover:text-indigo-500" href="{{ route('order.index', ['id' => $order['id']]) }}">{{ __('account.view') }}</a></span>
+                                <span class="flex-none">{{ $siteSettings['order_status'][$order['status']] ?? '' }}</span>
+                                <span class="timestamp flex-none text-xs text-gray-400 pt-1">{{ $order['updated_at'] }}</span>
+                                <span class="grow text-right">
+                                    <a class="text-indigo-600 hover:text-indigo-500" href="{{ route('order.index', ['id' => $order['id']]) }}">
+                                        <span class="hidden sm:inline">{{ __('account.view') }}</span>
+                                        <span class="inline sm:hidden">→</span>
+                                    </a>
+                                </span>
                             </div>
-                            @endforeach
+                            @empty
+                                <div class="p-2 m-1 text-center">
+                                    {{ __("account.noActive") }}
+                                </div>
+                            @endforelse
                             <div class="p-2 m-1 text-right"><a class="text-indigo-600 hover:text-indigo-500" href="{{ route('order.index') }}">{{ __('account.all') }}</a></div>
                         </div>
 

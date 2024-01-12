@@ -12,5 +12,6 @@ return [
     'street' => 'Street address',
     'telephone' => 'Telephone',
     'about' => 'About',
-    'success-auth' => 'You\'re logged in!'
+    'success-auth' => 'You\'re logged in!',
+    'noActive' => 'There are no active orders',
 ];

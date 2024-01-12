@@ -40,7 +40,7 @@
                                     <td class="p-2 flex justify-start items-center gap-4">
                                         <div class="h-min"><span class="text-sm text-gray-500">#</span>{{ $order['id'] }} <span class="timestamp text-sm text-gray-500">{{ $order['created_at'] }}</span>
                                             <div class="block sm:hidden text-sm text-gray-500 ">
-                                                {{ $order['status'] }} {{ $order['updated_at'] }}
+                                                {{ $siteSettings['order_status'][$order['status']] ?? '' }} <span class="timestamp">{{ $order['updated_at'] }}</span>
                                             </div>
                                         </div>
                                     </td>
