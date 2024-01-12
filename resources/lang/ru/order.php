@@ -5,23 +5,18 @@ return [
         'heading' => 'Создать заказ',
         'orderHeading' => 'Описание заказа',
         'orderDescription' => 'Стоимость заказа с учетом скидок.',
-
         'subtotal' => 'Стоимость',
         'discount' => 'Скидка',
         'total' => 'К оплате',
         'place' => 'Оформить заказ',
-
-
         'userHeading' => 'Информация',
         'userDescription' => 'Персональная информация о покупателе.',
-
         'user' => 'ФИО',
         'telephone' => 'Телефон',
         'city' => 'Город',
         'street' => 'Адрес',
         'email' => 'Email',
         'about' => 'Примечание',
-
         'edit' => 'изменить',
     ],
     'filter' => [
@@ -51,6 +46,11 @@ return [
         'product' => 'Товар',
         'price' => 'Цена',
         'totalPrice' => 'Сумма'
+    ],
+    'nav' => [
+        'home' => 'Личный кабинет',
+        'list' => 'Заказы',
+        'id' => 'Заказ # :id'
     ],
 ];
 

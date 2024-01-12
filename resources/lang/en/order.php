@@ -5,23 +5,18 @@ return [
         'heading' => 'Create order',
         'orderHeading' => 'Order summary',
         'orderDescription' => 'The order price including discounts.',
-
         'subtotal' => 'Subtotal',
         'discount' => 'Discount',
         'total' => 'Order total',
         'place' => 'Place an order',
-
-
         'userHeading' => 'Applicant Information',
         'userDescription' => 'Personal details and application.',
-
         'user' => 'Full name',
         'telephone' => 'Telephone',
         'city' => 'City',
         'street' => 'Street address',
         'email' => 'Email address',
         'about' => 'About',
-
         'edit' => 'edit',
     ],
     'filter' => [
@@ -51,5 +46,10 @@ return [
         'product' => 'Product',
         'price' => 'Price',
         'totalPrice' => 'Total price'
+    ],
+    'nav' => [
+        'home' => 'Account',
+        'list' => 'Orders',
+        'id' => 'Order # :id'
     ],
 ];

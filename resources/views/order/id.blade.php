@@ -38,8 +38,11 @@
 
     <div class="w-auto">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <a href="{{ url()->previous() }}" class="font-und">Back</a>
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <x-account-nav :array="[
+                    __('order.nav.list') => route('order.index'),
+                    __('order.nav.id', ['id' => $id]) => '',
+                    ]" />
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-xl">
                 <div class="flex flex-col sm:flex-row justify-between bg-gray-50 rounded-xl p-2">
                     <div class="flex flex-row sm:flex-col justify-between border-b sm:border-0 py-4">
                         <div class="font-semibold">{{ __('order.id.order') }}</div>
