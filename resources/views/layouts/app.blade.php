@@ -40,6 +40,10 @@
                         {{ $slot }}
                     </div>
                 </main>
+
+            <footer class="w-full lg:max-w-[1180px] mx-auto">
+                @include('layouts.footer')
+            </footer>
         </div>
     </body>
 </html>
