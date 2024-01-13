@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\{ProfileController, CatalogController, ProductController, AccountController, CartController, OrderController};
-use App\Http\Controllers\Admin\{StoreProductsController, StoreSectionsController};
+use App\Http\Controllers\Admin\{StoreProductsController, StoreSectionsController, StorePagesController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -70,6 +70,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/products/{id}', 'destroy')->name('products.delete');
         Route::get('/products/delete/{id}/image/{image}', 'imageDelete')->name('products.imageDelete');
         Route::post('/products/s/s', 'search')->name('products.search');
+    });
+
+    Route::controller(StorePagesController::class)->group(function () {
+        Route::get('/pages', 'index')->name('pages.index');
+        Route::get('/pages/{id}', 'update')->name('pages.update');
+        Route::post('/pages/{id}', 'create')->name('pages.create');
     });
 
 });
