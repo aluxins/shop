@@ -14,36 +14,37 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @vite(['resources/css/dropdown-menu.css'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        @vite(['/node_modules/tinymce/tinymce.min.js'])
+</head>
+<body class="font-sans antialiased">
+<div class="min-h-screen bg-gray-100 dark:bg-gray-900">
 
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white w-full lg:max-w-[1180px] mx-auto dark:bg-gray-800 shadow flex flex-row items-center pl-1 lg:p-5 justify-start">
-                    {{ $header }}
-                </header>
+    <!-- Page Heading -->
+    @if (isset($header))
+        <header class="bg-white w-full lg:max-w-[1180px] mx-auto dark:bg-gray-800 shadow flex flex-row items-center pl-1 lg:p-5 justify-start">
+            {{ $header }}
+        </header>
+    @endif
+
+        <!-- Page Content -->
+        <main class="w-full lg:max-w-[1180px] mx-auto">
+
+            <!-- Page Title -->
+            @if (isset($heading))
+                <h2 class="font-semibold text-xl text-center pt-6 text-gray-800 dark:text-gray-200 leading-tight">
+                    {{ $heading }}
+                </h2>
             @endif
 
-                <!-- Page Content -->
-                <main class="w-full lg:max-w-[1180px] mx-auto">
+            <div class="mt-12 mx-5">
+                {{ $slot }}
+            </div>
+        </main>
 
-                    <!-- Page Title -->
-                    @if (isset($heading))
-                        <h2 class="font-semibold text-xl text-center pt-6 text-gray-800 dark:text-gray-200 leading-tight">
-                            {{ $heading }}
-                        </h2>
-                    @endif
-
-                    <div class="mt-12 mx-5">
-                        {{ $slot }}
-                    </div>
-                </main>
-
-            <footer class="w-full lg:max-w-[1180px] mx-auto">
-                @include('layouts.footer')
-            </footer>
-        </div>
-    </body>
+    <footer class="w-full lg:max-w-[1180px] mx-auto">
+        @include('layouts.footer')
+    </footer>
+</div>
+</body>
 </html>
