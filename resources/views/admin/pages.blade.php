@@ -11,7 +11,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-xl">
                     <table class="table-auto w-full divide-y divide-gray-200 border-spacing-2 mt-6">
                         <caption class="caption-top text-right p-4">
-                            <a class="underline" href="{{ route('admin.pages.index', ['id' => -1]) }}">
+                            <a class="underline" href="{{ route('admin.pages.create') }}">
                                 {{ __('admin/pages.create') }}
                             </a>
                         </caption>

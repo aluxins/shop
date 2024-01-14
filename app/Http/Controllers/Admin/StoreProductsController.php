@@ -43,8 +43,8 @@ class StoreProductsController extends Controller
         //Валидация входных данных.
         $validated = $request->validate([
             'section' => 'required|integer|min:1',
-            'name'    => 'required|string|max:256',
-            'article'    => ['required','string','max:32',
+            'name'    => 'required|string|max:255',
+            'article'    => ['required','string','max:31',
 
                 // Проверка уникальности поля article. Если редактируется товар и
                 // артикул не изменился, то проверка не выполняется.
@@ -55,9 +55,9 @@ class StoreProductsController extends Controller
                     ),
                 ],
 
-            'description' => 'max:65535',
+            'description' => 'max:65534',
             'brand' => 'nullable|integer',
-            'brand_new' => 'nullable|string|max:256|unique:store_brands,name',
+            'brand_new' => 'nullable|string|max:255|unique:store_brands,name',
             'price' => 'required|numeric|between:0,999999.99',
             'old_price' => 'required|numeric|between:0,999999.99',
             'available' => 'integer',
@@ -65,7 +65,7 @@ class StoreProductsController extends Controller
             'images' => 'nullable|array',
             'images.*' => 'nullable|mimes:jpg,png,gif,webp|dimensions:max_width=3000,max_height=3000|max:5120',
             'sort' => 'nullable|array',
-            'sort.*' => 'nullable|numeric|min:-128|max:127',
+            'sort.*' => 'nullable|numeric|min:-127|max:127',
          ]);
 
         $product = $id ? StoreProduct::find($id) : new StoreProduct();

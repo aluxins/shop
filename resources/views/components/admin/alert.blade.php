@@ -1,5 +1,5 @@
 @if($message)
-    <div class="text-center w-1/2 text-2xl mt-12 p-2 mx-auto">
+    <div class="text-center w-1/2 text-xl mt-12 p-2 mx-auto">
         @switch($message)
             @case('update')
                 <div class="text-green-500">{{ __('Изменения сохранены') }}</div>

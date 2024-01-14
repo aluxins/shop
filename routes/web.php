@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{ProfileController, CatalogController, ProductController, AccountController, CartController, OrderController};
+use App\Http\Controllers\{ProfileController, CatalogController, ProductController, AccountController, CartController, OrderController, PagesController};
 use App\Http\Controllers\Admin\{StoreProductsController, StoreSectionsController, StorePagesController};
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-})->name('index');;
+})->name('index');
 
 Route::get('/catalog/{id?}', [CatalogController::class, 'index'])->name('catalog');
 
@@ -25,6 +25,8 @@ Route::redirect('/product', '/catalog');
 Route::get('/product/{id?}', [ProductController::class, 'index'])->name('product');
 
 Route::post('/cart', [CartController::class, 'index'])->name('cart');
+
+Route::get('/pages/{id}', [PagesController::class, 'index'])->name('pages');
 /*
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -74,8 +76,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::controller(StorePagesController::class)->group(function () {
         Route::get('/pages', 'index')->name('pages.index');
+        Route::get('/pages/new', 'update')->name('pages.create');
         Route::get('/pages/{id}', 'update')->name('pages.update');
-        Route::post('/pages/{id}', 'create')->name('pages.create');
+        Route::post('/pages/{id}', 'store')->name('pages.store');
     });
 
 });

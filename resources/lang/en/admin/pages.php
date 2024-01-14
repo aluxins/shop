@@ -2,6 +2,7 @@
 return [
     'titleList' => 'Pages list',
     'titleId' => 'Page # :id',
+    'titleNew' => 'New page',
     'page' => 'Page',
     'name' => 'Name',
     'url' => 'URL',

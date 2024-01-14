@@ -6,17 +6,19 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-pages type="desktop" />
                     {{--
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    --}}
+
 
                     @auth
                     <x-nav-link :href="route('account.index')" :active="request()->routeIs('account.index')">
                         {{ __('navigation.account') }}
                     </x-nav-link>
                     @endauth
+                    --}}
                 </div>
 
                 <!-- Cart -->
@@ -100,16 +102,19 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="absolute right-0 mx-4 p-2 rounded-md ring-1 ring-black ring-opacity-5 bg-white dark:bg-gray-700 hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
+            <x-pages type="mobile" />
             {{--
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            --}}
+
+
             @auth
             <x-responsive-nav-link :href="route('account.index')" :active="request()->routeIs('account.index')">
                 {{ __('navigation.account') }}
             </x-responsive-nav-link>
             @endauth
+            --}}
         </div>
 
         @auth

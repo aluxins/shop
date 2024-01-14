@@ -23,15 +23,7 @@ foreach($arr_for as $key => $value)
 @endphp
 @props($arr)
 
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+<x-admin.error />
 
 <form action="{{ route('admin.products.store', ['id' => $id]) }}"
       method="post" class="f-table" enctype="multipart/form-data">
@@ -55,7 +47,7 @@ foreach($arr_for as $key => $value)
             <td>
                 <label>
                     <input type="text" class="form-input m-1 w-3/4" name="name"
-                           maxlength="256" value="{{ $name }}" />
+                           maxlength="255" value="{{ $name }}" />
                 </label>
             </td>
         </tr>
@@ -66,7 +58,7 @@ foreach($arr_for as $key => $value)
             <td>
                 <label>
                     <input type="text" class="form-input m-1 w-3/4" name="article"
-                           maxlength="32" value="{{ $article }}" />
+                           maxlength="31" value="{{ $article }}" />
                 </label>
             </td>
         </tr>
@@ -99,7 +91,8 @@ foreach($arr_for as $key => $value)
                     </select>
                     <input type="text" class="form-input m-1 w-3/4" name="brand_new"
                            title="" placeholder="Новый бренд"
-                           maxlength="256" value="{{ $brand_new }}"
+                           maxlength="255
+                           " value="{{ $brand_new }}"
                     />
 
                 </label>
@@ -112,7 +105,7 @@ foreach($arr_for as $key => $value)
             <td>
                 <label>
                     <input type="text" class="form-input m-1 w-3/4" name="price"
-                           maxlength="11" value="{{ $price }}" />
+                           maxlength="9" value="{{ $price }}" />
                 </label>
             </td>
         </tr>
@@ -123,7 +116,7 @@ foreach($arr_for as $key => $value)
             <td>
                 <label>
                     <input type="text" class="form-input m-1 w-3/4" name="old_price"
-                           maxlength="11" value="{{ $old_price }}" />
+                           maxlength="9" value="{{ $old_price }}" />
                 </label>
             </td>
         </tr>
