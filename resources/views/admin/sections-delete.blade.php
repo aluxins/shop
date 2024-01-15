@@ -1,13 +1,20 @@
 <x-app-layout>
-    <x-admin.navigation />
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Delete Sections') }}
-        </h2>
+
+    <x-slot name="title">
+        {{ __('admin/sections.delete.title') }}
     </x-slot>
-    <x-admin.alert />
-    <div class="py-12">
+
+    <x-slot name="heading">
+        {{ __('admin/sections.delete.title') }}
+    </x-slot>
+
+    <x-slot name="header">
+        @include('layouts.header', ['open' => false])
+    </x-slot>
+
+    <div class="w-auto">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <x-admin.navigation />
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <x-admin.tree
@@ -20,12 +27,12 @@
                         <table class="container table-auto border border-collapse
                         border-gray-400 mx-auto shadow-lg">
                             <caption class="caption-top mt-3 text-lg font-medium">
-                                Удалить раздел и все вложенные разделы?
+                                {{ __('admin/sections.delete.question') }}
                             </caption>
                             <caption class="caption-bottom mt-3">
                                 <button class="rounded-xl shadow-lg w-1/4 p-2 text-white
                                 bg-red-500 hover:bg-red-600 hover:shadow-xl">
-                                    Удалить
+                                    {{ __('admin/sections.delete.button') }}
                                 </button>
                             </caption>
                             <tbody>

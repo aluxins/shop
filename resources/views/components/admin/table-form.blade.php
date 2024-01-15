@@ -20,13 +20,13 @@
         shadow-lg">
             <caption class="caption-top text-right p-4">
                 <a class="underline" href="{{route('admin.sections.create', $id)}}">
-                    Создать новый раздел
+                    {{ __('admin/sections.create') }}
                 </a>
             </caption>
             <caption class="caption-bottom mt-3">
                 <button class="rounded-xl shadow-lg w-1/4 p-2 text-white bg-sky-500
                 hover:bg-sky-600 hover:shadow-xl">
-                    Сохранить
+                    {{ __('admin/sections.save') }}
                 </button>
             </caption>
             <thead>
@@ -70,9 +70,11 @@
                                 {{($el['link'])?'':'checked'}} />
                         </label>
                     </td>
-                    <td>
-                        <a href="{{route('admin.sections.index', $el['id'])}}">Войти</a>
-                        <a href="{{route('admin.sections.delete', $el['id'])}}">&#10007;</a>
+                    <td class="px-2">
+                        <div class="flex flex-row justify-between gap-2">
+                            <a class="border p-2 rounded hover:bg-gray-200" href="{{route('admin.sections.index', $el['id'])}}">{{ __('admin/sections.enter') }}</a>
+                            <a class="border p-2 rounded hover:bg-gray-200" href="{{route('admin.sections.delete', $el['id'])}}">X</a>
+                        </div>
                     </td>
                 </tr>
             @endforeach

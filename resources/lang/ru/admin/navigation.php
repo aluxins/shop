@@ -4,4 +4,5 @@ return [
     'products' => 'Товары',
     'sections' => 'Разделы',
     'pages' => 'Страницы',
+    'settings' => 'Настройки',
 ];

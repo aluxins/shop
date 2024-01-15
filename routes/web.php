@@ -1,7 +1,14 @@
 <?php
 
-use App\Http\Controllers\{ProfileController, CatalogController, ProductController, AccountController, CartController, OrderController, PagesController};
-use App\Http\Controllers\Admin\{StoreProductsController, StoreSectionsController, StorePagesController};
+use App\Http\Controllers\{
+    ProfileController, CatalogController, ProductController, AccountController,
+    CartController, OrderController, PagesController
+};
+
+use App\Http\Controllers\Admin\{
+    StoreProductsController, StoreSectionsController, StorePagesController, StoreSettingsController
+};
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -79,6 +86,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/pages/new', 'update')->name('pages.create');
         Route::get('/pages/{id}', 'update')->name('pages.update');
         Route::post('/pages/{id}', 'store')->name('pages.store');
+    });
+
+    Route::controller(StoreSettingsController::class)->group(function () {
+        Route::get('/settings', 'index')->name('settings.index');
+        Route::post('/settings', 'update')->name('settings.update');
     });
 
 });

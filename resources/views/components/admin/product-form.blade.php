@@ -36,13 +36,13 @@ foreach($arr_for as $key => $value)
         <caption class="caption-bottom mt-3">
             <button class="rounded-xl shadow-lg w-1/4 p-2 text-white
                                 bg-sky-500 hover:bg-sky-600 hover:shadow-xl">
-                Сохранить
+                {{ __('admin/products.form.button') }}
             </button>
         </caption>
         <tbody class="divide-y text-center">
         <tr class="divide-x hover:bg-slate-50">
             <td class="font-medium">
-                {{ __('Название') }}
+                {{ __('admin/products.form.name') }}
             </td>
             <td>
                 <label>
@@ -53,7 +53,7 @@ foreach($arr_for as $key => $value)
         </tr>
         <tr class="divide-x hover:bg-slate-50">
             <td class="font-medium">
-                {{ __('Артикул') }}
+                {{ __('admin/products.form.article') }}
             </td>
             <td>
                 <label>
@@ -64,12 +64,12 @@ foreach($arr_for as $key => $value)
         </tr>
         <tr class="divide-x hover:bg-slate-50">
             <td class="font-medium">
-                {{ __('Раздел') }}
+                {{ __('admin/products.form.section') }}
             </td>
             <td>
                 <label>
                     <select class="form-select w-3/4" name="section">
-                        <option>Выберите раздел:</option>
+                        <option>{{ __('admin/products.form.select') }}:</option>
                         <x-menu.index idStart="0" type="select" :selected="$section" />
                     </select>
                 </label>
@@ -77,7 +77,7 @@ foreach($arr_for as $key => $value)
         </tr>
         <tr class="divide-x hover:bg-slate-50">
             <td class="font-medium">
-                {{ __('Бренд') }}
+                {{ __('admin/products.form.brand') }}
             </td>
             <td>
                 <label>
@@ -90,7 +90,7 @@ foreach($arr_for as $key => $value)
                         @endforeach
                     </select>
                     <input type="text" class="form-input m-1 w-3/4" name="brand_new"
-                           title="" placeholder="Новый бренд"
+                           title="" placeholder="{{ __('admin/products.form.newBrand') }}"
                            maxlength="255
                            " value="{{ $brand_new }}"
                     />
@@ -100,7 +100,7 @@ foreach($arr_for as $key => $value)
         </tr>
         <tr class="divide-x hover:bg-slate-50">
             <td class="font-medium">
-                {{ __('Цена') }}
+                {{ __('admin/products.form.price') }}
             </td>
             <td>
                 <label>
@@ -111,7 +111,7 @@ foreach($arr_for as $key => $value)
         </tr>
         <tr class="divide-x hover:bg-slate-50">
             <td class="font-medium">
-                {{ __('Старая цена') }}
+                {{ __('admin/products.form.oldPrice') }}
             </td>
             <td>
                 <label>
@@ -122,7 +122,7 @@ foreach($arr_for as $key => $value)
         </tr>
         <tr class="divide-x hover:bg-slate-50">
             <td class="font-medium">
-                {{ __('Количество') }}
+                {{ __('admin/products.form.available') }}
             </td>
             <td>
                 <label>
@@ -133,7 +133,7 @@ foreach($arr_for as $key => $value)
         </tr>
         <tr class="divide-x hover:bg-slate-50">
             <td class="font-medium">
-                {{ __('Описание') }}
+                {{ __('admin/products.form.description') }}
             </td>
             <td>
                 <label>
@@ -143,7 +143,7 @@ foreach($arr_for as $key => $value)
         </tr>
         <tr class="divide-x hover:bg-slate-50">
             <td class="font-medium">
-                {{ __('Видимость') }}
+                {{ __('admin/products.form.visible') }}
             </td>
             <td>
                 <label class="px-2"> {{ __('Вкл') }}
@@ -156,7 +156,7 @@ foreach($arr_for as $key => $value)
         </tr>
         <tr class="divide-x hover:bg-slate-50">
             <td class="font-medium">
-                {{ __('Загрузить') }}
+                {{ __('admin/products.form.upload') }}
             </td>
             <td>
                 <label class="px-2">
@@ -167,14 +167,14 @@ foreach($arr_for as $key => $value)
         </tr>
         <tr class="divide-x hover:bg-slate-50">
             <td class="font-medium">
-                {{ __('Изображения') }}
+                {{ __('admin/products.form.images') }}
             </td>
             <td class="flex flex-wrap gap-4 justify-center p-4">
                 @foreach($images as $image)
                     <div class="border bg-slate-100 relative grid grid-cols-1 gap-1 justify-items-center content-between p-2 rounded w-fit">
                         <div class="absolute w-16 h-16 right-0">
                             <a href="{{route('admin.products.imageDelete', ['id' => $id, 'image' => $image['id']])}}"
-                            title="Удалить изображение?">X</a>
+                            title="{{ __('admin/products.form.deleteImage') }}">X</a>
                         </div>
                         <a class="w-1/2" target="_blank" href="{{Storage::url(
                             config('image.folder').config('image.modification.original.prefix').$image['name']
@@ -201,7 +201,7 @@ foreach($arr_for as $key => $value)
         @csrf
         {{ method_field('DELETE') }}
     <button>
-        Удалить товар
+        {{ __('admin/products.form.deleteProduct') }}
     </button>
     </form>
     @endif

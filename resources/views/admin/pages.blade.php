@@ -1,13 +1,20 @@
 <x-app-layout>
-    <x-admin.navigation />
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('admin/pages.titleList') }}
-        </h2>
+
+    <x-slot name="title">
+        {{ __('admin/pages.titleList') }}
     </x-slot>
 
-    <div class="py-12">
+    <x-slot name="heading">
+        {{ __('admin/pages.titleList') }}
+    </x-slot>
+
+    <x-slot name="header">
+        @include('layouts.header', ['open' => false])
+    </x-slot>
+
+    <div class="w-auto">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <x-admin.navigation />
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-xl">
                     <table class="table-auto w-full divide-y divide-gray-200 border-spacing-2 mt-6">
                         <caption class="caption-top text-right p-4">

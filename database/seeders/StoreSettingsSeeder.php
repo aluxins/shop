@@ -24,6 +24,9 @@ class StoreSettingsSeeder extends Seeder
             // ID администратора
             'store_admin' => json_encode(['1']),
 
+            // Copyright нижнего колонтитула
+            'footer_copyright' => 'Your Company, Inc. All rights reserved.',
+
             // 'key' => 'value',
         ];
 

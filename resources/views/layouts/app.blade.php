@@ -14,7 +14,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @vite(['resources/css/dropdown-menu.css'])
-        @if(request()->is('admin/*'))
+        @if(request()->is('admin/*') and false)
             @vite(['/node_modules/tinymce/tinymce.min.js'])
         @endif
 </head>
@@ -31,6 +31,11 @@
 
         <!-- Page Content -->
         <main class="w-full lg:max-w-[1180px] mx-auto">
+
+            <!-- Message -->
+            <div class="text-center my-4">
+                <x-message-flash />
+            </div>
 
             <!-- Page Title -->
             @if (isset($heading))

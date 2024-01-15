@@ -4,6 +4,6 @@
         <x-pages type="" />
     </div>
     <div class="py-6 text-sm text-gray-500 text-center">
-        © 2020 Your Company, Inc. All rights reserved.
+        {{ $siteSettings['footer_copyright'] ?? '' }}
     </div>
 </div>

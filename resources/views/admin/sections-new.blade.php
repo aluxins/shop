@@ -1,13 +1,20 @@
 <x-app-layout>
-    <x-admin.navigation />
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Store Sections') }}
-        </h2>
+
+    <x-slot name="title">
+        {{ __('admin/sections.new.title') }}
     </x-slot>
-    <x-admin.alert />
-    <div class="py-12">
+
+    <x-slot name="heading">
+        {{ __('admin/sections.new.title') }}
+    </x-slot>
+
+    <x-slot name="header">
+        @include('layouts.header', ['open' => false])
+    </x-slot>
+
+    <div class="w-auto">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <x-admin.navigation />
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <x-admin.tree
@@ -18,56 +25,57 @@
                     @csrf
                         <table class="container table-auto border border-collapse
                         border-gray-400 mx-auto shadow-lg">
-                            <caption class="caption-top mt-3 text-lg font-medium">
-                                Создание нового раздела
-                            </caption>
                             <caption class="caption-bottom mt-3">
                                 <button class="rounded-xl shadow-lg w-1/4 p-2 text-white
                                 bg-sky-500 hover:bg-sky-600 hover:shadow-xl">
-                                    Сохранить
+                                    {{ __('admin/sections.new.save') }}
                                 </button>
                             </caption>
                             <tbody class="divide-y text-center">
                                 <tr class="divide-x hover:bg-slate-50">
                                     <td class="font-medium">
-                                        {{ __('Название раздела') }}
+                                        {{ __('admin/sections.new.name') }}
                                     </td>
                                     <td>
-                                        <input type="text" class="form-input m-1 w-3/4" name="name"
-                                               maxlength="64" />
+                                        <label>
+                                            <input type="text" class="form-input m-1 w-3/4" name="name"
+                                                   maxlength="64" />
+                                        </label>
                                     </td>
                                 </tr>
                                 <tr class="divide-x hover:bg-slate-50">
                                     <td class="font-medium">
-                                        {{ __('Сортировка') }}
+                                        {{ __('admin/sections.new.sort') }}
                                     </td>
                                     <td>
-                                        <input type="number" class="form-input m-1 w-20" value="100"
-                                               name="sort" />
+                                        <label>
+                                            <input type="number" class="form-input m-1 w-20" value="100"
+                                                   name="sort" />
+                                        </label>
                                     </td>
                                 </tr>
                                 <tr class="divide-x hover:bg-slate-50">
                                     <td class="font-medium">
-                                        {{ __('Видимость') }}
+                                        {{ __('admin/sections.new.visible') }}
                                     </td>
                                     <td>
-                                        <label class="px-2"> {{ __('Вкл') }}
+                                        <label class="px-2"> {{ __('admin/sections.new.on') }}
                                             <input type="radio" class="cursor-pointer" value="1" name="visible" checked />
                                         </label>
-                                        <label class="px-2"> {{ __('Выкл') }}
+                                        <label class="px-2"> {{ __('admin/sections.new.off') }}
                                             <input type="radio" class="cursor-pointer" value="0" name="visible" />
                                         </label>
                                     </td>
                                 </tr>
                                 <tr class="divide-x hover:bg-slate-50">
                                     <td class="font-medium">
-                                        {{ __('Гиперссылка') }}
+                                        {{ __('admin/sections.new.url') }}
                                     </td>
                                     <td>
-                                        <label class="px-2"> {{ __('Вкл') }}
+                                        <label class="px-2"> {{ __('admin/sections.new.on') }}
                                             <input type="radio" class="cursor-pointer" value="1" name="link" checked />
                                         </label>
-                                        <label class="px-2"> {{ __('Выкл') }}
+                                        <label class="px-2"> {{ __('admin/sections.new.off') }}
                                             <input type="radio" class="cursor-pointer" value="0" name="link" />
                                         </label>
                                     </td>

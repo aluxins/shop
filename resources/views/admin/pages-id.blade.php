@@ -1,25 +1,33 @@
 <x-app-layout>
-    <x-admin.navigation />
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ $id ? __('admin/pages.titleId', ['id' => $id]) : __('admin/pages.titleNew') }}
-        </h2>
+
+    <x-slot name="title">
+        {{ $id ? __('admin/pages.titleId', ['id' => $id]) : __('admin/pages.titleNew') }}
     </x-slot>
 
-    <div class="py-12">
+    <x-slot name="heading">
+        {{ $id ? __('admin/pages.titleId', ['id' => $id]) : __('admin/pages.titleNew') }}
+    </x-slot>
+
+    <x-slot name="header">
+        @include('layouts.header', ['open' => false])
+    </x-slot>
+
+    <div class="w-auto">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <x-admin.navigation />
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-xl">
-                <x-admin.alert />
                 <x-admin.error />
                     <script type="module">
                         tinymce.init({selector: '#body'});
                     </script>
                     <form method="post" action="{{ route('admin.pages.store', ['id' => $id]) }}">
                         @csrf
-                        <table class="table-auto w-full divide-y divide-gray-200 border-spacing-2">
+                        <table class="table-auto w-full divide-y divide-gray-200 border-spacing-2 rounded-xl">
+                            {{--
                             <caption class="caption-top text-xl py-4">
                                 {{ $id ? __('admin/pages.titleId', ['id' => $id]) : __('admin/pages.titleNew') }}
                             </caption>
+                            --}}
                             <caption class="caption-bottom py-4">
                                 <button class="rounded-xl shadow-lg w-1/4 p-2 text-white
                                 bg-sky-500 hover:bg-sky-600 hover:shadow-xl">
