@@ -6,7 +6,8 @@ use App\Http\Controllers\{
 };
 
 use App\Http\Controllers\Admin\{
-    StoreProductsController, StoreSectionsController, StorePagesController, StoreSettingsController
+    StoreProductsController, StoreSectionsController, StorePagesController, StoreSettingsController,
+    StoreOrdersController
 };
 
 use Illuminate\Support\Facades\Route;
@@ -91,6 +92,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::controller(StoreSettingsController::class)->group(function () {
         Route::get('/settings', 'index')->name('settings.index');
         Route::post('/settings', 'update')->name('settings.update');
+    });
+
+    Route::controller(StoreOrdersController::class)->group(function () {
+        Route::get('/orders', 'index')->name('orders.index');
+        Route::post('/orders', 'index')->name('orders.index');
+        Route::get('/orders/{id}', 'order')->name('orders.order');
+        Route::post('/orders/{id}', 'update')->name('orders.update');
+        //Route::post('/orders', 'update')->name('orders.update');
     });
 
 });

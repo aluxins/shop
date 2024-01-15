@@ -11,7 +11,7 @@
         onlyChangedData("f-table");
     </script>
     <form action="{{route('admin.sections.update', $id)}}" method="post" class="f-table">
-        @if ($method === "PATCH" or $method === "PUT")
+        @if ($method == "PATCH" or $method == "PUT")
             @method($method)
         @endif
 
@@ -43,12 +43,16 @@
                         {{$el['id']}}
                     </td>
                     <td>
-                        <input type="text" class="form-input m-1 w-3/4" value="{{$el['name']}}"
-                               name="name[{{$el['id']}}]" maxlength="64" />
+                        <label>
+                            <input type="text" class="form-input m-1 w-3/4" value="{{$el['name']}}"
+                                   name="name[{{$el['id']}}]" maxlength="64" />
+                        </label>
                     </td>
                     <td>
-                        <input type="number" class="form-input m-1 w-20" value="{{$el['sort']}}"
-                               name="sort[{{$el['id']}}]" />
+                        <label>
+                            <input type="number" class="form-input m-1 w-20" value="{{$el['sort']}}"
+                                   name="sort[{{$el['id']}}]" />
+                        </label>
                     </td>
                     <td>
                         <label class="px-2">

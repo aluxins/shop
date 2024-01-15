@@ -3,10 +3,12 @@
 
     @foreach([
     'panel',
+    'orders',
     'products',
     'sections',
     'pages',
     'settings',
+
     ] as $key => $val)
 
         @php
