@@ -42,8 +42,6 @@ class StorePagesController extends Controller
 
         $page->save();
 
-        //dd($validated, $id);
-
         $request->session()->flash('message', $id ? 'update' : 'store');
         return redirect()->route('admin.pages.update',
             ['id' => $page->id]);

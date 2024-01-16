@@ -16,7 +16,7 @@ class StoreSettingsSeeder extends Seeder
 
         $settings = [
             // Имена статусов заказа
-            'order_status' => json_encode(['created', 'approved', 'picking', 'prepared',
+            'order_status' => json_encode(['created', 'approved', 'packing', 'prepared',
                                             'delivered', 'completed', 'cancelled']),
             // Статусы не активных заказов
             'status_inactive' => json_encode(['5', '6']),

@@ -12,14 +12,14 @@
         </caption>
         <thead>
         <tr class="bg-slate-50 divide-x">
-            <th class="p-2">{{ __('admin/settings.key') }}</th>
-            <th class="p-2">{{ __('admin/settings.value') }}</th>
+            <th class="w-1/4 p-2">{{ __('admin/settings.key') }}</th>
+            <th class="w-3/4 p-2">{{ __('admin/settings.value') }}</th>
         </tr>
         </thead>
         <tbody class="divide-y text-center">
         @foreach($settings as $setting)
             <tr class="divide-x hover:bg-slate-50">
-                <td>
+                <td class="w-1/4">
                     {{--
                     <label>
                         <input hidden type="text" class="form-input m-1 w-3/4" value="{{  $setting['key'] }}"
@@ -28,10 +28,11 @@
                     --}}
                     {{ $setting['key'] }}
                 </td>
-                <td>
-                    <label>
-                        <input type="text" class="form-input m-1 w-5/6" value="{{ $setting['value'] }}"
-                               name="value[{{ $setting['id'] }}]" maxlength="255" />
+                <td class="w-3/4">
+                    <input type="text" class="form-input m-1 w-5/6" value="{{ $setting['value'] }}"
+                               id="value[{{ $setting['id'] }}]" name="value[{{ $setting['id'] }}]" maxlength="255" />
+                    <label for="value[{{ $setting['id'] }}]" class="block text-sm text-left text-gray-400 px-6">
+                        {{ __('admin/settings.description.' . $setting['key']) }}
                     </label>
                 </td>
             </tr>

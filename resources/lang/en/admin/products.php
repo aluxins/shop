@@ -3,8 +3,8 @@ return[
     'title' => 'Products',
 
     'search' => [
-        'name' => 'Search by',
-        'article' => 'article',
+        'name' => 'Search',
+        'article' => 'Article',
         'id' => 'ID',
         'or' => 'or',
         'button' => 'Go',

@@ -25,15 +25,21 @@ class AppServiceProvider extends ServiceProvider
 
         $seconds = 3600;
         $settings = cache()->remember('siteSettings', $seconds, function () {
-            return StoreSettings::select('key', 'value')->get()->toArray();
+            $data = [];
+            foreach (StoreSettings::select('key', 'value')->get()->toArray() as $param){
+                $data[$param['key']] =
+                    json_decode($param['value'], true) ?? $param['value'];
+            }
+            return $data;
         });
-
+/*
         $data = [];
         foreach ($settings as $param){
             $data[$param['key']] =
                 json_decode($param['value'], true) ?? $param['value'];
         }
+*/
 
-        View::share('siteSettings', $data);
+        View::share('siteSettings', $settings);
     }
 }

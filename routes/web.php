@@ -7,7 +7,7 @@ use App\Http\Controllers\{
 
 use App\Http\Controllers\Admin\{
     StoreProductsController, StoreSectionsController, StorePagesController, StoreSettingsController,
-    StoreOrdersController
+    StoreOrdersController, StorePanelController
 };
 
 use Illuminate\Support\Facades\Route;
@@ -60,9 +60,9 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    Route::get('/', function () {
-        return view('admin.index');
-    })->name('panel.index');
+    Route::controller(StorePanelController::class)->group(function () {
+        Route::get('/', 'index')->name('panel.index');
+    });
 
 
     Route::controller(StoreSectionsController::class)->group(function () {
