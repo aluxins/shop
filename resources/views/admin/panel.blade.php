@@ -31,7 +31,7 @@
                                 <div class="text-lg font-semibold antialiased border-b text-center p-2">{{ __('admin/panel.' . $key) }}</div>
                                 <div class="text-center text-md p-2">{{ __('admin/panel.total') }}
                                     <span class="text-xl">
-                                        {{ $tables[array_search($val, array_column($tables, 'TABLE_NAME'))]->TABLE_ROWS }}
+                                        {{ $tables[$val] ?? '' }}
                                     </span>
                                 </div>
                             </div>

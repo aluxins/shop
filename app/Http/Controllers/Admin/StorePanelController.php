@@ -20,6 +20,16 @@ class StorePanelController extends Controller
             ])
             ->get()->toArray();
 
+        $tables = [
+            'store_orders' => DB::table('store_orders')->count(),
+            'store_pages' => DB::table('store_pages')->count(),
+            'store_products' => DB::table('store_products')->count(),
+            'store_sections' => DB::table('store_sections')->count(),
+            'store_settings' => DB::table('store_settings')->count(),
+            'users' => DB::table('users')->count(),
+        ];
+
+
         return view('admin.panel', ['tables' => $tables]);
     }
 
