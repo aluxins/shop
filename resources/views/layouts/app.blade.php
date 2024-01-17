@@ -14,17 +14,19 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @vite(['resources/css/dropdown-menu.css'])
-        @if(request()->is('admin/*') and false)
+        @if(request()->is('admin/*') and cache('siteSettings')['wysiwyg_editor'])
             @vite(['/node_modules/tinymce/tinymce.min.js'])
+            <script type="module">
+                tinymce.init({selector: '.wysiwyg'});
+            </script>
         @endif
 </head>
 <body class="font-sans antialiased">
-<div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-
+<div class="min-h-screen bg-gray-100">
 
     <!-- Page Heading -->
     @if (isset($header))
-        <header class="bg-white w-full lg:max-w-[1180px] mx-auto dark:bg-gray-800 shadow flex flex-row items-center pl-1 lg:p-5 justify-start">
+        <header class="bg-white w-full lg:max-w-[1180px] mx-auto shadow flex flex-row items-center pl-1 lg:p-5 justify-start">
             {{ $header }}
         </header>
     @endif
@@ -39,7 +41,7 @@
 
             <!-- Page Title -->
             @if (isset($heading))
-                <h2 class="font-semibold text-xl text-center pt-6 text-gray-800 dark:text-gray-200 leading-tight">
+                <h2 class="font-semibold text-xl text-center pt-6 text-gray-800 leading-tight">
                     {{ $heading }}
                 </h2>
             @endif

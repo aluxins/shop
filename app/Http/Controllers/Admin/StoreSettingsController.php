@@ -7,6 +7,7 @@ use App\Models\StoreSettings;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\Providers\AppServiceProvider;
 
 class StoreSettingsController extends Controller
 {
@@ -29,8 +30,11 @@ class StoreSettingsController extends Controller
             }
         }
 
-        // Отчистка кэша
+        // Отчистка кэша siteSettings
         cache()->forget('siteSettings');
+
+        // Перезагрузка кэша siteSettings
+        AppServiceProvider::siteSettings();
 
         $request->session()->flash('message', 'update');
         return redirect()->route('admin.settings.index');

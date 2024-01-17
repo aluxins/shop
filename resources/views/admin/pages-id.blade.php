@@ -17,9 +17,6 @@
             <x-admin.navigation />
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-xl">
                 <x-admin.error />
-                    <script type="module">
-                        tinymce.init({selector: '#body'});
-                    </script>
                     <form method="post" action="{{ route('admin.pages.store', ['id' => $id]) }}">
                         @csrf
                         <table class="table-auto w-full divide-y divide-gray-200 border-spacing-2 rounded-xl">
@@ -52,7 +49,7 @@
                                 <tr class="divide-x hover:bg-slate-50">
                                     <td colspan="2">
                                         <label for="body"></label>
-                                        <textarea id="body" name="body">{{ !empty(old('body')) ? old('body') : $pages['body'] ?? '' }}</textarea>
+                                        <textarea class="wysiwyg w-full h-96" id="body" name="body">{{ !empty(old('body')) ? old('body') : $pages['body'] ?? '' }}</textarea>
                                     </td>
                                 </tr>
 

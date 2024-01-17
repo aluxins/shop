@@ -22,7 +22,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        self::siteSettings();
+    }
 
+    public static function siteSettings(): void
+    {
         $seconds = 3600;
         $settings = cache()->remember('siteSettings', $seconds, function () {
             $data = [];
@@ -32,13 +36,6 @@ class AppServiceProvider extends ServiceProvider
             }
             return $data;
         });
-/*
-        $data = [];
-        foreach ($settings as $param){
-            $data[$param['key']] =
-                json_decode($param['value'], true) ?? $param['value'];
-        }
-*/
 
         View::share('siteSettings', $settings);
     }

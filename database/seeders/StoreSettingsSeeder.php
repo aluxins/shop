@@ -27,6 +27,9 @@ class StoreSettingsSeeder extends Seeder
             // Copyright нижнего колонтитула
             'footer_copyright' => 'Your Company, Inc. All rights reserved.',
 
+            // WYSIWYG editor on / off
+            'wysiwyg_editor' => '1',
+
             // 'key' => 'value',
         ];
 
