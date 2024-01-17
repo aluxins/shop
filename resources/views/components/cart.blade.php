@@ -8,105 +8,117 @@
         </svg>
         <span class="absolute text-red-500 top-0 right-0 text-sm"></span>
     </button>
-    <div  @keydown.window.escape="open = false" x-show="open" class="relative z-10" aria-labelledby="slide-over-title" x-ref="dialog" aria-modal="true">
+    <div x-show="open" x-cloak @keydown.window.escape="open = false" class="relative z-10" aria-labelledby="slide-over-title" x-ref="dialog" aria-modal="true">
 
-        <div x-show="open" x-transition:enter="ease-in-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in-out duration-500" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" x-description="Background backdrop, show/hide based on slide-over state." class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+        <div x-show="open" x-transition:enter="ease-in-out duration-500"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="ease-in-out duration-500"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
+            <div class="fixed inset-0 overflow-hidden">
+                <div class="absolute inset-0 overflow-hidden">
+                    <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
 
-        <div class="fixed inset-0 overflow-hidden">
-            <div class="absolute inset-0 overflow-hidden">
-                <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-
-                    <div x-show="open" x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700" x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700" x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full" class="pointer-events-auto w-screen max-w-md" x-description="Slide-over panel, show/hide based on slide-over state." @click.away="open = false">
-                        <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                            <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
-                                <div class="flex items-start justify-between">
-                                    <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">{{ __('cart.name') }}</h2>
-                                    <div class="ml-3 flex h-7 items-center">
-                                        <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500" @click="open = false">
-                                            <span class="absolute -inset-0.5"></span>
-                                            <span class="sr-only">Close panel</span>
-                                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                                            </svg>
-                                        </button>
+                        <div x-show="open" x-cloak @click.away="open = false"
+                             x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700"
+                             x-transition:enter-start="translate-x-full"
+                             x-transition:enter-end="translate-x-0"
+                             x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700"
+                             x-transition:leave-start="translate-x-0"
+                             x-transition:leave-end="translate-x-full"
+                             class="pointer-events-auto w-screen max-w-md">
+                            <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                                <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+                                    <div class="flex items-start justify-between">
+                                        <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">{{ __('cart.name') }}</h2>
+                                        <div class="ml-3 flex h-7 items-center">
+                                            <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500" @click="open = false">
+                                                <span class="absolute -inset-0.5"></span>
+                                                <span class="sr-only">Close panel</span>
+                                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <h1 class="hidden text-2xl font-light text-center text-gray-900 mt-6" id="slide-over-title">{{ __('cart.empty') }}</h1>
+                                    <h1 class="hidden text-2xl font-light text-center text-gray-900 mt-6" id="slide-over-title">{{ __('cart.empty') }}</h1>
 
-                                <div class="mt-8">
-                                    <div class="flow-root">
-                                        <ul role="list" class="-my-6 divide-y divide-gray-200">
-                                            <li class="py-6">
-                                                <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                                    <img src="{{Storage::url('/public/loading-thumb.gif')}}" alt="Загрузка" class="h-full w-full object-cover object-center">
-                                                </div>
+                                    <div class="mt-8">
+                                        <div class="flow-root">
+                                            <ul role="list" class="-my-6 divide-y divide-gray-200">
+                                                <li class="py-6">
+                                                    <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                                        <img src="{{Storage::url('/public/loading-thumb.gif')}}" alt="Загрузка" class="h-full w-full object-cover object-center">
+                                                    </div>
 
-                                                <div class="hidden ml-4 flex flex-1 flex-col">
-                                                    <div>
-                                                        <div class="flex justify-between text-base font-medium text-gray-900">
-                                                            <h3>
-                                                                <a href="#"><!-- Name --></a>
-                                                            </h3>
-                                                            <div>
-                                                            <p class="ml-4 whitespace-nowrap after:content-['{{ __('currency-icon') }}']"><!-- Price --></p>
-                                                            <p class="ml-4 whitespace-nowrap text-xs font-medium text-gray-900 align-top line-through after:content-['{{ __('currency-icon') }}']"><!-- Old Price --></p>
+                                                    <div class="hidden ml-4 flex flex-1 flex-col">
+                                                        <div>
+                                                            <div class="flex justify-between text-base font-medium text-gray-900">
+                                                                <h3>
+                                                                    <a href="#"><!-- Name --></a>
+                                                                </h3>
+                                                                <div>
+                                                                <p class="ml-4 whitespace-nowrap after:content-['{{ __('currency-icon') }}']"><!-- Price --></p>
+                                                                <p class="ml-4 whitespace-nowrap text-xs font-medium text-gray-900 align-top line-through after:content-['{{ __('currency-icon') }}']"><!-- Old Price --></p>
+                                                                </div>
+                                                            </div>
+                                                            <p class="mt-1 text-sm text-gray-500"><!-- Article --></p>
+                                                        </div>
+                                                        <div class="flex flex-1 items-end justify-between text-sm">
+                                                            <p class="text-gray-500">
+                                                                <label>
+                                                                    <!-- Quantity -->
+                                                                    <input type="number" class="form-input w-20 rounded-2xl" value="" name="quantity" min="1" max="999" />
+                                                                </label>
+                                                            </p>
+
+                                                            <div class="flex">
+                                                                <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">{{ __('cart.delete') }}</button>
                                                             </div>
                                                         </div>
-                                                        <p class="mt-1 text-sm text-gray-500"><!-- Article --></p>
                                                     </div>
-                                                    <div class="flex flex-1 items-end justify-between text-sm">
-                                                        <p class="text-gray-500">
-                                                            <label>
-                                                                <!-- Quantity -->
-                                                                <input type="number" class="form-input w-20 rounded-2xl" value="" name="quantity" min="1" max="999" />
-                                                            </label>
-                                                        </p>
-
-                                                        <div class="flex">
-                                                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">{{ __('cart.delete') }}</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="cart-order border-t border-gray-200 px-4 py-6 sm:px-6">
-                                <div class="flex justify-between text-base font-medium text-gray-900">
-                                    <p>{{ __('cart.subtotal') }}</p>
-                                    <p class="full whitespace-nowrap line-through after:content-['{{ __('currency-icon') }}']"></p>
-                                </div>
-                                <div class="flex justify-between text-sm font-medium text-red-500">
-                                    <p>{{ __('cart.discount') }}</p>
-                                    <p class="sale whitespace-nowrap after:content-['{{ __('currency-icon') }}']"></p>
-                                </div>
-                                <div class="flex justify-between text-base font-medium text-gray-900">
-                                    <p>{{ __('cart.total') }}</p>
-                                    <p class="total whitespace-nowrap after:content-['{{ __('currency-icon') }}']"></p>
-                                </div>
-                                <p class="mt-0.5 text-sm text-gray-500">{{ __('cart.description') }}</p>
-                                <div class="mt-6">
-                                    <a href="{{ route('order.create') }}" class="flex items-center justify-center rounded-2xl border border-transparent bg-yellow-500
-                                        px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-yellow-600">{{ __('cart.checkout') }}</a>
-                                </div>
-                                <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
-                                    <p>
-                                        <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500" @click="open = false">
-                                            {{ __('cart.continue') }}
-                                            <span aria-hidden="true"> →</span>
-                                        </button>
-                                    </p>
+                                <div class="cart-order border-t border-gray-200 px-4 py-6 sm:px-6">
+                                    <div class="flex justify-between text-base font-medium text-gray-900">
+                                        <p>{{ __('cart.subtotal') }}</p>
+                                        <p class="full whitespace-nowrap line-through after:content-['{{ __('currency-icon') }}']"></p>
+                                    </div>
+                                    <div class="flex justify-between text-sm font-medium text-red-500">
+                                        <p>{{ __('cart.discount') }}</p>
+                                        <p class="sale whitespace-nowrap after:content-['{{ __('currency-icon') }}']"></p>
+                                    </div>
+                                    <div class="flex justify-between text-base font-medium text-gray-900">
+                                        <p>{{ __('cart.total') }}</p>
+                                        <p class="total whitespace-nowrap after:content-['{{ __('currency-icon') }}']"></p>
+                                    </div>
+                                    <p class="mt-0.5 text-sm text-gray-500">{{ __('cart.description') }}</p>
+                                    <div class="mt-6">
+                                        <a href="{{ route('order.create') }}" class="flex items-center justify-center rounded-2xl border border-transparent bg-yellow-500
+                                            px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-yellow-600">{{ __('cart.checkout') }}</a>
+                                    </div>
+                                    <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
+                                        <p>
+                                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500" @click="open = false">
+                                                {{ __('cart.continue') }}
+                                                <span aria-hidden="true"> →</span>
+                                            </button>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-        </div>
+
     </div>
 </div>
