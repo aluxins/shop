@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <x-slot name="title">
-        {{ __("Catalog") }}
+        {{ __("catalog.title") }}
     </x-slot>
 
     <x-slot name="header">
@@ -22,7 +22,11 @@
                                 <h2 class="text-2xl font-bold tracking-tight text-gray-900">
                                     @yield('nameSection')
                                     @if($id != 0)
-                                        {{ declensionWord($products->total(), ['товар', 'товара', 'товаров']) }}
+                                        {{ declensionWord($products->total(), [
+                                                __("catalog.declension1"),
+                                                __("catalog.declension2"),
+                                                __("catalog.declension3")
+                                            ]) }}
                                     @endif
                                 </h2>
                                 <div class="my-6 grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">

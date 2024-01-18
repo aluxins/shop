@@ -37,7 +37,7 @@
         <div class="text-gray-300 text-sm">
             @if(count($arrayTree) > 0)
                 <a class="text-gray-500 font-medium" href="{{ route('catalog') }}">
-                    {{ __('catalog.home') }}
+                    {{ __('navigation.menu.home') }}
                 </a>
             @endif
             @php
@@ -49,7 +49,7 @@
                 </a>
             @endforeach
         </div>
-        @section("nameSection", $el['name'] ?? __('catalog.home'))
+        @section("nameSection", $el['name'] ?? __('navigation.menu.home'))
         @break;
 
     @case('select')

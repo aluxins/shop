@@ -72,7 +72,7 @@
                                                             <p class="text-gray-500">
                                                                 <label>
                                                                     <!-- Quantity -->
-                                                                    <input type="number" class="form-input w-20 rounded-2xl" value="" name="quantity" min="1" max="999" />
+                                                                    <input type="number" class="form-input w-20 rounded-2xl" value="" name="quantity" min="1" max="999" autocomplete="off" />
                                                                 </label>
                                                             </p>
 

@@ -10,5 +10,6 @@ return [
         'name' => 'Catalog',
         'all' => 'All',
         'close' => 'Close',
+        'home' => 'Catalog',
     ],
 ];

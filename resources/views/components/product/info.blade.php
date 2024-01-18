@@ -15,9 +15,9 @@
         <form class="cart flex flex-nowrap gap-x-1">
             <input name="product" type="hidden" value="{{ $product['id'] }}" />
             <label>
-                <input type="number" class="form-input w-16 rounded-2xl active:scale-110 active:bg-yellow-700 duration-0"
+                <input type="number" class="form-input w-16 rounded-2xl border-yellow-500 active:scale-110 duration-0"
                        value="{{ $product['available'] < 1 ? 0 : 1 }}" name="quantity" min="0" max="{{ $product['available'] }}"
-                       data-add="bg-yellow-500" />
+                       data-add="bg-yellow-500" autocomplete="off" />
             </label>
             <button class="relative rounded-2xl shadow-lg text-white bg-yellow-500 hover:bg-yellow-600 hover:shadow-xl w-full active:scale-110 active:bg-yellow-700 duration-0">
                 В корзину
