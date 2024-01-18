@@ -24,6 +24,9 @@ Route::get('/', function () {
 
 Route::get('/catalog/{id?}', [CatalogController::class, 'index'])->name('catalog');
 
+Route::post('/search', [CatalogController::class, 'search'])->name('search');
+Route::get('/search', [CatalogController::class, 'search']);//->name('search');
+
 Route::redirect('/product', '/catalog');
 Route::get('/product/{id?}', [ProductController::class, 'index'])->name('product');
 
