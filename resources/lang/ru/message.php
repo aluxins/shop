@@ -13,4 +13,5 @@ return [
     'image-delete' => 'Изображение удалено',
     'image-not-exists' => 'Изображение не найдено',
     'product-delete' => 'Товар удален',
+    'page-not-exist' => 'Страница не существует',
 ];

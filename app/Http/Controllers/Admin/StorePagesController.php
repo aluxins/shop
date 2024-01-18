@@ -15,11 +15,16 @@ class StorePagesController extends Controller
         return view('admin.pages', ['pages' => StorePages::all()->sortBy('sort')->toArray()]);
     }
 
-    public function update($id = 0): View|RedirectResponse
+    public function update(Request $request, $id = 0): View|RedirectResponse
     {
         $id = (int) $id;
-
-        return view('admin.pages-id', ['id' => $id, 'pages' => $id ? StorePages::find($id)->toArray() : [] ]);
+        $page = StorePages::find($id);
+        if(is_null($page)){
+            $request->session()->flash('message', 'page-not-exist');
+            return redirect()->route('admin.pages.index');
+        }
+        else
+            return view('admin.pages-id', ['id' => $id, 'pages' => $page->toArray()]);
     }
 
     public function store(Request $request, $id = 0): View|RedirectResponse
@@ -34,6 +39,8 @@ class StorePagesController extends Controller
 
         $page = $id ? StorePages::find($id) : new StorePages();
 
+        if(is_null($page))abort(404);
+
         $page->name = $validated['name'];
         $page->url = $validated['url'];
         $page->sort = $validated['sort'];
@@ -45,5 +52,17 @@ class StorePagesController extends Controller
         $request->session()->flash('message', $id ? 'update' : 'store');
         return redirect()->route('admin.pages.update',
             ['id' => $page->id]);
+    }
+
+    public function destroy(Request $request, $id): RedirectResponse
+    {
+        $page = StorePages::find($id);
+
+        if(is_null($page))abort(404);
+
+        $page->delete();
+
+        $request->session()->flash('message', 'delete');
+        return redirect()->route('admin.pages.index');
     }
 }

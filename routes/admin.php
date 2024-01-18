@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/pages/new', 'update')->name('pages.create');
             Route::get('/pages/{id}', 'update')->name('pages.update');
             Route::post('/pages/{id}', 'store')->name('pages.store');
+            Route::delete('/pages/{id}', 'destroy')->name('pages.delete');
         });
 
         Route::controller(StoreSettingsController::class)->group(function () {

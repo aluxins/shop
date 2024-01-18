@@ -13,4 +13,5 @@ return [
     'image-delete' => 'The image has been deleted',
     'image-not-exists' => 'The image was not found',
     'product-delete' => 'The product has been deleted',
+    'page-not-exist' => 'The page does not exist',
 ];

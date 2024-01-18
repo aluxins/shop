@@ -56,6 +56,15 @@
                             </tbody>
                         </table>
                     </form>
+                    <div class="w-full text-right p-4">
+                        <form method="post" action="{{route('admin.pages.delete', ['id' => $id])}}">
+                            @csrf
+                            {{ method_field('DELETE') }}
+                            <button>
+                                {{ __('admin/pages.delete') }}
+                            </button>
+                        </form>
+                    </div>
             </div>
         </div>
     </div>

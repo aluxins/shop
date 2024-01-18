@@ -11,4 +11,5 @@ return [
     'edit' => 'Edit',
     'button' => 'Save',
     'create' => 'Create page',
+    'delete' => 'Delete page'
 ];
