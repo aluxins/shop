@@ -5,7 +5,7 @@
             <div class="flex">
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex">
                     <x-pages type="desktop" />
                     {{--
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -22,7 +22,7 @@
                 </div>
 
                 <!-- Cart -->
-                <div class="space-x-8 -my-px flex">
+                <div class="space-x-2 md:space-x-8 -my-px flex">
                     <x-cart  />
                 </div>
 

@@ -26,7 +26,7 @@
 
     <!-- Page Heading -->
     @if (isset($header))
-        <header class="bg-white w-full lg:max-w-[1180px] mx-auto shadow flex flex-row items-center pl-1 lg:p-5 justify-start">
+        <header class="bg-white w-full lg:max-w-[1180px] mx-auto shadow flex flex-col lg:px-4 lg:py-2">
             {{ $header }}
         </header>
     @endif

@@ -30,6 +30,12 @@ class StoreSettingsSeeder extends Seeder
             // WYSIWYG editor on / off
             'wysiwyg_editor' => '1',
 
+            // Количество товаров на страницах каталога
+            'catalog_numberItems' => '9',
+
+            // Контакты компании в заголовке
+            'header_contacts' => '8-800-00-00-000',
+
             // 'key' => 'value',
         ];
 
