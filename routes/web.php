@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\{
     ProfileController, CatalogController, ProductController, AccountController,
-    CartController, OrderController, PagesController
+    CartController, OrderController, PagesController, IndexController
 };
 
 use Illuminate\Support\Facades\Route;
@@ -18,9 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
+Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::get('/catalog/{id?}', [CatalogController::class, 'index'])->name('catalog');
 

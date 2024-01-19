@@ -5,7 +5,7 @@
             <div class="flex">
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:ms-4 sm:flex">
                     <x-pages type="desktop" />
                     {{--
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">

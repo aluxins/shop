@@ -6,6 +6,7 @@ return [
     'logOut' => 'Log Out',
     'logIn' => 'Log in',
     'register' => 'Register',
+    'search' => 'Product search',
     'menu' => [
         'name' => 'Catalog',
         'all' => 'All',

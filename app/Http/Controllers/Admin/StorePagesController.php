@@ -17,14 +17,13 @@ class StorePagesController extends Controller
 
     public function update(Request $request, $id = 0): View|RedirectResponse
     {
-        $id = (int) $id;
-        $page = StorePages::find($id);
-        if(is_null($page)){
+        $page = StorePages::find((int) $id);
+        if(is_null($page) and $id != 0){
             $request->session()->flash('message', 'page-not-exist');
             return redirect()->route('admin.pages.index');
         }
         else
-            return view('admin.pages-id', ['id' => $id, 'pages' => $page->toArray()]);
+            return view('admin.pages-id', ['id' => $id, 'pages' => ($id != 0) ? $page->toArray() : []]);
     }
 
     public function store(Request $request, $id = 0): View|RedirectResponse

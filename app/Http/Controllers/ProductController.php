@@ -23,14 +23,14 @@ class ProductController extends Controller
                 DB::raw('JSON_OBJECTAGG(store_images.name, store_images.sort) as images'))
             ->groupBy('store_products.id', 'store_products.name', 'article', 'section', 'description',
                 'price', 'old_price', 'available', 'store_brands.name')
-            ->first()->toArray();
-        return $product ?
-            view('product',[
+            ->first();
+
+        if(is_null($product)) abort(404);
+
+        return view('product',[
                 'id' => $id,
-                'product' => $product,
-            ])
-        :
-            redirect()->route('catalog');
+                'product' => $product->toArray(),
+            ]);
     }
 
 }
