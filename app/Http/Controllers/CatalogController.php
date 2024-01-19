@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\RecursionArray;
 use App\Models\StoreProduct;
+use App\Models\StoreSections;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -11,9 +13,14 @@ class CatalogController extends Controller
 {
     public function index(int $id = 0): View
     {
+        // Определяем дочерние подразделы начального раздела.
+        $array_all = StoreSections::orderBy('sort')->orderBy('id')->get()->toArray();
+        $sections = RecursionArray::depth($array_all, $id, false, true);
+        $sections[] = $id;
+
         //Выполняем выборку товаров и их изображений для раздела каталога.
-        $products = StoreProduct::where(function ($query) use ($id) {
-            $query->where('section', $id);
+        $products = StoreProduct::where(function ($query) use ($sections) {
+            $query->whereIn('section', $sections);
             $query->where('visible', 1);
         })
             ->leftJoin('store_images', 'store_products.id', '=', 'store_images.product')
@@ -28,7 +35,7 @@ class CatalogController extends Controller
     public function search(Request $request): View
     {
         $validated = $request->validate([
-            'search'    => 'alpha_dash',
+            'search'    => 'max:100',
         ]);
 
         if(!empty($validated['search'])) {
@@ -60,9 +67,9 @@ class CatalogController extends Controller
                 'search' => $search,
             ]);
 
-            return view('catalog', ['id' => 0, 'search' => $validated['search'], 'products' => $products]);
+            return view('catalog', ['id' => 0, 'search' => $search, 'products' => $products]);
         }
         else
-            return view('catalog', ['id' => 0, 'search' => true, 'products' => []]);
+            return view('catalog', ['id' => 0, 'search' => '', 'products' => []]);
     }
 }
