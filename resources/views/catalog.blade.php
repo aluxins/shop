@@ -9,7 +9,8 @@
         @include('layouts.header', ['open' => true])
     </x-slot>
 
-        <div class="w-[300px] hidden pt-5 lg:block float-left">
+        <div class="w-[300px] hidden pt-80 lg:block float-left">
+            <x-brand :sections="$sections" :activeBrands="$brands" />
         </div>
 
         <div class="w-auto">

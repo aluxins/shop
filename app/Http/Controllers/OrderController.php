@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
-    public function index(Request $request, $id = 0): \Illuminate\Contracts\View\View
+    public function index(Request $request): \Illuminate\Contracts\View\View
     {
 
         // Валидация параметров фильра.
@@ -22,30 +22,7 @@ class OrderController extends Controller
             'status' => 'nullable|numeric',
         ])->validate();
 
-        $orders = $id > 0
-            // Заказ # $id
-            ? StoreOrders::where('store_orders.id', $id)->where('store_orders.user', '=', $request->user()->id)
-                ->leftJoin('store_orders_products', 'store_orders.id', '=', 'store_orders_products.order')
-                ->leftJoin('store_products', 'store_orders_products.product', '=', 'store_products.id')
-                ->select('store_orders.id','store_orders.status','store_orders.created_at','store_orders.updated_at',
-                    DB::raw('
-                        JSON_OBJECTAGG(store_orders_products.id, store_orders_products.product) as product,
-                        JSON_OBJECTAGG(store_orders_products.id, store_products.name) as name,
-                        JSON_OBJECTAGG(store_orders_products.id, store_orders_products.quantity) as quantity,
-                        JSON_OBJECTAGG(store_orders_products.id, store_orders_products.price) as price,
-                        JSON_OBJECTAGG(store_orders_products.id, (
-                            SELECT `name`
-                            FROM `store_images`
-                            WHERE `store_images`.`product` = `store_products`.`id`
-                            ORDER BY `sort`, `id` ASC
-                            limit 1
-                        ))  AS `image`
-                    '),
-                )
-                ->groupBy('id', 'status', 'created_at', 'updated_at')
-                ->first()->toArray()
-            // Список заказов пользователя.
-            : StoreOrders::where('user', $request->user()->id)
+        $orders = StoreOrders::where('user', $request->user()->id)
                 ->where(function($query) use ($validated){
                     if(!empty($validated['dateStart']))$query->where('created_at', '>=', $validated['dateStart'] . ' 00:00:00');
                     if(!empty($validated['dateEnd']))$query->where('created_at', '<=', $validated['dateEnd'] . ' 23:59:59');
@@ -58,17 +35,44 @@ class OrderController extends Controller
                 ->groupBy('id', 'status', 'created_at', 'updated_at')
                 ->orderByDesc('store_orders.id')->paginate(10);
 
+        if(is_null($orders))abort(404);
+
         // Добавляем параметры в url пагинатора.
-        if(!$id > 0)$orders->appends([
+        $orders->appends([
             'dateStart' => $validated['dateStart'] ?? '',
             'dateEnd' => $validated['dateEnd'] ?? '',
             'status' => $validated['status'] ?? '',
         ]);
 
-        return ($id > 0 and $orders)
-            ? view('order.id',['id' => $id, 'order' => $orders])
-            : view('order.list',['orders' => $orders, 'filter' => $validated]);
+        return view('order.list',['orders' => $orders, 'filter' => $validated]);
 
+    }
+
+    public function order(Request $request, $id): \Illuminate\Contracts\View\View
+    {
+        $order = StoreOrders::where('store_orders.id', $id)->where('store_orders.user', '=', $request->user()->id)
+            ->leftJoin('store_orders_products', 'store_orders.id', '=', 'store_orders_products.order')
+            ->leftJoin('store_products', 'store_orders_products.product', '=', 'store_products.id')
+            ->select('store_orders.id','store_orders.status','store_orders.created_at','store_orders.updated_at',
+                DB::raw('
+                        JSON_OBJECTAGG(store_orders_products.id, store_orders_products.product) as product,
+                        JSON_OBJECTAGG(store_orders_products.id, store_products.name) as name,
+                        JSON_OBJECTAGG(store_orders_products.id, store_orders_products.quantity) as quantity,
+                        JSON_OBJECTAGG(store_orders_products.id, store_orders_products.price) as price,
+                        JSON_OBJECTAGG(store_orders_products.id, (
+                            SELECT `name`
+                            FROM `store_images`
+                            WHERE `store_images`.`product` = `store_products`.`id`
+                            ORDER BY `sort`, `id` ASC
+                            limit 1
+                        ))  AS `image`
+                    '),
+            )
+            ->groupBy('id', 'status', 'created_at', 'updated_at')
+            ->first();
+
+        if(is_null($order))abort(404);
+        return view('order.id',['id' => $id, 'order' => $order->toArray()]);
     }
     public function create(Request $request): \Illuminate\Contracts\View\View|RedirectResponse
     {
