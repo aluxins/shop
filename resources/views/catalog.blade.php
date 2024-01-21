@@ -9,13 +9,13 @@
         @include('layouts.header', ['open' => true])
     </x-slot>
 
-        <div class="w-[300px] hidden pt-80 lg:block float-left">
-            <x-brand :sections="$sections" :activeBrands="$brands" />
-        </div>
-
         <div class="w-auto">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="max-w-7xl mx-auto">
+                <div class="w-full lg:w-[280px] lg:px-2 lg:pt-[22px] lg:float-left mr-4">
+                    @yield('menuCount')
+                    <x-brand :sections="$sections" :activeBrands="$brands" />
+                </div>
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg sm:px-6 lg:px-8">
                     <div class="p-2 sm:p-4 text-gray-900 dark:text-gray-100">
                         <x-menu.index idStart="{{$id}}" type="tree" />
 

@@ -17,6 +17,7 @@
                             </form>
                         </li>
                         --}}
+                        @php $i = 0 @endphp
                             @foreach($arraySections as $el)
                                 <x-menu.children-1
                                     :id="$el['id']"
@@ -25,7 +26,13 @@
                                     :children="$el['children']"
                                     base="{{route('catalog')}}"
                                 />
+                                @php $i++; @endphp
                             @endforeach
+                        @section('menuCount')
+                            @for($k = 0; $k < $i; $k++)
+                            <div class="pt-[20px] hidden lg:block"></div>
+                            @endfor
+                        @endsection
                     </ul>
                 </nav>
             </div>
