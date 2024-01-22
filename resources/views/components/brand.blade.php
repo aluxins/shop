@@ -5,15 +5,15 @@
          class="w-full p-2 bg-white rounded-lg shadow block mb-4">
         <form method="post" action="{{ route('catalog.filter', ['id' => request()->route('id')]) }}">
             @csrf
-        <div class="text-sm font-medium text-gray-900 flex flex-row justify-between">
-            <div @click="open = true" class="cursor-pointer lg:cursor-default px-2 py-1 lg:py-3 grow hover:bg-gray-100 lg:hover:bg-white rounded-2xl">
+        <div class="text-sm font-medium text-gray-900 flex flex-row justify-start">
+            <div @click="open = true" class="cursor-pointer lg:cursor-default px-2 py-1 lg:py-3 group inline-flex justify-start grow  hover:bg-gray-100 lg:hover:bg-white rounded-2xl">
                 {{ __('brand.name') }}
                 @if(count($activeBrands) > 0)
                     <span class="text-sm text-gray-500"> ({{ __('brand.selected') }} {{ count($activeBrands) }})</span>
                 @endif
                 <div class="text-sm text-gray-500 inline-block lg:hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
+                    <svg class="ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"></path>
                     </svg>
                 </div>
             </div>

@@ -20,12 +20,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
-Route::get('/catalog/{id?}', [CatalogController::class, 'index'])->where('id', '[0-9]+')->name('catalog');
-Route::post('/catalog/{id?}', [CatalogController::class, 'index'])->where('id', '[0-9]+')->name('catalog.filter');
+Route::middleware('catalog.settings')->group(function () {
+    Route::get('/catalog/{id?}', [CatalogController::class, 'index'])->where('id', '[0-9]+')->name('catalog');
+    Route::post('/catalog/{id?}', [CatalogController::class, 'index'])->where('id', '[0-9]+')->name('catalog.filter');
 
 
-Route::post('/search', [CatalogController::class, 'search'])->name('search');
-Route::get('/search', [CatalogController::class, 'search']);//->name('search');
+    Route::post('/search', [CatalogController::class, 'search'])->name('search');
+    Route::get('/search', [CatalogController::class, 'search']);//->name('search');
+});
 
 Route::redirect('/product', '/catalog');
 Route::get('/product/{id?}', [ProductController::class, 'index'])->where('id', '[0-9]+')->name('product');

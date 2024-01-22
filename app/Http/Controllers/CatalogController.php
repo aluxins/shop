@@ -14,6 +14,7 @@ class CatalogController extends Controller
 {
     public function index(Request $request, $id = 0): View
     {
+        // Валидация данных из формы
         if($request->isMethod('post')){
             $validator = Validator::make($request->all(),[
                     'brands' => [
@@ -27,6 +28,7 @@ class CatalogController extends Controller
             );
         }
         else {
+            // Валидация данных из get строки
             $validator = Validator::make($request->all(), [
                     'brands' => [
                         'nullable',
@@ -36,7 +38,7 @@ class CatalogController extends Controller
             );
         }
 
-        // Фильтр по брендам
+        // Фильтр по брендам. Массив ID брендов.
         $brands = $request->isMethod('post')
             ? $validator->valid()['brands'] ?? []
             : (!empty($validator->valid()['brands'])
@@ -48,19 +50,40 @@ class CatalogController extends Controller
         $sections = RecursionArray::depth($array_all, $id, false, true);
         $sections[] = $id;
 
-        //Выполняем выборку товаров и их изображений для раздела каталога.
+        // Параметры.
+        $orderBy = $request->session()->get('catalog_settings')['sort']
+            ?? config('app.store_settings')['catalog']['sort']['default'];
+        $paginate = $request->session()->get('catalog_settings')['count']
+            ?? config('app.store_settings')['catalog']['count']['default'];
+
+        //Выполняем выборку товаров и их изображений для раздела и подразделов каталога.
         $products = StoreProduct::where(function ($query) use ($sections, $brands) {
             $query->where('visible', 1);
             $query->whereIn('section', $sections);
             if(count($brands) > 0)$query->whereIn('brand', $brands);
-        })
+            })
             ->leftJoin('store_images', 'store_products.id', '=', 'store_images.product')
             ->select('store_products.id','store_products.name','article', 'price', 'old_price', 'available',
                     DB::raw('JSON_OBJECTAGG(store_images.name, store_images.sort) as images'))
             ->groupBy('id', 'name', 'article', 'price', 'old_price', 'available')
-            ->paginate(cache('siteSettings')['catalog_numberItems']);
+            ->when(!empty($orderBy), function ($query) use ($orderBy) {
+                switch ($orderBy) {
+                    case 'priceMin':
+                        $query->orderBy('price', 'asc');
+                        break;
+                    case 'priceMax':
+                        $query->orderBy('price', 'desc');
+                        break;
+                    case 'new':
+                        $query->orderBy('id', 'desc');
+                        break;
+                    default:
+                        $query->orderBy('id', 'desc');
+                }
+            })
+            ->paginate($paginate);
 
-        // Добавляем бренды в url пагинатора.
+        // Добавляем ID брендов в url пагинатора (?brands=1_2_3...).
         $products->appends([
             'brands' => implode('_', $brands),
         ]);
@@ -76,7 +99,14 @@ class CatalogController extends Controller
 
         if(!empty($validated['search'])) {
 
+            // Поисковый запрос.
             $search = $validated['search'];
+
+            // Параметры.
+            $orderBy = $request->session()->get('catalog_settings')['sort']
+                ?? config('app.store_settings')['catalog']['sort']['default'];
+            $paginate = $request->session()->get('catalog_settings')['count']
+                ?? config('app.store_settings')['catalog']['count']['default'];
 
             $products = StoreProduct::where(function ($query) use ($search) {
                 $query->whereRaw('visible = 1');
@@ -97,15 +127,31 @@ class CatalogController extends Controller
                 ->selectRaw("IF(available > 0, 1, 0) AS available_sort")
                 ->groupBy('id', 'name', 'article', 'price', 'old_price', 'available', 'relevant')
                 ->orderByDesc('available_sort')->orderByDesc('relevant')
-                ->paginate(cache('siteSettings')['catalog_numberItems']);
+                ->when(!empty($orderBy), function ($query) use ($orderBy) {
+                    switch ($orderBy) {
+                        case 'priceMin':
+                            $query->orderBy('price', 'asc');
+                            break;
+                        case 'priceMax':
+                            $query->orderBy('price', 'desc');
+                            break;
+                        case 'new':
+                            $query->orderBy('id', 'desc');
+                            break;
+                        default:
+                            $query->orderBy('id', 'desc');
+                    }
+                })
+                ->paginate($paginate);
 
+            // Добавляем запрос в url пагинатора
             $products->appends([
                 'search' => $search,
             ]);
 
-            return view('catalog', ['id' => 0, 'search' => $search, 'sections' => [], 'products' => $products]);
+            return view('catalog', ['id' => 0, 'search' => $search, 'sections' => [], 'brands' => [], 'products' => $products]);
         }
         else
-            return view('catalog', ['id' => 0, 'search' => '', 'sections' => [], 'products' => []]);
+            return view('catalog', ['id' => 0, 'search' => '', 'sections' => [], 'brands' => [], 'products' => []]);
     }
 }

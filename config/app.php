@@ -186,4 +186,18 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+
+    // Application settings
+    'store_settings' => [
+        'catalog' => [
+            'sort' => [
+                'values' => ['priceMin', 'priceMax', 'new'],
+                'default' => 'priceMin',
+            ],
+            'count' => [
+                'values' => [9, 18, 27],
+                'default' => 9,
+            ],
+        ]
+    ]
 ];

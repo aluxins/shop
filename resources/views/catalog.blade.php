@@ -16,6 +16,7 @@
                     <x-brand :sections="$sections" :activeBrands="$brands" />
                 </div>
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg sm:px-6 lg:px-8">
+                    <x-catalog.settings />
                     <div class="p-2 sm:p-4 text-gray-900 dark:text-gray-100">
                         <x-menu.index idStart="{{$id}}" type="tree" />
 

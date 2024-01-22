@@ -6,4 +6,11 @@ return[
     'declension3' => 'products',
     'search' => 'Found',
     'onRequest' => 'On request',
+    'settings' => [
+        'sort' => 'Sort',
+        'count' => 'Quantity',
+        'priceMin' => 'Cheap first',
+        'priceMax' => 'Expensive first',
+        'new' => 'Newest arrivals',
+    ],
 ];

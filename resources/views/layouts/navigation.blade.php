@@ -100,7 +100,7 @@
 
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="absolute right-0 mx-4 p-2 rounded-md ring-1 ring-black ring-opacity-5 bg-white dark:bg-gray-700 hidden sm:hidden">
+    <div :class="{'block': open, 'hidden': ! open}" class="absolute z-10 right-0 mx-4 p-2 rounded-md ring-1 ring-black ring-opacity-5 bg-white dark:bg-gray-700 hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-pages type="mobile" />
             {{--
