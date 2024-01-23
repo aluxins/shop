@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderStatus;
 use App\Models\StoreOrders;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class StoreOrdersController extends Controller
@@ -94,6 +96,10 @@ class StoreOrdersController extends Controller
         if(isset(cache('siteSettings')['order_status'][$validated['status']])){
             StoreOrders::where('id', (int) $id)
                 ->update([ 'status' => $validated['status'] ]);
+
+            // Отправка email пользователю.
+            Mail::to('taylor@example.com')->send(new OrderStatus($validated['status']));
+
             $request->session()->flash('message', 'update');
         }
         else

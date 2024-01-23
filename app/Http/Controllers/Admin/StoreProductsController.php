@@ -69,7 +69,7 @@ class StoreProductsController extends Controller
             'brand_new' => 'nullable|string|max:255|unique:store_brands,name',
             'price' => 'required|numeric|between:0,999999.99',
             'old_price' => 'required|numeric|between:0,999999.99',
-            'available' => 'integer',
+            'available' => 'integer|min:0',
             'visible' => 'required|boolean',
             'images' => 'nullable|array',
             'images.*' => 'nullable|mimes:jpg,png,gif,webp|dimensions:max_width=3000,max_height=3000|max:5120',

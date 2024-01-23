@@ -127,7 +127,7 @@ foreach($arr_for as $key => $value)
             <td>
                 <label>
                     <input type="number" class="form-input m-1 w-3/4" name="available"
-                           maxlength="12" value="{{ $available }}" />
+                           min="0" maxlength="12" value="{{ $available }}" />
                 </label>
             </td>
         </tr>
