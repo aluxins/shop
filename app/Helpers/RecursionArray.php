@@ -38,7 +38,7 @@ if (!class_exists('RecursionArray')) {
         public static function depth($array, $id, bool $direction = true, bool $line = false, array &$search = []): array
         {
             foreach($array as $el){
-                if(($direction ? $el['id'] : $el['parent']) === $id){
+                if(($direction ? $el['id'] : $el['parent']) == $id){
                     $search[] = $line
                         ? $el['id']
                         : ['id' => $el['id'], 'name' => $el['name']];

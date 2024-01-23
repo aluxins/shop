@@ -6,10 +6,10 @@
         <form method="post" action="{{ route('catalog.filter', ['id' => request()->route('id')]) }}">
             @csrf
         <div class="text-sm font-medium text-gray-900 flex flex-row justify-start">
-            <div @click="open = true" class="cursor-pointer lg:cursor-default px-2 py-1 lg:py-3 group inline-flex justify-start grow  hover:bg-gray-100 lg:hover:bg-white rounded-2xl">
+            <div @click="open = true" class="cursor-pointer lg:cursor-default px-2 py-1 lg:py-3 group inline-flex justify-start grow gap-1 hover:bg-gray-100 lg:hover:bg-white rounded-2xl">
                 {{ __('brand.name') }}
                 @if(count($activeBrands) > 0)
-                    <span class="text-sm text-gray-500"> ({{ __('brand.selected') }} {{ count($activeBrands) }})</span>
+                    <span class="text-sm text-gray-500 font-light"> ({{ __('brand.selected') }} {{ count($activeBrands) }})</span>
                 @endif
                 <div class="text-sm text-gray-500 inline-block lg:hidden">
                     <svg class="ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -33,6 +33,7 @@
                                name="brands[{{ $brand['id'] }}]" type="checkbox" value="{{ $brand['id'] }}"
                                {{ in_array($brand['id'], $activeBrands) ? 'checked' : '' }}>
                             {{ $brand['name'] }}
+                            <span class="text-md text-gray-500 font-light"> {{ $brand['count'] }} </span>
                         </label>
                     </li>
                     @endforeach

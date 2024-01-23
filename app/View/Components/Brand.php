@@ -5,6 +5,7 @@ namespace App\View\Components;
 use App\Models\StoreProduct;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\Component;
 
 class Brand extends Component
@@ -19,16 +20,18 @@ class Brand extends Component
      */
     public function __construct($sections)
     {
-        $brands = StoreProduct::where(function ($query) use ($sections) {
+        $brands = cache()->remember('brands-'.implode('_', $sections), 60, function () use ($sections) {
+            return StoreProduct::where(function ($query) use ($sections) {
                 $query->whereIn('section', $sections);
                 $query->where('visible', 1);
                 $query->where('brand', '!=', '');
             })
-            ->leftJoin('store_brands', 'store_products.brand', '=', 'store_brands.id')
-            ->select('store_brands.id', 'store_brands.name')
-            ->groupBy('store_brands.id', 'store_brands.name')
-            ->orderBy('store_brands.name')
-            ->get()->toArray();
+                ->leftJoin('store_brands', 'store_products.brand', '=', 'store_brands.id')
+                ->select('store_brands.id', 'store_brands.name', DB::raw('count(*) as count'))
+                ->groupBy('store_brands.id', 'store_brands.name')
+                ->orderBy('store_brands.name')
+                ->get()->toArray();
+        });
 
         $this->brands = $brands;
     }

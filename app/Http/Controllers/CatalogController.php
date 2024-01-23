@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Helpers\RecursionArray;
 use App\Models\StoreProduct;
-use App\Models\StoreSections;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -14,6 +13,8 @@ class CatalogController extends Controller
 {
     public function index(Request $request, $id = 0): View
     {
+        $id = (int) $id;
+
         // Валидация данных из формы
         if($request->isMethod('post')){
             $validator = Validator::make($request->all(),[
@@ -46,7 +47,7 @@ class CatalogController extends Controller
                 : []);
 
         // Определяем дочерние подразделы начального раздела.
-        $array_all = StoreSections::orderBy('sort')->orderBy('id')->get()->toArray();
+        $array_all = cache('sections-db') ?? [];
         $sections = RecursionArray::depth($array_all, $id, false, true);
         $sections[] = $id;
 
