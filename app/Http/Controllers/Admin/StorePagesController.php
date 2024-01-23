@@ -38,7 +38,7 @@ class StorePagesController extends Controller
 
         $page = $id ? StorePages::find($id) : new StorePages();
 
-        if(is_null($page))abort(404);
+        if (is_null($page)) abort(404);
 
         $page->name = $validated['name'];
         $page->url = $validated['url'];
@@ -47,6 +47,12 @@ class StorePagesController extends Controller
         $page->body = $validated['body'];
 
         $page->save();
+
+        // Отчистка кэша страницы
+        if ($id) {
+            cache()->forget('page-'.$page->id);
+            cache()->forget('page-'.$page->url);
+        }
 
         $request->session()->flash('message', $id ? 'update' : 'store');
         return redirect()->route('admin.pages.update',
@@ -58,6 +64,10 @@ class StorePagesController extends Controller
         $page = StorePages::find($id);
 
         if(is_null($page))abort(404);
+
+        // Отчистка кэша страницы
+        cache()->forget('page-'.$page->id);
+        cache()->forget('page-'.$page->url);
 
         $page->delete();
 

@@ -27,8 +27,7 @@ class AppServiceProvider extends ServiceProvider
 
     public static function siteSettings(): void
     {
-        $seconds = 3600;
-        $settings = cache()->remember('siteSettings', $seconds, function () {
+        $settings = cache()->rememberForever('siteSettings', function () {
             $data = [];
             foreach (StoreSettings::select('key', 'value')->get()->toArray() as $param){
                 $data[$param['key']] =
