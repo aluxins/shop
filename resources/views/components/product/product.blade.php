@@ -1,14 +1,7 @@
 @php
     if(!empty($product['images'])){
         // Сортируем массив изображений
-        $product['images'] = json_decode($product['images'], true);
-        uasort($product['images'], function ($a, $b) {
-                if ($a == $b) {
-                    return 0;
-                }
-                return ($a < $b) ? -1 : 1;
-            }
-        );
+        $product['images'] = sortImages($product['images']);
     }
     else $product['images'] = [config('image.defaultSrc') => 0];
 @endphp

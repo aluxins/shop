@@ -1,18 +1,13 @@
 @props(['product'])
 @php
 //Определяем главное изображение
-$image_src = "";
-if(!empty($product['images'])){
-    $image_sort = 128;
-    foreach(json_decode($product['images']) as $name => $sort)
-        {
-            if($sort <= $image_sort){
-                $image_src = $name;
-                $image_sort = $sort;
-            }
-        }
-}
-else $image_src = config('image.defaultSrc');
+    if(!empty($product['images'])){
+        // Сортируем массив изображений
+        $product['images'] = sortImages($product['images']);
+        // Получаем основное изображение
+        $image_src = array_key_first($product['images']);
+    }
+    else $image_src = config('image.defaultSrc');
 @endphp
             <div class="group flex flex-col place-content-between h-auto rounded-md hover:bg-gray-50 hover:shadow-xl p-2">
                 <div>
