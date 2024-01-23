@@ -9,6 +9,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\StoreSections;
+use Illuminate\Session\Store;
+
 //use Illuminate\View\View;
 
 class StoreSectionsController extends Controller
@@ -23,7 +25,6 @@ class StoreSectionsController extends Controller
         return View('admin.sections', [
             'list' => self::child($array_all, $id),
             'tree' => self::recurs($array_all, $id),
-            //'message' => $request->get('message'),
             'id' => $id
         ]);
     }
@@ -38,7 +39,6 @@ class StoreSectionsController extends Controller
         if(!$id || StoreSections::where('id', (int) $id)->exists()) {
             return View('admin.sections-new', [
                 'id' => (int)$id,
-                //'message' => $request->get('message'),
                 'tree' => self::recurs($array_all, (int)$id)
             ]);
         }
@@ -71,6 +71,8 @@ class StoreSectionsController extends Controller
         $newSection->parent = $id;
 
         $newSection->save();
+
+        self::removeCache();
 
         $request->session()->flash('message', 'store');
         return redirect()->route('admin.sections.index',
@@ -118,6 +120,8 @@ class StoreSectionsController extends Controller
                 StoreSections::where('id', $key)->update([$name => $value]);
              }
         }
+
+        self::removeCache();
 
         $request->session()->flash('message', 'update');
         return redirect()->route('admin.sections.index',
@@ -171,6 +175,8 @@ class StoreSectionsController extends Controller
 
         StoreSections::destroy($key_del);
 
+        self::removeCache();
+
         $request->session()->flash('message', 'delete');
         return redirect()->route('admin.sections.index',
             ['id' => $id_redirect]);
@@ -211,4 +217,15 @@ class StoreSectionsController extends Controller
         }
         return $search;
     }
+
+    /**
+     * Отчистка кэша.
+     * @return void
+     */
+    public function removeCache(): void
+    {
+        cache()->forget('sections-db');
+        cache()->forget('sections-multi');
+    }
+
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\StorePages;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Cache;
 
 class PagesController extends Controller
 {

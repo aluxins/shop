@@ -48,11 +48,7 @@ class StorePagesController extends Controller
 
         $page->save();
 
-        // Отчистка кэша страницы
-        if ($id) {
-            cache()->forget('page-'.$page->id);
-            cache()->forget('page-'.$page->url);
-        }
+        if ($id) self::removeCache($page);
 
         $request->session()->flash('message', $id ? 'update' : 'store');
         return redirect()->route('admin.pages.update',
@@ -65,13 +61,23 @@ class StorePagesController extends Controller
 
         if(is_null($page))abort(404);
 
-        // Отчистка кэша страницы
-        cache()->forget('page-'.$page->id);
-        cache()->forget('page-'.$page->url);
+        self::removeCache($page);
 
         $page->delete();
 
         $request->session()->flash('message', 'delete');
         return redirect()->route('admin.pages.index');
+    }
+
+    /**
+     * Отчистка кэша
+     * @param $page
+     * @return void
+     */
+    public function removeCache($page): void
+    {
+        cache()->forget('page-'.$page->id);
+        cache()->forget('page-'.$page->url);
+        cache()->forget('pages-nav');
     }
 }

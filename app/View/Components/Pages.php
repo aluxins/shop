@@ -28,7 +28,9 @@ class Pages extends Component
     public function render(): View|Closure|string
     {
         return view('components.pages', [
-            'pages' => StorePages::orderBy('sort')->orderBy('id')->select('id', 'name', 'url')->get()->toArray(),
+            'pages' => cache()->rememberForever('pages-nav', function () {
+                return StorePages::orderBy('sort')->orderBy('id')->select('id', 'name', 'url')->get()->toArray();
+            }),
             'type' => $this->type
         ]);
     }

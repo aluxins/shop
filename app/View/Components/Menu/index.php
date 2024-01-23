@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Menu;
 
+use App\Models\StorePages;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -44,8 +45,12 @@ class index extends Component
      */
     public function __construct(int $idStart = 0, string $type = 'menu', string $selected = '', bool $open = false)
     {
-        $array_all = StoreSections::orderBy('sort')->orderBy('id')->get()->toArray();
-        $this->arraySections = RecursionArray::multidimensional($array_all);
+        $array_all = cache()->rememberForever('sections-db', function () {
+            return StoreSections::orderBy('sort')->orderBy('id')->get()->toArray();
+        });
+        $this->arraySections = cache()->rememberForever('sections-multi', function () use($array_all) {
+            return RecursionArray::multidimensional($array_all);
+        });
         $this->arrayTree = RecursionArray::depth($array_all, $idStart);
         $this->type = $type;
         $this->selected = $selected;
