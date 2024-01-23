@@ -9,6 +9,7 @@ use App\Models\StoreProduct;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Validation\Rule;
@@ -20,12 +21,20 @@ class StoreProductsController extends Controller
         $id = (int) $id;
         $product = StoreProduct::find($id);
         $images = StoreImage::where('product', $id)->orderBy('sort');
+
+        // Опеределяем следующий Auto_increment для генерации уникального артикула.
+        if(!$product) {
+            $statement = DB::select("SHOW TABLE STATUS LIKE 'store_products'");
+            $nextId = (string) $statement[0]->Auto_increment;
+            $newArticle = str_repeat('0', 6 - strlen($nextId)).$nextId;
+        }
+
         return (!$id or $product) ?
             View('admin.products', [
                 'message' => $request->get('message'),
                 'id' => $id,
                 'brand_array' => StoreBrand::orderBy('name')->orderBy('id')->get()->toArray(),
-                'data' => $product ? $product->toArray() : [],
+                'data' => $product ? $product->toArray() : ['article' => $newArticle ?? ''],
                 'images' => $images ? $images->get()->toArray() : [],
             ])
         :
@@ -34,7 +43,7 @@ class StoreProductsController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * Валидация и insert новой категории.
+     * Валидация и insert нового товара.
      */
     public function store(Request $request, $id = 0): RedirectResponse
     {

@@ -42,7 +42,7 @@ foreach($arr_for as $key => $value)
         <tbody class="divide-y text-center">
         <tr class="divide-x hover:bg-slate-50">
             <td class="font-medium">
-                {{ __('admin/products.form.name') }}
+                <span class="after:content-['*'] after:ml-0.5 after:text-red-500">{{ __('admin/products.form.name') }}</span>
             </td>
             <td>
                 <label>
@@ -53,7 +53,7 @@ foreach($arr_for as $key => $value)
         </tr>
         <tr class="divide-x hover:bg-slate-50">
             <td class="font-medium">
-                {{ __('admin/products.form.article') }}
+                <span class="after:content-['*'] after:ml-0.5 after:text-red-500">{{ __('admin/products.form.article') }}</span>
             </td>
             <td>
                 <label>
@@ -64,7 +64,7 @@ foreach($arr_for as $key => $value)
         </tr>
         <tr class="divide-x hover:bg-slate-50">
             <td class="font-medium">
-                {{ __('admin/products.form.section') }}
+                <span class="after:content-['*'] after:ml-0.5 after:text-red-500">{{ __('admin/products.form.section') }}</span>
             </td>
             <td>
                 <label>
@@ -163,6 +163,7 @@ foreach($arr_for as $key => $value)
                     <input type="file" name="images[]" multiple="multiple" class="m-1 w-3/4"
                            accept="image/png, image/jpeg, image/gif, image/webp" />
                 </label>
+                <div class="text-gray-500 text-sm">Image: jpg, png, gif, webp. Max width x height: 3000x3000 px. Max size: 5 Mb.</div>
             </td>
         </tr>
         <tr class="divide-x hover:bg-slate-50">
