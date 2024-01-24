@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\OrderStatus;
 use App\Models\StoreOrders;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -94,11 +95,17 @@ class StoreOrdersController extends Controller
 
         // Проверка существования статуса в кэше siteSettings.
         if(isset(cache('siteSettings')['order_status'][$validated['status']])){
-            StoreOrders::where('id', (int) $id)
-                ->update([ 'status' => $validated['status'] ]);
+
+            // Обновляем статус заказа.
+            $order = StoreOrders::where('id', (int) $id);
+            $order->update([ 'status' => $validated['status'] ]);
 
             // Отправка email пользователю.
-            Mail::to('taylor@example.com')->send(new OrderStatus($validated['status']));
+            Mail::to(User::find($order->first()->user)->email)
+                ->send(new OrderStatus(
+                    cache('siteSettings')['order_status'][$validated['status']],
+                    $id
+                ));
 
             $request->session()->flash('message', 'update');
         }

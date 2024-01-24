@@ -19,11 +19,17 @@ class OrderStatus extends Mailable
     public string $orderStatus;
 
     /**
+     * @var int
+     */
+    public int $order;
+
+    /**
      * Create a new message instance.
      */
-    public function __construct(string $orderStatus)
+    public function __construct(string $orderStatus, int $order)
     {
         $this->orderStatus = $orderStatus;
+        $this->order = $order;
     }
 
     /**
@@ -42,7 +48,7 @@ class OrderStatus extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.order-status',
+            view: 'emails.order-status-' . config('app.locale'),
         );
     }
 
@@ -63,6 +69,10 @@ class OrderStatus extends Mailable
      */
     public function build(): static
     {
-        return $this->view('emails.order-status', ['status' => $this->orderStatus]);
+        return $this->view('emails.order-status-' . config('app.locale'), [
+                                                            'status' => $this->orderStatus,
+                                                            'id' => $this->order,
+                                                            'url' => route('order.id', ['id' => $this->order])
+        ]);
     }
 }
