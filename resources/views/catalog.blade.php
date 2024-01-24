@@ -11,8 +11,8 @@
 
         <div class="w-auto">
             <div class="max-w-7xl mx-auto">
-                <div class="w-full lg:w-[280px] lg:px-2 lg:pt-[22px] lg:float-left mr-4">
-                    @yield('menuCount')
+                <div class="w-full lg:w-[280px] lg:px-2 lg:float-left mr-4">
+                    {{-- @yield('menuCount') --}}
                     <x-brand :sections="$sections" :activeBrands="$brands" />
                 </div>
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg sm:px-6 lg:px-8">
