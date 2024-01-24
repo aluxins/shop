@@ -45,7 +45,7 @@ class CatalogSettings
             : null;
 
         // Если валидацию прошли не все данные.
-        if(count($catalog_settings) !== count(config('app.store_settings')['catalog']))
+        if(is_array($catalog_settings) and count($catalog_settings) !== count(config('app.store_settings')['catalog']))
             $catalog_settings = null;
 
         // Если cookie - catalog_settings не прошло валидацию - устанавливаем в cookie значение по умолчанию.

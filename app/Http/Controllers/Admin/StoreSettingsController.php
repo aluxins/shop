@@ -26,7 +26,12 @@ class StoreSettingsController extends Controller
         // Вносим изменения
         foreach ($validated as $name => $item) {
             foreach ($item as $key => $value) {
-                StoreSettings::where('id', (int) $key)->update([$name => $value]);
+                $setting = StoreSettings::where('id', (int) $key);
+
+                // Преобразование значения в массив при необходимости.
+                if($setting->first()->options === 'array')$value = json_encode(explode("\r\n", $value));
+
+                $setting->update([$name => $value]);
             }
         }
 

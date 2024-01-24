@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\StoreSettings;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,6 +36,11 @@ class AppServiceProvider extends ServiceProvider
             }
             return $data;
         });
+
+        // Устанавливаем конфигурацию сайта.
+        if(isset($settings['interface_locale']))Config::set('app.locale', $settings['interface_locale']);
+        if(isset($settings['catalog_numberItems']))Config::set('app.store_settings.catalog.count.default', $settings['catalog_numberItems']);
+        if(isset($settings['catalog_sort']))Config::set('app.store_settings.catalog.sort.default', $settings['catalog_sort']);
 
         View::share('siteSettings', $settings);
     }

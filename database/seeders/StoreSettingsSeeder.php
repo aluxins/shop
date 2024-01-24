@@ -16,32 +16,49 @@ class StoreSettingsSeeder extends Seeder
 
         $settings = [
             // Имена статусов заказа
-            'order_status' => json_encode(['created', 'approved', 'packing', 'prepared',
-                                            'delivered', 'completed', 'cancelled']),
+            'order_status' => [ 'value' => json_encode(['created', 'approved', 'packing', 'prepared',
+                                                        'delivered', 'completed', 'cancelled']),
+                                'options' => 'array'],
+            /*
             // Статусы не активных заказов
-            'status_inactive' => json_encode(['5', '6']),
+            'status_inactive' => [  'value' => json_encode(['5', '6']),
+                                    'options' => 'array'],
+            */
 
             // ID администратора
-            'store_admin' => json_encode(['1']),
-
-            // Copyright нижнего колонтитула
-            'footer_copyright' => 'Your Company, Inc. All rights reserved.',
+            'store_admin' => [  'value' => json_encode(['1']),
+                                'options' => 'array'],
 
             // WYSIWYG editor on / off
-            'wysiwyg_editor' => '1',
+            'wysiwyg_editor' => [   'value' => '1',
+                                    'options' => 'boolean'],
 
-            // Количество товаров на страницах каталога
-            'catalog_numberItems' => '9',
+            // Язык интерфейса
+            'interface_locale' => [ 'value' => 'ru',
+                'options' => 'enum:en,ru'],
+
+            // Количество товаров на страницах каталога по умолчанию
+            'catalog_numberItems' => [  'value' => config('app.store_settings')['catalog']['count']['default'],
+                                        'options' => 'enum:' . implode(',', config('app.store_settings')['catalog']['count']['values'])],
+
+            // Сортировка товаров по умолчанию
+            'catalog_sort' => [ 'value' => config('app.store_settings')['catalog']['sort']['default'],
+                                'options' => 'enum:' . implode(',', config('app.store_settings')['catalog']['sort']['values'])],
 
             // Контакты компании в заголовке
-            'header_contacts' => '8-800-00-00-000',
+            'header_contacts' => [  'value' => '8-800-00-00-000',
+                                    'options' => 'string'],
 
-            // 'key' => 'value',
+            // Copyright нижнего колонтитула
+            'footer_copyright' => [ 'value' => 'Your Company, Inc. All rights reserved.',
+                'options' => 'string'],
+
+            // 'key' => ['value' => '...', 'options' => '...'],
         ];
 
         $data = [];
         foreach ($settings as $key => $value){
-            $data[] = ['key' => $key, 'value' => $value];
+            $data[] = ['key' => $key, 'value' => $value['value'], 'options' => $value['options']];
         }
         StoreSettings::insert($data);
     }

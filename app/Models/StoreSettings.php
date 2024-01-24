@@ -21,7 +21,8 @@ class StoreSettings extends Model
      */
     protected $fillable = [
         'key',
-        'value'
+        'value',
+        'options'
     ];
 
     public $timestamps = false;

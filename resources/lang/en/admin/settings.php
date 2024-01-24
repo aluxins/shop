@@ -6,10 +6,14 @@ return [
     'button' => 'Save',
 
     'description' => [
-        'order_status' => 'Names of order statuses. Type: array, e.g.: ["created","approved",...]',
-        'status_inactive' => 'ID of the statuses of inactive orders. Type: array, e.g.: ["1","2",...]',
-        'store_admin'  => 'User IDs with administrator. Type: array, e.g.: ["1","2",...]',
-        'footer_copyright' => 'Copyright of the footer. Type: string',
-        'wysiwyg_editor' => 'Enable or disable WYSIWYG HTML editor. Value: 0 or 1',
+        'order_status' => 'Names of order statuses. Type: listing.',
+        //'status_inactive' => 'ID of the statuses of inactive orders. Type: listing.',
+        'store_admin'  => 'User IDs with administrator. Type: listing.',
+        'footer_copyright' => 'Copyright of the footer. Type: string.',
+        'wysiwyg_editor' => 'Enable or disable WYSIWYG HTML editor. Type: selector.',
+        'catalog_numberItems' => 'The number of items on the default catalog pages. Type: selector.',
+        'catalog_sort' => 'Sorting items on catalog pages by default. Type: selector.',
+        'header_contacts' => 'Contacts in the header. Type: string.',
+        'interface_locale' => 'Interface language. Type: selector.',
     ],
 ];
