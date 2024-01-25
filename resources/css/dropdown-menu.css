@@ -27,28 +27,12 @@
     .cd-dropdown-trigger {
         display: block;
         position: relative;
-        padding: 0 36px 0 20px;
-        line-height: 40px;
         background-color: #111433;
         color: #ffffff;
-        border-radius: 3px;
     }
 
     .no-touch .cd-dropdown-trigger:hover {
         background-color: #171b46;
-    }
-
-    .cd-dropdown-trigger::before, .cd-dropdown-trigger::after {
-        /* this is the arrow inside the dropdown trigger*/
-        content: '';
-        position: absolute;
-        top: 50%;
-        margin-top: -1px;
-        height: 2px;
-        width: 9px;
-        background: #ffffff;
-        backface-visibility: hidden;
-        transition: width 0.3s, transform 0.3s;
     }
 
     .cd-dropdown-trigger::before {
@@ -126,28 +110,20 @@
         z-index: 1;
         top: 0;
         left: 0;
-        width: 100%;
         height: 100%;
-        background-color: #111433;
-        color: #ffffff;
-
-        /*
-        visibility: hidden;
-         Force Hardware Acceleration
-        backface-visibility: hidden;
-        transform: translateZ(0);
-        transform: translateY(-100%);
-        transition: transform 0.5s 0s, visibility 0s 0.5s;
-        */
+        background-color: #ffffff;
+        color: #000000;
     }
 
     .cd-dropdown h2 {
         /* dropdown title - mobile version only */
         position: relative;
         z-index: 1;
-        color: #585a70;
-        background-color: #111433;
+        color: #111827;
+        background-color: #eeeeee;
         border-bottom: 1px solid #242643;
+        font-size: 18px;
+        font-weight: 500;
     }
 
     .cd-dropdown .cd-close {
@@ -163,20 +139,6 @@
         text-indent: 100%;
         white-space: nowrap;
         color: transparent;
-    }
-
-    .cd-dropdown .cd-close::after, .cd-dropdown .cd-close::before {
-        /* this is the 'X' icon */
-        content: '';
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        bottom: auto;
-        right: auto;
-        transform: translateX(-50%) translateY(-50%);
-        height: 20px;
-        width: 2px;
-        background-color: #ffffff;
     }
 
     .cd-dropdown .cd-close::after {
@@ -202,25 +164,14 @@
     @media only screen and (min-width: 1024px) {
         .cd-dropdown {
             position: absolute;
-            top: calc(100% + 22px);
-            /* reset style*/
+            /* top indentation */
+            top: calc(100%);
+            /* reset style */
             height: auto;
             width: auto;
             transform: translate(0, 0);
             background-color: #ffffff;
             color: #111433;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-        }
-
-        .cd-index-open {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .cd-index-close {
-            opacity: 0;
-            visibility: hidden;
         }
 
         .open-to-left .cd-dropdown {
@@ -254,14 +205,12 @@
 
     .cd-dropdown-content a, .cd-dropdown-content ul a {
         display: block;
-        color: #ffffff;
+        color: #111827;
         /* truncate text with ellipsis if too long */
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        border-top-width: 1px;
-        border-color: #242643;
-        border-style: solid;
+        border-top: 1px solid #dddddd;
     }
 
     .cd-dropdown-content li:first-of-type > a, .cd-dropdown-content ul li:first-of-type > a {
@@ -270,6 +219,7 @@
 
     .cd-dropdown-content li:last-of-type > a, .cd-dropdown-content ul li:last-of-type > a {
         border-bottom-width: 1px;
+
     }
 
     .cd-dropdown-content .cd-divider, .cd-dropdown-content ul .cd-divider {
@@ -307,10 +257,6 @@
     .cd-dropdown-content.move-out > li > a, .cd-dropdown-content.move-out > li > .cd-search, .cd-dropdown-content.move-out > .cd-divider, .cd-dropdown-content ul.move-out > li > a, .cd-dropdown-content ul.move-out > li > .cd-search, .cd-dropdown-content ul.move-out > .cd-divider {
         /* push the dropdown items to the left when secondary dropdown slides in */
         transform: translateX(-100%);
-    }
-
-    .dropdown-is-active .cd-dropdown-content, .dropdown-is-active .cd-dropdown-content ul {
-        /* */
     }
 
     @media only screen and (min-width: 768px) {
@@ -438,7 +384,6 @@
             left: 100%;
             height: auto;
             background-color: #ffffff;
-            box-shadow: 0 2px 14px rgba(0, 0, 0, 0.1);
         }
 
         .cd-dropdown-content .cd-secondary-dropdown::after, .cd-dropdown-content .cd-dropdown-gallery::after, .cd-dropdown-content .cd-dropdown-icons::after {
@@ -461,11 +406,6 @@
         .cd-dropdown-content .cd-secondary-dropdown.fade-in, .cd-dropdown-content .cd-dropdown-gallery.fade-in, .cd-dropdown-content .cd-dropdown-icons.fade-in {
             /* animate secondary dropdown items when hovering over of of the .cd-dropdown-content list items */
             animation: cd-fade-in 0.2s;
-        }
-
-        .cd-dropdown-content .cd-secondary-dropdown.fade-out, .cd-dropdown-content .cd-dropdown-gallery.fade-out, .cd-dropdown-content .cd-dropdown-icons.fade-out {
-            /* animate secondary dropdown items when hovering over of of the .cd-dropdown-content list items */
-            animation: cd-fade-out 0.2s;
         }
 
         .cd-dropdown-content .cd-secondary-dropdown > .go-back, .cd-dropdown-content .cd-dropdown-gallery > .go-back, .cd-dropdown-content .cd-dropdown-icons > .go-back {
@@ -686,7 +626,6 @@
 
         .cd-dropdown-content > .has-children > a.is-active {
             /* hover effect for .cd-dropdown-content items with subnavigation */
-            box-shadow: inset 2px 0 0 #111433;
             color: #111433;
         }
 
@@ -694,9 +633,6 @@
             background: #111433;
         }
 
-        .open-to-left .cd-dropdown-content > .has-children > a.is-active {
-            box-shadow: inset -2px 0 0 #111433;
-        }
     }
 
     @-webkit-keyframes cd-fade-in {
@@ -729,26 +665,6 @@
             visibility: visible;
         }
     }
-    @-webkit-keyframes cd-fade-out {
-        0% {
-            opacity: 1;
-            visibility: visible;
-        }
-        100% {
-            opacity: 0;
-            visibility: visible;
-        }
-    }
-    @-moz-keyframes cd-fade-out {
-        0% {
-            opacity: 1;
-            visibility: visible;
-        }
-        100% {
-            opacity: 0;
-            visibility: visible;
-        }
-    }
     @keyframes cd-fade-out {
         0% {
             opacity: 1;
@@ -768,7 +684,6 @@
         background-color: #242643;
         color: #ffffff;
         border: none;
-        border-radius: 0;
     }
 
     .cd-search input[type="search"]::-webkit-input-placeholder {
@@ -844,7 +759,7 @@
         display: inline-block;
         height: 2px;
         width: 10px;
-        background: #ffffff;
+        background: #a1a1a1;
         backface-visibility: hidden;
     }
 

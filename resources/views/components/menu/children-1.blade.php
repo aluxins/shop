@@ -12,9 +12,9 @@
         {{ $name }}
     </a>
     @if(count($children) > 0)
-        <ul class="cd-secondary-dropdown is-hidden">
+        <ul class="cd-secondary-dropdown is-hidden lg:rounded-r-xl lg:shadow-xl">
             <li class="go-back"><a href="#">{{ __('navigation.menu.name') }}</a></li>
-            <li class="see-all"><a href="{{ $base }}/{{ $id }}">{{ __('navigation.menu.all') }} {{ $name }}</a></li>
+            <li class="see-all"><a href="{{ $base }}/{{ $id }}" class="lg:rounded-xl">{{ __('navigation.menu.all') }} {{ $name }}</a></li>
             @foreach($children as $el)
                 <x-menu.children-2
                     :id="$el['id']"
