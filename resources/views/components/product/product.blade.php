@@ -11,45 +11,51 @@
         @foreach($product['images'] as $image_src => $sort)
 
             @if ($loop->first)
-                <!-- / Image gallery -->
-                <div class="lg:flex lg:flex-row lg:gap-6 lg:justify-center mx-auto lg:h-[calc({{config('image.modification.fit.resize')}}px)]"
+                <!-- Image gallery -->
+                <div class="flex flex-col lg:flex-row gap-6 justify-between mx-auto lg:h-96"
                      x-data="{imageUrl: '{{ Storage::url(
                                 config('image.folder')).config('image.modification.fit.prefix').$image_src }}',
                               imageUrlFull: '{{ Storage::url(
                                 config('image.folder')).config('image.modification.original.prefix').$image_src }}'}">
 
-                <div x-data="{ open: false }">
-            @endif
+                    <!-- Image main -->
+                    <div x-data="{ open: false }" class="lg:grid h-3/4 lg:h-full lg:w-3/4">
+                        <div class="">
+                            <img class="h-auto w-auto min-w-28 mx-auto object-cover object-center rounded cursor-pointer"
+                                 @click="open = ! open"
+                                 :src="imageUrl"
+                                 alt="{{ $product['name'] }}">
+                        </div>
 
-                <div class="{{ $loop->first ? 'w-full lg:basis-3/4' : 'w-full ml-auto' }}">
-                    <img class="h-full w-full object-cover object-center rounded cursor-pointer"
-                         @if ($loop->first)
-                             @click="open = ! open"
-                             :src="imageUrl"
-                         @else
-                             src="{{ Storage::url(
-                                    config('image.folder')).config('image.modification.fit.prefix').$image_src }}"
-                             @click="imageUrl = '{{ Storage::url(
-                                    config('image.folder')).config('image.modification.fit.prefix').$image_src }}';
-                                    imageUrlFull = '{{ Storage::url(
-                                    config('image.folder')).config('image.modification.original.prefix').$image_src }}'"
-                         @endif
-                         alt="{{ $product['name'] }}">
-                </div>
-
-                @if ($loop->first)
-                    <x-product.zoom
-                        :name="$product['name']"
-                    />
-                </div>
-                    <div class="hidden lg:flex lg:flex-col lg:gap-6 lg:basis-1/4 lg:overflow-y-auto px-3">
-                @endif
-
-                @if ($loop->last)
+                        <!-- Image zoom -->
+                        <x-product.zoom :name="$product['name']" />
+                        <!-- / Image zoom -->
                     </div>
+                    <!-- / Image main -->
+
+                    <!-- Image items -->
+                    <div class="flex flex-row lg:flex-col gap-6 h-1/4 lg:h-full w-full lg:w-1/4 overflow-x-auto lg:overflow-y-auto px-0 lg:px-3 py-3 lg:py-0">
+
+            @endif
+                        <!-- Item {{ $loop->iteration }} -->
+                        <div class="w-full ml-auto">
+                            <img class="h-auto w-auto min-w-28 mx-auto object-cover object-center rounded cursor-pointer"
+                                     src="{{ Storage::url(
+                                            config('image.folder')).config('image.modification.fit.prefix').$image_src }}"
+                                     @click="imageUrl = '{{ Storage::url(
+                                            config('image.folder')).config('image.modification.fit.prefix').$image_src }}';
+                                            imageUrlFull = '{{ Storage::url(
+                                            config('image.folder')).config('image.modification.original.prefix').$image_src }}'"
+                                 alt="{{ $product['name'] }}">
+                        </div>
+
+
+            @if ($loop->last)
+                    </div>
+                    <!-- / Image items -->
                 </div>
-                <!-- Image gallery / -->
-                @endif
+                <!-- / Image gallery -->
+            @endif
 
             @endforeach
 

@@ -7,6 +7,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
+                'resources/css/dropdown-menu.css',
                 'resources/js/app.js',
                 'resources/js/dropdown-menu.js',
                 'node_modules/tinymce/tinymce.min.js',
