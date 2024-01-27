@@ -15,7 +15,7 @@
     <div class="w-auto">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <x-admin.navigation />
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-xl">
+            <div class="bg-white overflow-hidden shadow-sm rounded-xl">
                     <table class="table-auto w-full divide-y divide-gray-200 border-spacing-2 mt-6">
                         <caption class="caption-top text-right p-4">
                             <a class="underline" href="{{ route('admin.pages.create') }}">

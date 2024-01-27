@@ -18,7 +18,7 @@
 
     <div class="w-auto">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 @if (session('status') === 'success-auth')
                     <p
                         x-data="{ show: true }"
@@ -28,7 +28,7 @@
                         class="text-lg text-center text-green-600 py-2"
                     >{{ __('account.success-auth') }}</p>
                 @endif
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+                <div class="p-6 text-gray-900">
                     <div class="flex flex-col md:flex-row justify-between p-2 gap-6">
                         <div class="md:basis-1/2 border  rounded-xl">
                             <div class="font-medium bg-gray-100 rounded-t-xl py-4 px-2 text-gray-900">{{ __("account.active") }}</div>

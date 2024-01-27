@@ -17,7 +17,7 @@
                 </div>
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg sm:px-6 lg:px-8">
                     <x-catalog.settings />
-                    <div class="p-2 sm:p-4 text-gray-900 dark:text-gray-100">
+                    <div class="p-2 sm:p-4 text-gray-900">
                         <x-menu.index idStart="{{$id}}" type="tree" />
 
                         <div class="bg-white">

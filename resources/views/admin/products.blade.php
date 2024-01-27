@@ -15,11 +15,11 @@
     <div class="w-auto">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <x-admin.navigation />
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="flex justify-end p-2 text-gray-900 dark:text-gray-100 text-right border-b-2">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="flex justify-end p-2 text-gray-900 text-right border-b-2">
                     <x-admin.product-search />
                 </div>
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+                <div class="p-6 text-gray-900">
                     <x-admin.product-form
                         :id="$id"
                         :brand_array="$brand_array"

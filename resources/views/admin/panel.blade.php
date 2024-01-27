@@ -16,7 +16,7 @@
     <div class="w-auto">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <x-admin.navigation />
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="grid grid-cols-2 content-stretch md:grid-cols-3 gap-4 p-4">
                     @foreach([
                         'orders' => 'store_orders',

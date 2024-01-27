@@ -21,7 +21,7 @@
             <x-account-nav :array="[
                     __('order.nav.list') => '',
                     ]" />
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-xl">
+            <div class="bg-white overflow-hidden shadow-sm rounded-xl">
                 <div class="w-full">
                     <x-order.filter :filter="$filter" />
                 </div>

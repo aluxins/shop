@@ -8,7 +8,7 @@
         </svg>
         <span class="absolute text-red-500 top-0 right-0 text-sm"></span>
     </button>
-    <div x-show="open" x-cloak @keydown.window.escape="open = false" class="relative z-10" aria-labelledby="slide-over-title" x-ref="dialog" aria-modal="true">
+    <div x-show="open" x-cloak @keydown.window.escape="open = false" class="relative z-20" aria-labelledby="slide-over-title" x-ref="dialog" aria-modal="true">
 
         <div x-show="open" x-cloak
              x-transition:enter="ease-in-out duration-500"

@@ -20,4 +20,7 @@ export default defineConfig({
             '$': 'jQuery'
         },
     },
+    server: {
+        host: '192.168.2.10'
+    }
 });

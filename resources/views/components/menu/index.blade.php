@@ -3,7 +3,7 @@
         {{-- https://codepen.io/martinridgway/pen/KVdKQJ --}}
         <div x-data="{ open: false }" id="dropdown-menu"
              @keydown.window.escape="open = false">
-            <div class="cd-dropdown-wrapper z-10">
+            <div class="cd-dropdown-wrapper z-20">
                 <div x-show="open" x-cloak
                      x-transition:enter="ease-in-out duration-500"
                      x-transition:enter-start="opacity-0"

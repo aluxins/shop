@@ -42,7 +42,7 @@
                     __('order.nav.list') => route('order.index'),
                     __('order.nav.id', ['id' => $id]) => '',
                     ]" />
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-xl">
+            <div class="bg-white overflow-hidden shadow-sm rounded-xl">
                 <div class="flex flex-col sm:flex-row justify-between bg-gray-50 rounded-xl p-2">
                     <div class="flex flex-row sm:flex-col justify-between border-b sm:border-0 py-4">
                         <div class="font-semibold">{{ __('order.id.order') }}</div>

@@ -1,10 +1,10 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <h2 class="text-lg font-medium text-gray-900">
             {{ __('profile.updateProfile.title') }}
         </h2>
 
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        <p class="mt-1 text-sm text-gray-600">
             {{ __('profile.updateProfile.information') }}
         </p>
     </header>
@@ -62,8 +62,8 @@
             </div>
 
             <div class="sm:col-span-4">
-                <label for="about" class="block font-medium text-sm text-gray-700 dark:text-gray-300">{{ __('profile.updateProfile.about') }}</label>
-                <textarea id="about" name="about" rows="2" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full"
+                <label for="about" class="block font-medium text-sm text-gray-700">{{ __('profile.updateProfile.about') }}</label>
+                <textarea id="about" name="about" rows="2" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
                     >{{ old('about', $information['about']) }}</textarea>
                 <x-input-error class="mt-2" :messages="$errors->get('about')" />
             </div>
@@ -84,7 +84,7 @@
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400"
+                    class="text-sm text-gray-600"
                 >{{ __('profile.messageSaved') }}</p>
             @endif
         </div>

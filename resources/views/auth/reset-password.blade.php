@@ -12,7 +12,7 @@
         @include('layouts.header', ['open' => false])
     </x-slot>
 
-    <div class="w-full sm:max-w-md m-auto px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+    <div class="w-full sm:max-w-md m-auto px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
         <form method="POST" action="{{ route('password.store') }}">
             @csrf
 

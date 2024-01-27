@@ -35,7 +35,7 @@
     <div class="w-auto">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <x-admin.navigation />
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <a class="inline-flex items-center gap-1 px-2 py-1 m-2 text-md font-medium text-gray-600 hover:text-gray-900"
                    href="{{ route('admin.orders.index') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
