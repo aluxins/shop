@@ -7,9 +7,8 @@ use Illuminate\Contracts\View\View;
 
 class PagesController extends Controller
 {
-    public function index($id): View
+    public function index($id = 'index'): View
     {
-        //$page = StorePages::where('id', $id)->orWhere('url', $id)->first();
         $page = cache()->rememberForever('page-'.$id, function () use ($id) {
             return StorePages::where('id', $id)->orWhere('url', $id)->first();
         });

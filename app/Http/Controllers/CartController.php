@@ -2,25 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\StoreProduct;
+use App\Repositories\Interfaces\ProductsRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
-
 
 class CartController extends Controller
 {
-    /**
-     * @param Request $request
-     * @return array
-     * @throws ValidationException
-     */
-    public function index(Request $request): array
+    public function index(Request $request, ProductsRepositoryInterface $productsRepository): array
     {
         // Массив id товаров.
-        $productId = [];
+        $productsId = [];
 
         if ($request->expectsJson()) {
             //Валидация входных данных.
@@ -34,22 +26,23 @@ class CartController extends Controller
             if(!$validator->fails()) {
                 // Формируем массив id товаров.
                 foreach ($validator->validated()['products'] as $el){
-                    $productId[] = $el['product'];
+                    $productsId[] = $el['product'];
                 }
             }
         }
 
-        return count($productId) > 0 ?
-            StoreProduct::whereIn('store_products.id', $productId)
-                ->leftJoin('store_images', 'store_products.id', '=', 'store_images.product')
-                ->select('store_products.id','store_products.name','article',
-                    'price', 'old_price', 'available',
-                    DB::raw('"' . Storage::url(config('image.folder')).config('image.modification.fit.prefix') . '" as path_images'),
-                    DB::raw('"' . route('product') . '" as path_products'),
-                    DB::raw('JSON_OBJECTAGG(store_images.name, store_images.sort) as images'))
-                ->groupBy('id', 'name', 'article', 'price', 'old_price', 'available')
-                ->get()->toArray()
-            : [];
-        //Storage::url( config('image.folder').config('image.modification.fit.prefix')
+        if(count($productsId) == 0) return [];
+
+        // Запрос товаров.
+        $products = $productsRepository->cartProducts($productsId);
+
+        // Добавляем к товарам path изображений. Если изображение отсутствует - устанавливаем изображение по умолчанию.
+        foreach ($products as $key => $product) {
+            if(is_null($product['images']))$products[$key]['images'] = json_encode([config('image.defaultSrc') => 0]);
+            $products[$key]['path_images'] = Storage::url(config('image.folder')) . config('image.modification.fit.prefix');
+            $products[$key]['path_products'] = route('product');
+        }
+
+        return $products;
     }
 }

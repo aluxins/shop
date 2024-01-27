@@ -9,10 +9,12 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Repositories\Interfaces\OrdersRepositoryInterface;
+use Illuminate\Contracts\View\View;
 
 class OrderController extends Controller
 {
-    public function index(Request $request): \Illuminate\Contracts\View\View
+    public function index(Request $request, OrdersRepositoryInterface $ordersRepository): View
     {
 
         // Валидация параметров фильра.
@@ -20,20 +22,9 @@ class OrderController extends Controller
             'dateStart'    => 'nullable|date',
             'dateEnd'    => 'nullable|date',
             'status' => 'nullable|numeric',
-        ])->validate();
+        ])->valid();
 
-        $orders = StoreOrders::where('user', $request->user()->id)
-                ->where(function($query) use ($validated){
-                    if(!empty($validated['dateStart']))$query->where('created_at', '>=', $validated['dateStart'] . ' 00:00:00');
-                    if(!empty($validated['dateEnd']))$query->where('created_at', '<=', $validated['dateEnd'] . ' 23:59:59');
-                    if(isset($validated['status']))$query->where('status', '=', $validated['status']);
-                })
-                ->leftJoin('store_orders_products', 'store_orders.id', '=', 'store_orders_products.order')
-                ->select('store_orders.id','store_orders.status','store_orders.created_at','store_orders.updated_at',
-                    DB::raw('SUM(store_orders_products.quantity * store_orders_products.price) as price')
-                )
-                ->groupBy('id', 'status', 'created_at', 'updated_at')
-                ->orderByDesc('store_orders.id')->paginate(10);
+        $orders = $ordersRepository->getOrdersByUserId($request->user()->id, $validated)->paginate(10);
 
         if(is_null($orders))abort(404);
 
@@ -48,33 +39,15 @@ class OrderController extends Controller
 
     }
 
-    public function order(Request $request, $id): \Illuminate\Contracts\View\View
+    public function order(Request $request, OrdersRepositoryInterface $ordersRepository, $id): View
     {
-        $order = StoreOrders::where('store_orders.id', $id)->where('store_orders.user', '=', $request->user()->id)
-            ->leftJoin('store_orders_products', 'store_orders.id', '=', 'store_orders_products.order')
-            ->leftJoin('store_products', 'store_orders_products.product', '=', 'store_products.id')
-            ->select('store_orders.id','store_orders.status','store_orders.created_at','store_orders.updated_at',
-                DB::raw('
-                        JSON_OBJECTAGG(store_orders_products.id, store_orders_products.product) as product,
-                        JSON_OBJECTAGG(store_orders_products.id, store_products.name) as name,
-                        JSON_OBJECTAGG(store_orders_products.id, store_orders_products.quantity) as quantity,
-                        JSON_OBJECTAGG(store_orders_products.id, store_orders_products.price) as price,
-                        JSON_OBJECTAGG(store_orders_products.id, (
-                            SELECT `name`
-                            FROM `store_images`
-                            WHERE `store_images`.`product` = `store_products`.`id`
-                            ORDER BY `sort`, `id` ASC
-                            limit 1
-                        ))  AS `image`
-                    '),
-            )
-            ->groupBy('id', 'status', 'created_at', 'updated_at')
-            ->first();
+        $order = $ordersRepository->getOrderById($request->user()->id, $id);
 
         if(is_null($order))abort(404);
+
         return view('order.id',['id' => $id, 'order' => $order->toArray()]);
     }
-    public function create(Request $request): \Illuminate\Contracts\View\View|RedirectResponse
+    public function create(Request $request): View|RedirectResponse
     {
         $validator = self::cookie($request);
 
@@ -103,39 +76,6 @@ class OrderController extends Controller
             ]);
         }
         else return redirect()->back();
-    }
-
-    /**
-     * Получение cookie 'cart' и валидация.
-     * @param Request $request
-     * @return array [ key => ['product' => id, 'quantity' => quantity], ...]
-     *
-     */
-    private function cookie(Request $request): array
-    {
-        $cart = json_decode($request->cookie('cart'), true);
-
-        if(!empty($cart)){
-            // Преобразование входящего массива.
-            $products = [];
-            foreach($cart as $key => $val){
-                $products[$key] = [
-                    'product' => (int) $key,
-                    'quantity' => (int) $val,
-                ];
-            }
-
-            // Валидация входных данных.
-            $validator = Validator::make($products, [
-                '*.product' => 'required|numeric|min:1',
-                '*.quantity' => 'required|numeric|min:0|max:1000',
-            ]);
-
-            if ($validator->valid()) {
-                return $validator->valid();
-            }
-        }
-        return [];
     }
 
     /**
@@ -189,5 +129,38 @@ class OrderController extends Controller
             $request->session()->flash('message', 'order-error');
             return redirect()->route('order.create');
         }
+    }
+
+    /**
+     * Получение cookie 'cart' и валидация.
+     * @param Request $request
+     * @return array [ key => ['product' => id, 'quantity' => quantity], ...]
+     *
+     */
+    private function cookie(Request $request): array
+    {
+        $cart = json_decode($request->cookie('cart'), true);
+
+        if(!empty($cart)){
+            // Преобразование входящего массива.
+            $products = [];
+            foreach($cart as $key => $val){
+                $products[$key] = [
+                    'product' => (int) $key,
+                    'quantity' => (int) $val,
+                ];
+            }
+
+            // Валидация входных данных.
+            $validator = Validator::make($products, [
+                '*.product' => 'required|numeric|min:1',
+                '*.quantity' => 'required|numeric|min:0|max:1000',
+            ]);
+
+            if ($validator->valid()) {
+                return $validator->valid();
+            }
+        }
+        return [];
     }
 }
