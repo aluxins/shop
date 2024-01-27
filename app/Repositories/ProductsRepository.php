@@ -100,20 +100,4 @@ class ProductsRepository implements ProductsRepositoryInterface {
             ->groupBy('id', 'name', 'article', 'price', 'old_price', 'available')
             ->get()->toArray();
     }
-/*
-    public function deleteProduct(int $productId)
-    {
-        // TODO: Implement deleteProduct() method.
-    }
-
-    public function createProduct(array $data)
-    {
-        // TODO: Implement createProduct() method.
-    }
-
-    public function updateProduct($productId, array $newData)
-    {
-        // TODO: Implement updateProduct() method.
-    }
-*/
 }
