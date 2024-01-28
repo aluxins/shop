@@ -26,15 +26,15 @@
                                 <dl class="divide-y divide-gray-100">
                                     <div class="p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">{{ __('order.create.subtotal') }}</dt>
-                                        <dd class="mt-1 text-sm text-right leading-6 text-gray-700 sm:col-span-2 sm:mt-0 after:content-['{{ __('currency-icon') }}']">{{ number_format($order['full'], 2) }}</dd>
+                                        <dd class="mt-1 text-sm text-right leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ number_format($order['full'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</dd>
                                     </div>
                                     <div class="p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">{{ __('order.create.discount') }}</dt>
-                                        <dd class="mt-1 text-sm text-right leading-6 text-gray-700 sm:col-span-2 sm:mt-0 after:content-['{{ __('currency-icon') }}']">{{ number_format($order['sale'], 2) }}</dd>
+                                        <dd class="mt-1 text-sm text-right leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ number_format($order['sale'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</dd>
                                     </div>
                                     <div class="p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">{{ __('order.create.total') }}</dt>
-                                        <dd class="mt-1 text-sm text-right leading-6 font-semibold text-indigo-600 sm:col-span-2 sm:mt-0 after:content-['{{ __('currency-icon') }}']">{{ number_format($order['total'], 2) }}</dd>
+                                        <dd class="mt-1 text-sm text-right leading-6 font-semibold text-indigo-600 sm:col-span-2 sm:mt-0">{{ number_format($order['total'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</dd>
                                     </div>
                                 </dl>
                             </div>

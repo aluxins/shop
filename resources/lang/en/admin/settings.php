@@ -15,5 +15,6 @@ return [
         'catalog_sort' => 'Sorting items on catalog pages by default. Type: selector.',
         'header_contacts' => 'Contacts in the header. Type: string.',
         'interface_locale' => 'Interface language. Type: selector.',
+        'currency_icon' => 'Currency icon. Type: selector.',
     ],
 ];

@@ -58,7 +58,7 @@
                     </div>
                     <div class="flex flex-row sm:flex-col justify-between py-4">
                         <div class="font-semibold">{{ __('order.id.total') }}</div>
-                        <div class="text-gray-500 after:content-['{{ __('currency-icon') }}']">{{ number_format($total_price, 2) }}</div>
+                        <div class="text-gray-500">{{ number_format($total_price, 2) }}{!! cache('siteSettings')['currency_icon'] !!}</div>
                     </div>
                 </div>
                 <table class="table-auto w-full divide-y divide-gray-200 border-spacing-2 mt-6">
@@ -74,23 +74,23 @@
                         <tr class="text-gray-500">
                             <td class="p-2 hidden sm:table-cell"></td>
                             <td class="p-2 text-right">{{ __('order.id.totalPrice') }}</td>
-                            <td class="p-2 after:content-['{{ __('currency-icon') }}']">{{ number_format($total_price, 2) }}</td>
+                            <td class="p-2">{{ number_format($total_price, 2) }}{!! cache('siteSettings')['currency_icon'] !!}</td>
                             <td class="p-2 hidden sm:table-cell"></td>
                         </tr>
                     </tfoot>
                     <tbody class="divide-y divide-gray-200">
                     @foreach($products as $product)
                         <tr class="hover:bg-gray-50">
-                            <td class="p-2 flex justify-start items-center gap-4">
+                            <td class="lg:p-2 flex justify-start items-center gap-4">
                                 <img src="{{ Storage::url(config('image.folder')).config('image.modification.fit.prefix').$product['image'] }}" alt="{{ $product['name'] }}" class="border w-16 h-16">
                                 <div class="h-min">{{ $product['name'] }}
-                                    <div class="block sm:hidden text-sm text-gray-500 text-nowrap">
-                                        <span class="after:content-['{{ __('currency-icon') }}']">{{ $product['quantity'] }} x {{ number_format($product['price'], 2) }}</span>
-                                        / {{ __('order.id.totalPrice') }}: <span class="after:content-['{{ __('currency-icon') }}']">{{ number_format($product['total'], 2) }}</span></div>
+                                    <div class="block sm:hidden text-sm text-gray-500">
+                                        <span class="text-nowrap">{{ $product['quantity'] }} x {{ number_format($product['price'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</span>
+                                        / <span class="text-nowrap">{{ __('order.id.totalPrice') }}: {{ number_format($product['total'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</span></div>
                                 </div>
                             </td>
-                            <td class="p-2 hidden sm:table-cell text-gray-500 whitespace-nowrap after:content-['{{ __('currency-icon') }}']">{{ $product['quantity'] }} x {{ number_format($product['price'], 2) }}</td>
-                            <td class="p-2 hidden sm:table-cell text-gray-500 after:content-['{{ __('currency-icon') }}']">{{ number_format($product['total'], 2) }}</td>
+                            <td class="p-2 hidden sm:table-cell text-gray-500 whitespace-nowrap">{{ $product['quantity'] }} x {{ number_format($product['price'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</td>
+                            <td class="p-2 hidden sm:table-cell text-gray-500">{{ number_format($product['total'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</td>
                             <td class="p-2 text-right"><a class="font-medium text-indigo-600 hover:text-indigo-500" href="{{ route('product', ['id' => $product['product']]) }}">{{ __('order.id.view') }}</a></td>
                         </tr>
                     @endforeach

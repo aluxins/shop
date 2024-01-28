@@ -32,7 +32,7 @@
                              x-transition:leave-end="translate-x-full"
                              class="pointer-events-auto w-screen max-w-md">
                             <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                                <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+                                <div class="flex-1 overflow-y-auto overscroll-contain px-4 py-6 sm:px-6">
                                     <div class="flex items-start justify-between">
                                         <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">{{ __('cart.name') }}</h2>
                                         <div class="ml-3 flex h-7 items-center">
@@ -63,8 +63,8 @@
                                                                     <a href="#"><!-- Name --></a>
                                                                 </h3>
                                                                 <div>
-                                                                <p class="ml-4 whitespace-nowrap after:content-['{{ __('currency-icon') }}']"><!-- Price --></p>
-                                                                <p class="ml-4 whitespace-nowrap text-xs font-medium text-gray-900 align-top line-through after:content-['{{ __('currency-icon') }}']"><!-- Old Price --></p>
+                                                                    <span class="whitespace-nowrap"><p class="ml-4 inline"><!-- Price --></p>{!! cache('siteSettings')['currency_icon'] !!}</span>
+                                                                <p class="ml-4 whitespace-nowrap text-xs font-medium text-gray-900 align-top line-through"><!-- Old Price --></p>
                                                                 </div>
                                                             </div>
                                                             <p class="mt-1 text-sm text-gray-500"><!-- Article --></p>
@@ -88,25 +88,25 @@
                                     </div>
                                 </div>
 
-                                <div class="cart-order border-t border-gray-200 px-4 py-6 sm:px-6">
+                                <div class="cart-order border-t border-gray-200 px-4 lg:py-6 lg:px-6">
                                     <div class="flex justify-between text-base font-medium text-gray-900">
                                         <p>{{ __('cart.subtotal') }}</p>
-                                        <p class="full whitespace-nowrap line-through after:content-['{{ __('currency-icon') }}']"></p>
+                                        <span class="whitespace-nowrap"><p class="full inline line-through"></p>{!! cache('siteSettings')['currency_icon'] !!}</span>
                                     </div>
                                     <div class="flex justify-between text-sm font-medium text-red-500">
                                         <p>{{ __('cart.discount') }}</p>
-                                        <p class="sale whitespace-nowrap after:content-['{{ __('currency-icon') }}']"></p>
+                                        <span class="whitespace-nowrap"><p class="sale inline"></p>{!! cache('siteSettings')['currency_icon'] !!}</span>
                                     </div>
                                     <div class="flex justify-between text-base font-medium text-gray-900">
                                         <p>{{ __('cart.total') }}</p>
-                                        <p class="total whitespace-nowrap after:content-['{{ __('currency-icon') }}']"></p>
+                                        <span class="whitespace-nowrap"><p class="total inline"></p>{!! cache('siteSettings')['currency_icon'] !!}</span>
                                     </div>
                                     <p class="mt-0.5 text-sm text-gray-500">{{ __('cart.description') }}</p>
-                                    <div class="mt-6">
+                                    <div class="mt-1 lg:mt-6">
                                         <a href="{{ route('order.create') }}" class="flex items-center justify-center rounded-2xl border border-transparent bg-yellow-500
-                                            px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-yellow-600">{{ __('cart.checkout') }}</a>
+                                            px-6 py-1 lg:py-3 text-base font-medium text-white shadow-sm hover:bg-yellow-600">{{ __('cart.checkout') }}</a>
                                     </div>
-                                    <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
+                                    <div class="mt-2 lg:mt-6 flex justify-center text-center text-sm text-gray-500">
                                         <p>
                                             <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500" @click="open = false">
                                                 {{ __('cart.continue') }}

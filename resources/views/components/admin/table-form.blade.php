@@ -6,7 +6,7 @@
         :tbody="$object"                    # Данные таблицы, тип object
      />
 --}}
-<div>
+<div class="overflow-x-auto">
     <script type="module">
         onlyChangedData("f-table");
     </script>

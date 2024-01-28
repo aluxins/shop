@@ -126,15 +126,17 @@ class StoreOrdersController extends Controller
      */
     public function cancel(Request $request, $id): RedirectResponse
     {
-        $orderProducts = StoreOrdersProducts::where('order', $id)->select('id','quantity')->get();
+        $orderProducts = StoreOrdersProducts::where('order', $id)->select('id','product','quantity')->get();
         if(!is_null($orderProducts)){
             foreach ($orderProducts as $orderProduct){
-                if($orderProduct->quantity == 0)continue;
+                if($orderProduct->quantity === 0)continue;
 
                 // Возврат товаров из заказа
-                $product = StoreProduct::find($orderProduct->id);
-                $product->available += $orderProduct->quantity;
-                $product->save();
+                $product = StoreProduct::find($orderProduct->product);
+                if(!is_null($product)) {
+                    $product->available += $orderProduct->quantity;
+                    $product->save();
+                }
 
                 // Аннулирование товаров в заказе.
                 $orderProduct->quantity = 0;

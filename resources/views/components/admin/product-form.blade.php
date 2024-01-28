@@ -34,7 +34,7 @@ foreach($arr_for as $key => $value)
             {{ $id ? 'Редактирование [ID: '.$id.']' : 'Создание' }}
         </caption>
         <caption class="caption-bottom mt-3">
-            <button class="rounded-xl shadow-lg w-1/4 p-2 text-white
+            <button class="rounded-xl shadow-lg w-3/4 sm:w-1/2 md:w-1/4 p-2 text-white
                                 bg-sky-500 hover:bg-sky-600 hover:shadow-xl">
                 {{ __('admin/products.form.button') }}
             </button>

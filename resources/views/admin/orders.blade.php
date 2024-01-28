@@ -20,7 +20,7 @@
                     ConvertTimestamp.init("timestamp");
                 </script>
                 <table class="table-auto w-full divide-y divide-gray-200 border-spacing-2">
-                    <caption class="caption-top text-right p-4">
+                    <caption class="caption-top text-right p-1 sm:p-4">
                         <x-admin.orders-filter :filter="$filter" />
                     </caption>
                     <caption class="caption-bottom text-right p-4">

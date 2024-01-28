@@ -8,7 +8,7 @@
     <!-- Options -->
     <div class="mt-4 lg:row-span-3 lg:mt-0">
         <h2 class="sr-only">Product information</h2>
-        <p class="text-3xl tracking-tight {{ $product['old_price'] > $product['price'] ? 'text-red-500' : 'text-gray-900'}} after:content-['{{ __('currency-icon') }}']">{{ $product['price'] }}</p>
+        <p class="text-3xl tracking-tight {{ $product['old_price'] > $product['price'] ? 'text-red-500' : 'text-gray-900'}}">{{ $product['price'] }}{!! cache('siteSettings')['currency_icon'] !!}</p>
         @if($product['old_price'] > $product['price'])
             <span class="text-xs font-medium text-gray-900 align-top line-through">{{ $product['old_price'] }}</span>
         @endif

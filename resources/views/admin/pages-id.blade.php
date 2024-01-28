@@ -26,7 +26,7 @@
                             </caption>
                             --}}
                             <caption class="caption-bottom py-4">
-                                <button class="rounded-xl shadow-lg w-1/4 p-2 text-white
+                                <button class="rounded-xl shadow-lg w-3/4 sm:w-1/2 md:w-1/4 p-2 text-white
                                 bg-sky-500 hover:bg-sky-600 hover:shadow-xl">
                                     {{ __('admin/pages.button') }}
                                 </button>
@@ -57,13 +57,12 @@
                         </table>
                     </form>
                     <div class="w-full text-right p-4">
-                        <form method="post" action="{{route('admin.pages.delete', ['id' => $id])}}">
-                            @csrf
-                            {{ method_field('DELETE') }}
-                            <button>
-                                {{ __('admin/pages.delete') }}
-                            </button>
-                        </form>
+                        <x-admin.confirm
+                            name="{{ __('admin/pages.delete') }}"
+                            url="{{route('admin.pages.delete', ['id' => $id])}}"
+                            method="delete">
+                            {{ __('admin/pages.deleteTitle') }}
+                        </x-admin.confirm>
                     </div>
             </div>
         </div>

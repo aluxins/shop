@@ -53,6 +53,10 @@ class StoreSettingsSeeder extends Seeder
             'footer_copyright' => [ 'value' => 'Your Company, Inc. All rights reserved.',
                 'options' => 'string'],
 
+            // Валюта
+            'currency_icon' => [  'value' => '&#36;',
+                'options' => 'enum:&#36;,&#8381;,&euro;'],
+
             // 'key' => ['value' => '...', 'options' => '...'],
         ];
 

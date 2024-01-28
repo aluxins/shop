@@ -56,7 +56,7 @@
 
                                 <div class="flex gap-2 p-2 m-1 hover:bg-gray-50 rounded-xl text-gray-800 text-clip overflow-hidden">
                                     <span class="">{{ __('admin/orders.id.totalPrice') }}</span>
-                                    <span class="grow text-right after:content-['{{ __('currency-icon') }}']">{{ number_format($total_price, 2) }}</span>
+                                    <span class="grow text-right">{{ number_format($total_price, 2) }}{!! cache('siteSettings')['currency_icon'] !!}</span>
                                 </div>
 
                                 <div class="flex gap-2 p-2 m-1 hover:bg-gray-50 rounded-xl text-gray-800 text-clip overflow-hidden">
@@ -131,23 +131,23 @@
                                 <tr class="text-gray-500">
                                     <td class="p-2 hidden sm:table-cell"></td>
                                     <td class="p-2 text-right">{{ __('admin/orders.id.totalPrice') }}</td>
-                                    <td class="p-2 after:content-['{{ __('currency-icon') }}']">{{ number_format($total_price, 2) }}</td>
+                                    <td class="p-2">{{ number_format($total_price, 2) }}{!! cache('siteSettings')['currency_icon'] !!}</td>
                                     <td class="p-2 hidden sm:table-cell"></td>
                                 </tr>
                                 </tfoot>
                                 <tbody class="divide-y divide-gray-200">
                                 @foreach($products as $product)
                                     <tr class="hover:bg-gray-50">
-                                        <td class="p-2 flex justify-start items-center gap-4">
+                                        <td class="lg:p-2 flex justify-start items-center gap-4">
                                             <img src="{{ Storage::url(config('image.folder')).config('image.modification.fit.prefix').$product['image'] }}" alt="{{ $product['name'] }}" class="border w-16 h-16">
                                             <div class="h-min">{{ $product['name'] }}
-                                                <div class="block sm:hidden text-sm text-gray-500 text-nowrap">
-                                                    <span class="after:content-['{{ __('currency-icon') }}']">{{ $product['quantity'] }} x {{ number_format($product['price'], 2) }}</span>
-                                                    / {{ __('admin/orders.id.price') }}: <span class="after:content-['{{ __('currency-icon') }}']">{{ number_format($product['total'], 2) }}</span></div>
+                                                <div class="block sm:hidden text-sm text-gray-500">
+                                                    <span class="text-nowrap">{{ $product['quantity'] }} x {{ number_format($product['price'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</span>
+                                                    / <span class="text-nowrap">{{ __('admin/orders.id.price') }}: {{ number_format($product['total'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</span></div>
                                             </div>
                                         </td>
-                                        <td class="p-2 hidden sm:table-cell text-gray-500 whitespace-nowrap after:content-['{{ __('currency-icon') }}']">{{ $product['quantity'] }} x {{ number_format($product['price'], 2) }}</td>
-                                        <td class="p-2 hidden sm:table-cell text-gray-500 after:content-['{{ __('currency-icon') }}']">{{ number_format($product['total'], 2) }}</td>
+                                        <td class="p-2 hidden sm:table-cell text-gray-500 whitespace-nowrap">{{ $product['quantity'] }} x {{ number_format($product['price'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</td>
+                                        <td class="p-2 hidden sm:table-cell text-gray-500">{{ number_format($product['total'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</td>
                                         <td class="p-2 text-right"><a class="font-medium text-indigo-600 hover:text-indigo-500" href="{{ route('product', ['id' => $product['product']]) }}">{{ __('admin/orders.id.view') }}</a></td>
                                     </tr>
                                 @endforeach
