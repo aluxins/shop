@@ -7,8 +7,9 @@ return [
     // Admin
     'update' => 'Update',
     'store' => 'Created',
-    'section-not-exist' => 'The section does not exist',
     'delete' => 'Delete',
+    'cancel' => 'Cancel',
+    'section-not-exist' => 'The section does not exist',
     'product-not-exists' => 'The product does not exist',
     'image-delete' => 'The image has been deleted',
     'image-not-exists' => 'The image was not found',

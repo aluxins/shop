@@ -198,12 +198,11 @@ foreach($arr_for as $key => $value)
 </form>
 <div class="w-full text-right">
     @if($id)
-    <form method="post" action="{{route('admin.products.delete', ['id' => $id])}}">
-        @csrf
-        {{ method_field('DELETE') }}
-    <button>
-        {{ __('admin/products.form.deleteProduct') }}
-    </button>
-    </form>
+        <x-admin.confirm
+            name="{{ __('admin/products.form.deleteProduct') }}"
+            url="{{ route('admin.products.delete', ['id' => $id]) }}"
+            method="delete">
+                {{ __('admin/products.form.deleteText') }}
+        </x-admin.confirm>
     @endif
 </div>

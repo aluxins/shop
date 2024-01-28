@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\OrderStatus;
 use App\Models\StoreOrders;
+use App\Models\StoreOrdersProducts;
+use App\Models\StoreProduct;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -75,9 +77,10 @@ class StoreOrdersController extends Controller
                 )
                 ->groupBy('id', 'status', 'created_at', 'updated_at', 'user_id', 'login', 'full_name',
                     'store_profiles.city', 'store_profiles.street_address', 'store_profiles.telephone', 'store_profiles.about')
-                ->first()->toArray();
+                ->first();
 
-        return view('admin.orders-id', ['id' => $id, 'order' => $order]);
+        if(is_null($order))abort(404);
+        return view('admin.orders-id', ['id' => $id, 'order' => $order->toArray()]);
     }
 
     /**
@@ -86,7 +89,7 @@ class StoreOrdersController extends Controller
      * @param $id
      * @return RedirectResponse
      */
-    public function update(Request $request, $id): \Illuminate\Http\RedirectResponse
+    public function update(Request $request, $id): RedirectResponse
     {
 
         $validated = $request->validate([
@@ -112,6 +115,34 @@ class StoreOrdersController extends Controller
         else
             $request->session()->flash('message', 'error');
 
+        return redirect()->back();
+    }
+
+    /**
+     * Аннулирование товаров в заказе.
+     * @param Request $request
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function cancel(Request $request, $id): RedirectResponse
+    {
+        $orderProducts = StoreOrdersProducts::where('order', $id)->select('id','quantity')->get();
+        if(!is_null($orderProducts)){
+            foreach ($orderProducts as $orderProduct){
+                if($orderProduct->quantity == 0)continue;
+
+                // Возврат товаров из заказа
+                $product = StoreProduct::find($orderProduct->id);
+                $product->available += $orderProduct->quantity;
+                $product->save();
+
+                // Аннулирование товаров в заказе.
+                $orderProduct->quantity = 0;
+                $orderProduct->save();
+            }
+        }
+
+        $request->session()->flash('message', 'cancel');
         return redirect()->back();
     }
 }

@@ -7,8 +7,9 @@ return [
     // Admin
     'update' => 'Изменения сохранены',
     'store' => 'Создано',
-    'section-not-exist' => 'Раздел не существует',
     'delete' => 'Удалено',
+    'cancel' => 'Аннулировано',
+    'section-not-exist' => 'Раздел не существует',
     'product-not-exists' => 'Товар не существует',
     'image-delete' => 'Изображение удалено',
     'image-not-exists' => 'Изображение не найдено',

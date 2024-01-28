@@ -26,6 +26,7 @@ return[
         'upload' => 'Upload',
         'images' => 'Images / sorting',
         'deleteImage' => 'Delete an image?',
-        'deleteProduct' => 'Delete an item'
+        'deleteProduct' => 'Delete an item',
+        'deleteText' => 'Deleting an item from the database.'
     ],
 ];

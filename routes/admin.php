@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/orders', 'index')->name('orders.index');
             Route::get('/orders/{id}', 'order')->name('orders.order');
             Route::post('/orders/{id}', 'update')->name('orders.update');
+            Route::delete('/orders/{id}', 'cancel')->name('orders.cancel');
         });
 
     });

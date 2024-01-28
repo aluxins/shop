@@ -111,6 +111,14 @@
                                 <caption class="caption-top mb-4">
                                     {{ __('admin/orders.id.nameProducts') }}
                                 </caption>
+                                <caption class="caption-bottom pt-4 text-right">
+                                    <x-admin.confirm
+                                        name="{{ __('admin/orders.id.cancel') }}"
+                                        url="{{ route('admin.orders.cancel', ['id' => $id]) }}"
+                                        method="delete">
+                                        {{ __('admin/orders.id.cancelTitle') }}
+                                    </x-admin.confirm>
+                                </caption>
                                 <thead>
                                 <tr class="text-gray-500">
                                     <td class="p-2">{{ __('admin/orders.id.product') }}</td>

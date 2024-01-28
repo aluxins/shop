@@ -29,6 +29,8 @@ return [
         'product' => 'Product',
         'info' => 'Info',
         'view' => 'View',
+        'cancel' => 'Cancel items',
+        'cancelTitle' => 'You are trying to cancel the items in the order.',
     ],
 
     'list' => [
