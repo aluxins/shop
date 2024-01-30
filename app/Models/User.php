@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 /**
  * @method static find($user)
+ * @method static create(array $data)
  */
 class User extends Authenticatable implements MustVerifyEmail
 {

@@ -34,7 +34,7 @@ class StoreSettingsSeeder extends Seeder
                                     'options' => 'boolean'],
 
             // Язык интерфейса
-            'interface_locale' => [ 'value' => 'ru',
+            'interface_locale' => [ 'value' => 'en',
                 'options' => 'enum:en,ru'],
 
             // Количество товаров на страницах каталога по умолчанию
