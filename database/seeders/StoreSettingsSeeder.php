@@ -9,10 +9,12 @@ use Illuminate\Database\Seeder;
 class StoreSettingsSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Наполнение БД StoreSettings (настройки сайта).
      */
     public function run(): void
     {
+        // Отчистка кэша siteSettings
+        cache()->forget('siteSettings');
 
         $settings = [
             // Имена статусов заказа
