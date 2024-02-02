@@ -16,6 +16,9 @@ class StoreSettingsSeeder extends Seeder
         // Отчистка кэша siteSettings
         cache()->forget('siteSettings');
 
+        // Отчиска БД.
+        StoreSettings::query()->truncate();
+
         $settings = [
             // Имена статусов заказа
             'order_status' => [ 'value' => json_encode(['created', 'approved', 'packing', 'prepared',

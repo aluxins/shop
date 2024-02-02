@@ -17,13 +17,13 @@
                     </svg>
                 </div>
             </div>
-            <div x-show="open" @click="open = false" class="cursor-pointer text-gray-500 block lg:hidden">
+            <div x-show="open" x-cloak @click="open = false" class="cursor-pointer text-gray-500 block lg:hidden">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                 </svg>
             </div>
         </div>
-            <div x-show="open" x-transition>
+            <div x-show="open" x-cloak x-transition>
                 <ul class="space-y-2 text-sm mt-3 lg:mt-0 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-2 overscroll-y-contain overflow-y-scroll sm:max-h-52"
                     aria-labelledby="dropdownDefault">
                     @foreach($brands as $brand)

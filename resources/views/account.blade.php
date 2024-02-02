@@ -59,13 +59,13 @@
                             <div class="flex-col gap-2 p-2 m-1 hover:bg-gray-50 rounded-xl text-gray-800">
                                 <div class="font-semibold">{{ __('account.fullName') }}:
                                     <span class="font-normal">
-                                    {{ $information['first_name'] }} {{ $information['last_name'] }} {{ $information['patronymic'] }}
+                                    {{ $information['first_name'] ?? '' }} {{ $information['last_name'] ?? '' }} {{ $information['patronymic'] ?? '' }}
                                     </span>
                                 </div>
-                                <div class="font-semibold">{{ __('account.city') }}: <span class="font-normal">{{ $information['city'] }}</span></div>
-                                <div class="font-semibold">{{ __('account.street') }}: <span class="font-normal">{{ $information['street_address'] }}</span></div>
-                                <div class="font-semibold">{{ __('account.telephone') }}: <span class="font-normal">{{ $information['telephone'] }}</span></div>
-                                <div class="font-semibold">{{ __('account.about') }}: <span class="font-normal">{{ $information['about'] }}</span></div>
+                                <div class="font-semibold">{{ __('account.city') }}: <span class="font-normal">{{ $information['city'] ?? '' }}</span></div>
+                                <div class="font-semibold">{{ __('account.street') }}: <span class="font-normal">{{ $information['street_address'] ?? '' }}</span></div>
+                                <div class="font-semibold">{{ __('account.telephone') }}: <span class="font-normal">{{ $information['telephone'] ?? '' }}</span></div>
+                                <div class="font-semibold">{{ __('account.about') }}: <span class="font-normal">{{ $information['about'] ?? '' }}</span></div>
                                 <div class=" text-right"><a class="text-indigo-600 hover:text-indigo-500" href="{{ route('profile.edit') }}">{{ __('account.edit') }}</a></div>
                             </div>
 

@@ -139,7 +139,7 @@
                                 @foreach($products as $product)
                                     <tr class="hover:bg-gray-50">
                                         <td class="lg:p-2 flex justify-start items-center gap-4">
-                                            <img src="{{ Storage::url(config('image.folder')).config('image.modification.fit.prefix').$product['image'] }}" alt="{{ $product['name'] }}" class="border w-16 h-16">
+                                            <img src="{{ Storage::url(config('image.folder')).config('image.modification.fit.prefix'). (!empty($product['image']) ? $product['image'] : config('image.defaultSrc')) }}" alt="{{ $product['name'] }}" class="border w-16 h-16">
                                             <div class="h-min">{{ $product['name'] }}
                                                 <div class="block sm:hidden text-sm text-gray-500">
                                                     <span class="text-nowrap">{{ $product['quantity'] }} x {{ number_format($product['price'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</span>

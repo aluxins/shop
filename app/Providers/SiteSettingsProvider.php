@@ -9,6 +9,7 @@ use Database\Seeders\StoreSettingsSeeder;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 
 class SiteSettingsProvider extends ServiceProvider
 {
@@ -17,7 +18,7 @@ class SiteSettingsProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+
     }
 
     /**
@@ -25,11 +26,25 @@ class SiteSettingsProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        self::StoreSettings();
+    }
+
+    /**
+     * Сохранение настроек сайта в кэш.
+     * @return void
+     */
+    private function StoreSettings(): void
+    {
         // Сохраняем настройки сайта в кэш.
         $settings = cache()->rememberForever('siteSettings', function () {
-            self::StoreSeeders();
-            return self::StoreSettingsGet();
+            return self::CheckMigrate()
+                ? self::StoreSettingsGet()
+                : false;
         });
+
+        // Если настройки не удалось получить, удаляем siteSettings из кэша.
+        if(!$settings)
+            cache()->forget('siteSettings');
 
         // Устанавливаем конфигурацию сайта.
         if(isset($settings['interface_locale']))Config::set('app.locale', $settings['interface_locale']);
@@ -45,12 +60,23 @@ class SiteSettingsProvider extends ServiceProvider
      */
     private function StoreSettingsGet(): array
     {
+        self::StoreSeeders();
+
         $data = [];
         foreach (StoreSettings::select('key', 'value')->get()->toArray() as $param){
             $data[$param['key']] =
                 json_decode($param['value'], true) ?? $param['value'];
         }
         return $data;
+    }
+
+    /**
+     * Проверка запуска artisan migrate.
+     * @return bool
+     */
+    private function CheckMigrate(): bool
+    {
+        return Schema::hasTable('store_settings') and Schema::hasTable('users');
     }
 
     /**
