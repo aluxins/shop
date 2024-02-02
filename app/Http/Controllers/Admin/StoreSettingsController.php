@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\StoreSettings;
+use App\Providers\SiteSettingsProvider;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Providers\AppServiceProvider;
 
 class StoreSettingsController extends Controller
 {
@@ -39,7 +39,7 @@ class StoreSettingsController extends Controller
         cache()->forget('siteSettings');
 
         // Перезагрузка кэша siteSettings
-        AppServiceProvider::siteSettings();
+        SiteSettingsProvider::StoreSettings();
 
         $request->session()->flash('message', 'update');
         return redirect()->route('admin.settings.index');

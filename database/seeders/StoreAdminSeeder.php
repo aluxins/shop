@@ -6,7 +6,6 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class StoreAdminSeeder extends Seeder
 {
@@ -15,14 +14,11 @@ class StoreAdminSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [
-            'name' => 'admin',
-            'email' => env('MAIL_FROM_ADDRESS'),
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'remember_token' => Str::random(60),
-        ];
-
-        User::create($data);
+        User::factory()->state(function () {
+            return ['name' => 'admin',
+                'email' => env('MAIL_FROM_ADDRESS'),
+                'password' => Hash::make('password'),
+            ];
+        })->create();
     }
 }

@@ -33,7 +33,7 @@ class SiteSettingsProvider extends ServiceProvider
      * Сохранение настроек сайта в кэш.
      * @return void
      */
-    private function StoreSettings(): void
+    public static function StoreSettings(): void
     {
         // Сохраняем настройки сайта в кэш.
         $settings = cache()->rememberForever('siteSettings', function () {
@@ -58,7 +58,7 @@ class SiteSettingsProvider extends ServiceProvider
      * Формируем массив настроек из БД.
      * @return array
      */
-    private function StoreSettingsGet(): array
+    private static function StoreSettingsGet(): array
     {
         self::StoreSeeders();
 
@@ -74,7 +74,7 @@ class SiteSettingsProvider extends ServiceProvider
      * Проверка запуска artisan migrate.
      * @return bool
      */
-    private function CheckMigrate(): bool
+    private static function CheckMigrate(): bool
     {
         return Schema::hasTable('store_settings') and Schema::hasTable('users');
     }
@@ -83,7 +83,7 @@ class SiteSettingsProvider extends ServiceProvider
      * Запуск наполнителей, если БД не заполнена.
      * @return void
      */
-    private function StoreSeeders(): void
+    private static function StoreSeeders(): void
     {
         // Настройки сайта.
         if (StoreSettings::all()->isEmpty()){
