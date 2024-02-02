@@ -15,9 +15,12 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @vite(['resources/css/dropdown-menu.css'])
         @if(request()->is('admin/*') and cache('siteSettings')['wysiwyg_editor'])
-            @vite(['/node_modules/tinymce/tinymce.min.js'])
+            @vite(['resources/js/tinymce.js'])
             <script type="module">
-                tinymce.init({selector: '.wysiwyg'});
+                tinymce.init({	selector: '.wysiwyg',
+                    skin: false,
+                    content_css: false
+                });
             </script>
         @endif
 </head>

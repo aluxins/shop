@@ -8,11 +8,10 @@ export default defineConfig(({ command, mode }) => {
 		plugins: [
 			laravel({
 				input: [
-					'resources/css/app.css',
-					'resources/css/dropdown-menu.css',
-					'resources/js/app.js',
-					'resources/js/dropdown-menu.js',
-					'node_modules/tinymce/tinymce.min.js',
+                    'resources/css/app.css',
+                    'resources/js/app.js',
+                    'resources/css/dropdown-menu.css',
+                    'resources/js/tinymce.js',
 				],
 				refresh: true,
 			}),
