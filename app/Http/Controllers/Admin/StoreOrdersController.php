@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Mail\OrderStatus;
 use App\Models\StoreOrders;
 use App\Models\StoreOrdersProducts;
 use App\Models\StoreProduct;
@@ -11,8 +10,8 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
+use App\Notifications\OrderStatus as OrderStatusNotifications;
 
 class StoreOrdersController extends Controller
 {
@@ -104,11 +103,8 @@ class StoreOrdersController extends Controller
             $order->update([ 'status' => $validated['status'] ]);
 
             // Отправка email пользователю.
-            Mail::to(User::find($order->first()->user)->email)
-                ->send(new OrderStatus(
-                    cache('siteSettings')['order_status'][$validated['status']],
-                    $id
-                ));
+            User::find($order->first()->user)->notify(new OrderStatusNotifications($order->first()->toArray()));
+
 
             $request->session()->flash('message', 'update');
         }

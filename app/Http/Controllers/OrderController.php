@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\StoreOrders;
 use App\Models\StoreProduct;
 use App\Models\StoreProfiles;
+use App\Notifications\OrderCreate;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -120,6 +121,9 @@ class OrderController extends Controller
 
             // Вставляем позиции заказа.
             DB::table('store_orders_products')->insert($insert);
+
+            // Отправка email пользователю.
+            $request->user()->notify(new OrderCreate($order->id));
 
             // Перенаправляем на созданный заказ. Удаляем cookie 'cart'.
             $request->session()->flash('message', 'order-store');
