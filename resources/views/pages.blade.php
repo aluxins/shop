@@ -5,7 +5,7 @@
     </x-slot>
 
     <x-slot name="heading">
-        {{ $page['name'] }}
+        {{ $page['title'] }}
     </x-slot>
 
     <x-slot name="header">

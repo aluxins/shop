@@ -91,7 +91,7 @@
                             </td>
                             <td class="p-2 hidden sm:table-cell text-gray-500 whitespace-nowrap">{{ $product['quantity'] }} x {{ number_format($product['price'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</td>
                             <td class="p-2 hidden sm:table-cell text-gray-500">{{ number_format($product['total'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</td>
-                            <td class="p-2 text-right"><a class="font-medium text-indigo-600 hover:text-indigo-500" href="{{ route('product', ['id' => $product['product']]) }}">{{ __('order.id.view') }}</a></td>
+                            <td class="p-2 text-right"><a class="font-medium text-sky-600 hover:text-sky-500" href="{{ route('product', ['id' => $product['product']]) }}">{{ __('order.id.view') }}</a></td>
                         </tr>
                     @endforeach
                     </tbody>

@@ -46,7 +46,7 @@
                                     </td>
                                     <td class="p-2 text-gray-500">{{ number_format($order['price'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</td>
                                     <td class="p-2 hidden sm:table-cell">{{ $siteSettings['order_status'][$order['status']] ?? '' }} <span class="timestamp text-sm text-gray-500">{{ $order['updated_at'] }}</span></td>
-                                    <td class="p-2 text-right"><a class="font-medium text-indigo-600 hover:text-indigo-500" href="{{ route('order.id', ['id' => $order['id']]) }}">{{ __('order.list.view') }}</a></td>
+                                    <td class="p-2 text-right"><a class="font-medium text-sky-600 hover:text-sky-500" href="{{ route('order.id', ['id' => $order['id']]) }}">{{ __('order.list.view') }}</a></td>
                                 </tr>
                             @endforeach
                             </tbody>

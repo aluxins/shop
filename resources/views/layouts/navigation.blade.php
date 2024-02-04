@@ -6,7 +6,7 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-4 sm:flex">
-                    <x-pages type="desktop" />
+                    <x-pages type="desktop" count="3" />
                     {{--
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
@@ -102,7 +102,7 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="absolute z-10 right-0 mx-4 p-2 rounded-md ring-1 ring-black ring-opacity-5 bg-white hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-pages type="mobile" />
+            <x-pages type="mobile" count="3" />
             {{--
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}

@@ -78,7 +78,7 @@
                                                             </p>
 
                                                             <div class="flex">
-                                                                <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">{{ __('cart.delete') }}</button>
+                                                                <button type="button" class="font-medium text-sky-600 hover:text-sky-500">{{ __('cart.delete') }}</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -108,7 +108,7 @@
                                     </div>
                                     <div class="mt-2 lg:mt-6 flex justify-center text-center text-sm text-gray-500">
                                         <p>
-                                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500" @click="open = false">
+                                            <button type="button" class="font-medium text-sky-600 hover:text-sky-500" @click="open = false">
                                                 {{ __('cart.continue') }}
                                                 <span aria-hidden="true"> →</span>
                                             </button>

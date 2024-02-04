@@ -34,7 +34,7 @@
                     <!-- / Image main -->
 
                     <!-- Image items -->
-                    <div class="flex flex-row lg:flex-col gap-6 h-1/4 lg:h-full w-full lg:w-1/4 overflow-x-auto lg:overflow-y-auto px-0 lg:px-3 py-3 lg:py-0">
+                    <div class="flex flex-row lg:flex-col gap-6 h-1/4 lg:h-full w-full lg:w-1/4 overflow-x-auto lg:overflow-y-auto lg:overscroll-contain px-0 lg:px-3 py-3 lg:py-0">
 
             @endif
                         @if($loop->count > 1)

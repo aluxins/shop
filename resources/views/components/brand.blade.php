@@ -39,10 +39,10 @@
                     @endforeach
                 </ul>
                 <div class="mt-3 text-center flex flex-row gap-6 justify-between">
-                    <button class="rounded-2xl border border-transparent bg-yellow-500 w-1/2 text-sm text-white shadow-sm hover:bg-yellow-600">
+                    <button class="rounded-2xl border border-transparent bg-yellow-500 w-1/2 py-1 text-sm text-white shadow-sm hover:bg-yellow-600">
                         {{ __('brand.apply') }}
                     </button>
-                    <a class="rounded-2xl border w-1/3 text-sm text-gray-600 shadow-sm hover:bg-gray-100 hover:text-gray-800"
+                    <a class="rounded-2xl border w-1/3 py-1 text-sm text-gray-600 shadow-sm hover:bg-gray-100 hover:text-gray-800"
                         href="{{ route('catalog', ['id' => request()->route('id')]) }}">
                         {{ __('brand.reset') }}
                     </a>

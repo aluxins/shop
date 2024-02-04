@@ -28,7 +28,7 @@
         </div>
     </div>
     @if(count($filter) > 0)
-        <div class="px-2 text-right text-indigo-600 hover:text-indigo-500">
+        <div class="px-2 text-right text-sky-600 hover:text-sky-500">
             <a class="text-sm" href='{{ route('order.index') }}'>{{ __('order.filter.reset') }}</a>
         </div>
     @endif

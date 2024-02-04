@@ -35,7 +35,7 @@
                             @foreach(['name' => 100, 'url' => 100, 'sort' => 3, 'title' => 255] as $key => $maxlength)
                                 <tr class="divide-x hover:bg-slate-50">
                                     <td class="font-medium">
-                                        {{ __('admin/pages.' . $key) }}
+                                        {{ __('admin/pages.' . $key) }} @if($key == 'url') <span class="text-sm text-gray-600">(-_0-9A-Za-z)</span> @endif
                                     </td>
                                     <td>
                                         <label>

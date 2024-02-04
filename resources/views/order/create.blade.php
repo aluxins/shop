@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="p-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">{{ __('order.create.total') }}</dt>
-                                        <dd class="mt-1 text-sm text-right leading-6 font-semibold text-indigo-600 sm:col-span-2 sm:mt-0">{{ number_format($order['total'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</dd>
+                                        <dd class="mt-1 text-sm text-right leading-6 font-semibold text-sky-600 sm:col-span-2 sm:mt-0">{{ number_format($order['total'], 2) }}{!! cache('siteSettings')['currency_icon'] !!}</dd>
                                     </div>
                                 </dl>
                             </div>
@@ -54,19 +54,19 @@
                                 <dl class="divide-y divide-gray-100">
                                     <div class="p-2 md:grid md:grid-cols-3 md:gap-4 md:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">{{ __('order.create.user') }}</dt>
-                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">{{ $information['first_name'] }} {{ $information['last_name'] }} {{ $information['patronymic'] }}</dd>
+                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">{{ $information['first_name'] ?? '' }} {{ $information['last_name'] ?? '' }} {{ $information['patronymic'] ?? '' }}</dd>
                                     </div>
                                     <div class="p-2 md:grid md:grid-cols-3 md:gap-4 md:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">{{ __('order.create.telephone') }}</dt>
-                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">{{ $information['telephone'] }}</dd>
+                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">{{ $information['telephone'] ?? '' }}</dd>
                                     </div>
                                     <div class="p-2 md:grid md:grid-cols-3 md:gap-4 md:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">{{ __('order.create.city') }}</dt>
-                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">{{ $information['city'] }}</dd>
+                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">{{ $information['city'] ?? '' }}</dd>
                                     </div>
                                     <div class="p-2 md:grid md:grid-cols-3 md:gap-4 md:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">{{ __('order.create.street') }}</dt>
-                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">{{ $information['street_address'] }}</dd>
+                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">{{ $information['street_address'] ?? '' }}</dd>
                                     </div>
                                     <div class="p-2 md:grid md:grid-cols-3 md:gap-4 md:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">{{ __('order.create.email') }}</dt>
@@ -74,12 +74,12 @@
                                     </div>
                                     <div class="p-2 md:grid md:grid-cols-3 md:gap-4 md:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">{{ __('order.create.about') }}</dt>
-                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">{{ $information['about'] }}</dd>
+                                        <dd class="mt-1 text-sm leading-6 text-gray-700 md:col-span-2 md:mt-0">{{ $information['about'] ?? '' }}</dd>
                                     </div>
                                 </dl>
                             </div>
                             <div class="px-4 sm:px-0 text-right">
-                                <a class="text-sm font-medium text-indigo-600 hover:text-indigo-500" href="{{ route('profile.edit') }}">{{ __('order.create.edit') }}<span aria-hidden="true"> →</span></a>
+                                <a class="text-sm font-medium text-sky-600 hover:text-sky-500" href="{{ route('profile.edit') }}">{{ __('order.create.edit') }}<span aria-hidden="true"> →</span></a>
                             </div>
                         </div>
                     </div>

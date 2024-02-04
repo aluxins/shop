@@ -34,7 +34,7 @@ Route::get('/product/{id?}', [ProductController::class, 'index'])->where('id', '
 
 Route::post('/cart', [CartController::class, 'index'])->name('cart');
 
-Route::get('/pages/{id}', [PagesController::class, 'index'])->whereAlpha('id')->name('pages');
+Route::get('/pages/{id}', [PagesController::class, 'index'])->where('id', '[-_0-9A-Za-z]+')->name('pages');
 
 
 Route::middleware(['auth','verified'])->group(function () {

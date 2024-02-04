@@ -44,7 +44,7 @@
                                 <td class="p-2 hidden sm:table-cell">{{ $page['url'] }}</td>
                                 <td class="p-2 hidden sm:table-cell">{{ $page['sort'] }}</td>
                                 <td class="p-2 text-right">
-                                    <a class="font-medium text-indigo-600 hover:text-indigo-500"
+                                    <a class="font-medium text-sky-600 hover:text-sky-500"
                                        href="{{ route('admin.pages.update', ['id' => $page['id']]) }}">{{ __('admin/pages.edit') }}</a>
                                 </td>
                             </tr>

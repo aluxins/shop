@@ -30,7 +30,7 @@ class StorePagesController extends Controller
     {
         $validated = $request->validate([
             'name' => 'nullable|max:100',
-            'url' => 'nullable|max:100',
+            'url' => 'nullable|alpha_dash|max:100',
             'sort' => 'nullable|numeric|min:-127|max:127',
             'title' => 'nullable|max:255',
             'body' => 'nullable|max:65535',
@@ -42,13 +42,13 @@ class StorePagesController extends Controller
 
         $page->name = $validated['name'];
         $page->url = $validated['url'];
-        $page->sort = $validated['sort'];
+        $page->sort = $validated['sort'] ?? 0;
         $page->title = $validated['title'];
         $page->body = $validated['body'];
 
         $page->save();
 
-        if ($id) self::removeCache($page);
+        if ($page->id) self::removeCache($page);
 
         $request->session()->flash('message', $id ? 'update' : 'store');
         return redirect()->route('admin.pages.update',

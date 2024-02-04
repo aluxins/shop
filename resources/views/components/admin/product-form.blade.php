@@ -174,8 +174,14 @@ foreach($arr_for as $key => $value)
                 @foreach($images as $image)
                     <div class="border bg-slate-100 relative grid grid-cols-1 gap-1 justify-items-center content-between p-2 rounded w-fit">
                         <div class="absolute w-16 h-16 right-0">
-                            <a href="{{route('admin.products.imageDelete', ['id' => $id, 'image' => $image['id']])}}"
-                            title="{{ __('admin/products.form.deleteImage') }}">X</a>
+                            <x-admin.confirm
+                                name="X"
+                                url="{{ route('admin.products.imageDelete', ['id' => $id, 'image' => $image['id']]) }}"
+                                method="get">
+                                {{ __('admin/products.form.deleteImage') }}
+                            </x-admin.confirm>
+
+
                         </div>
                         <a class="w-1/2" target="_blank" href="{{Storage::url(
                             config('image.folder').config('image.modification.original.prefix').$image['name']

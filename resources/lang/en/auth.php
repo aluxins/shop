@@ -55,4 +55,10 @@ return [
         'buttonResend' => 'Resend Verification Email',
         'buttonLogOut' => 'Log Out',
     ],
+
+    'notifications' => [
+        'regards' => 'Regards',
+        'hello' => 'Hello!',
+        'whoops' => 'Whoops!',
+    ],
 ];

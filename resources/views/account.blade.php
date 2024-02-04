@@ -39,7 +39,7 @@
                                 <span class="flex-none">{{ $siteSettings['order_status'][$order['status']] ?? '' }}</span>
                                 <span class="timestamp flex-none text-xs text-gray-400 pt-1">{{ $order['updated_at'] }}</span>
                                 <span class="grow text-right">
-                                    <a class="text-indigo-600 hover:text-indigo-500" href="{{ route('order.index', ['id' => $order['id']]) }}">
+                                    <a class="text-sky-600 hover:text-sky-500" href="{{ route('order.index', ['id' => $order['id']]) }}">
                                         <span class="hidden sm:inline">{{ __('account.view') }}</span>
                                         <span class="inline sm:hidden">→</span>
                                     </a>
@@ -50,7 +50,7 @@
                                     {{ __("account.noActive") }}
                                 </div>
                             @endforelse
-                            <div class="p-2 m-1 text-right"><a class="text-indigo-600 hover:text-indigo-500" href="{{ route('order.index') }}">{{ __('account.all') }}</a></div>
+                            <div class="p-2 m-1 text-right"><a class="text-sky-600 hover:text-sky-500" href="{{ route('order.index') }}">{{ __('account.all') }}</a></div>
                         </div>
 
                         <div class="sm:basis-1/2 border  rounded-xl">
@@ -66,7 +66,7 @@
                                 <div class="font-semibold">{{ __('account.street') }}: <span class="font-normal">{{ $information['street_address'] ?? '' }}</span></div>
                                 <div class="font-semibold">{{ __('account.telephone') }}: <span class="font-normal">{{ $information['telephone'] ?? '' }}</span></div>
                                 <div class="font-semibold">{{ __('account.about') }}: <span class="font-normal">{{ $information['about'] ?? '' }}</span></div>
-                                <div class=" text-right"><a class="text-indigo-600 hover:text-indigo-500" href="{{ route('profile.edit') }}">{{ __('account.edit') }}</a></div>
+                                <div class=" text-right"><a class="text-sky-600 hover:text-sky-500" href="{{ route('profile.edit') }}">{{ __('account.edit') }}</a></div>
                             </div>
 
                         </div>
