@@ -230,7 +230,7 @@ class StoreDemoSeeder extends Seeder
      * @param int $n Количество страниц
      * @return void
      */
-    public function PagesFactory(int $n = 2): void
+    public function PagesFactory(int $n = 5): void
     {
         // Главная страница.
         StorePages::factory()->state(function () {
