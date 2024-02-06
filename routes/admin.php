@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function () {
 
         Route::controller(StoreOrdersController::class)->group(function () {
             Route::get('/orders', 'index')->name('orders.index');
-            Route::post('/orders', 'index')->name('orders.index');
+            Route::post('/orders', 'index');
             Route::get('/orders/{id}', 'order')->where('id', '[0-9]+')->name('orders.order');
             Route::post('/orders/{id}', 'update')->where('id', '[0-9]+')->name('orders.update');
             Route::delete('/orders/{id}', 'cancel')->where('id', '[0-9]+')->name('orders.cancel');

@@ -14,11 +14,13 @@ class StoreAdminSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->state(function () {
-            return ['name' => 'admin',
-                'email' => env('MAIL_FROM_ADDRESS'),
-                'password' => Hash::make('password'),
-            ];
-        })->create();
+        if(User::where('email', env('MAIL_FROM_ADDRESS'))->get()->isEmpty()) {
+            User::factory()->state(function () {
+                return ['name' => 'admin',
+                    'email' => env('MAIL_FROM_ADDRESS'),
+                    'password' => Hash::make('password'),
+                ];
+            })->create();
+        }
     }
 }

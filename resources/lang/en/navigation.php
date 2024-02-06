@@ -13,4 +13,8 @@ return [
         'close' => 'Close',
         'home' => 'Catalog',
     ],
+    'admin' => [
+        'title' => 'Administration',
+        'action' => 'Go to the panel',
+    ],
 ];

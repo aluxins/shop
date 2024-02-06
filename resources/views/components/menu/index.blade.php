@@ -15,7 +15,7 @@
 
                 {{-- cd-index-close скрывает кнопку меню на главной странице --}}
                 <button @click="open = ! open" class="group flex items-center h-full pl-3 pr-2 text-base lg:text-lg font-light rounded-lg
-                            bg-slate-600 text-gray-100">
+                            bg-gray-800 text-gray-100">
                     <span class="">{{ __('navigation.menu.name') }}</span>
                     <svg class="pl-1 mt-0.5 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-white group-focus:text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"></path>

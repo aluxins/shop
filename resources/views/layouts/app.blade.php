@@ -26,7 +26,14 @@
         @endif
 </head>
 <body class="font-sans antialiased">
-<div class="min-h-screen bg-gray-100">
+<div class="min-h-screen bg-gradient-to-b from-gray-50 via-gray-100 to-gray-50">
+
+    @if(in_array(request()->user()->id ?? 0, cache('siteSettings')['store_admin'] ?? [])
+        and !str_contains(request()->path(), 'admin'))
+        <div class="w-full lg:max-w-[1180px] mx-auto">
+            <x-header-admin/>
+        </div>
+    @endif
 
     <!-- Page Heading -->
     @if (isset($header))

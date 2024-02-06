@@ -20,6 +20,6 @@ class AdminAuthenticated
         if(!in_array($request->user()->id, cache('siteSettings')['store_admin'] ?? []))
             abort(401);
 
-        return $response->header('is-admin', true);
+        return $response;
     }
 }
