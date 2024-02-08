@@ -25,7 +25,7 @@
             </script>
         @endif
 </head>
-<body class="font-sans antialiased">
+<body class="font-sans antialiased m-0 p-0">
 <div class="min-h-screen bg-gradient-to-b from-gray-50 via-gray-100 to-gray-50">
 
     @if(in_array(request()->user()->id ?? 0, cache('siteSettings')['store_admin'] ?? [])

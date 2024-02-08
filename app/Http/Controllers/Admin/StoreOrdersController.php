@@ -56,7 +56,7 @@ class StoreOrdersController extends Controller
                 ->leftJoin('store_orders_products', 'store_orders.id', '=', 'store_orders_products.order')
                 ->leftJoin('store_products', 'store_orders_products.product', '=', 'store_products.id')
                 ->select('store_orders.id','store_orders.status','store_orders.created_at','store_orders.updated_at',
-                    'users.id as user_id', 'users.name as login',
+                    'users.id as user_id', 'users.name as login', 'users.email as email',
                     DB::raw('CONCAT(store_profiles.first_name, " ", store_profiles.last_name, " ", store_profiles.patronymic)
                         as full_name'),
                     'store_profiles.city', 'store_profiles.street_address', 'store_profiles.telephone', 'store_profiles.about',
@@ -74,7 +74,7 @@ class StoreOrdersController extends Controller
                             ))  AS `image`
                         '),
                 )
-                ->groupBy('id', 'status', 'created_at', 'updated_at', 'user_id', 'login', 'full_name',
+                ->groupBy('id', 'status', 'created_at', 'updated_at', 'user_id', 'login', 'email', 'full_name',
                     'store_profiles.city', 'store_profiles.street_address', 'store_profiles.telephone', 'store_profiles.about')
                 ->first();
 

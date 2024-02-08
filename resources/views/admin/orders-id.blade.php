@@ -99,6 +99,7 @@
                             <div class="flex-col gap-2 hover:bg-gray-50 border rounded-xl">
                                 <div class="font-medium bg-gray-100 rounded-t-xl p-2 text-gray-900">{{ __('admin/orders.id.infoUser') }}</div>
                                 <div class="p-2 font-semibold">{{ __('admin/orders.id.fullName') }}: <span class="font-normal">{{ $order['full_name'] }}</span></div>
+                                <div class="p-2 font-semibold">Email: <span class="font-normal">{{ $order['email'] }}</span></div>
                                 <div class="p-2 font-semibold">{{ __('admin/orders.id.city') }}: <span class="font-normal">{{ $order['city'] }}</span></div>
                                 <div class="p-2 font-semibold">{{ __('admin/orders.id.street') }}: <span class="font-normal">{{ $order['street_address'] }}</span></div>
                                 <div class="p-2 font-semibold">{{ __('admin/orders.id.telephone') }}: <span class="font-normal">{{ $order['telephone'] }}</span></div>

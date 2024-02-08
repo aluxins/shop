@@ -38,6 +38,7 @@ class OrderCreate extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
+                    ->subject(Lang::get('New order!'))
                     ->line(Lang::get('The order was successfully created!'))
                     ->action(Lang::get('View the order'), url(route('order.id', ['id' => $this->orderId])));
     }

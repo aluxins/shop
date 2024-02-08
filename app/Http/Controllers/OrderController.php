@@ -6,6 +6,7 @@ use App\Models\StoreOrders;
 use App\Models\StoreProduct;
 use App\Models\StoreProfiles;
 use App\Notifications\OrderCreate;
+use App\Notifications\OrderStatus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

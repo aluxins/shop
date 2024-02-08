@@ -11,6 +11,7 @@
     "Changing the order status" : "Изменение статуса заказа",
     "The order status has been changed: " : "Статус заказа был изменен: ",
     "View the order" : "Просмотреть заказ",
+    "New order!" : "Новый заказ!",
     "The order was successfully created!" : "Заказ был успешно создан!",
     "passwords.user" : "Введенный адрес электронной почты не зарегистрирован."
 }

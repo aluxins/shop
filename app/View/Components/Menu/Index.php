@@ -2,14 +2,13 @@
 
 namespace App\View\Components\Menu;
 
-use App\Models\StorePages;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use App\Models\StoreSections;
 use App\Helpers\RecursionArray;
 
-class index extends Component
+class Index extends Component
 {
     /**
      * @var array
