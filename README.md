@@ -1,66 +1,115 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# About Shop project
+The Shop project is an online store for online trading and is created on the [Laravel](https://laravel.com/)  framework.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Demo
+Open the url in the browser: [https://shop.vi1.ru](https://shop.vi1.ru)
+#### Log in:
+* Email: noreply@vi1.ru
+* Password: password
 
-## About Laravel
+# Screenshots
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# Setup
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Deploy Docker container
+This describes how to install the Shop project in a docker container.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Git clone, create and edit configuration files:
+    ```bash
+    git clone https://github.com/aluxins/shop
+    cd shop
+    cp .env.example .env
+    ```
+    Configure: 
+   * Environment variables - .env
+   * Compose file - docker-compose.yml
+   * Server files in the folder /dockerfiles
 
-## Learning Laravel
+2. Build container:
+    ```bash
+    docker-compose up -d --build app
+    ```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3. Composer install:
+    ```bash
+    docker-compose run --rm composer install --optimize-autoloader --no-dev
+    ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+4. Run the configuration commands:
+    ```bash
+    docker-compose run --rm artisan key:generate
+    docker-compose run --rm artisan storage:link
+    ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+5. DataBase: migrate and seed:
+    ```bash
+    docker-compose run --rm artisan migrate
+    docker-compose run --rm artisan db:seed
+   ```
+   Upload demo-data and files:
+    ```bash
+    docker-compose run --rm artisan db:seed --class=StoreDemoSeeder
+    ```
 
-## Laravel Sponsors
+6. Optimization:
+    ```bash
+    docker-compose run --rm artisan config:cache
+    docker-compose run --rm artisan route:cache
+    docker-compose run --rm artisan view:cache
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+7. Build npm:
+    ```bash
+    docker-compose run --rm npm install
+    docker-compose run --rm npm run build
+    ```
 
-### Premium Partners
+8. Running the Queue Worker:
+    ```bash
+    docker-compose run -d queue
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Next open the website [localhost:80](http://localhost:80) (or according to the .env file) in your browser.
+Log in to the administrator account using the email specified in the MAIL_FROM_ADDRESS parameter of the .env file.
 
-## Contributing
+#### Example: 
+* Email: admin@laravel.com
+* Password: password
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+If you use HTTPS, uncomment the lines in the file dockerfiles/nginx/default.conf:
+```
+# fastcgi_param REQUEST_SCHEME    https;
+# fastcgi_param HTTPS             On;
+```
 
-## Code of Conduct
+### Configure NGINX as a reverse proxy
+This example configure the NGINX server as a reverse proxy.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### Example:
+```
+server {
+    listen 443 ssl; # For HTTPS
+    # listen 80; # For HTTP
+    server_name example.com www.example.com;
 
-## Security Vulnerabilities
+    # Add SSL certificates for HTTPS
+    # ssl_certificate
+    # ssl_certificate_key
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    location / {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://127.0.0.1:80;
+    }
+}
+```
 
-## License
+# Feedback / Questions
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+If you have any questions about this project, please contact aluxins@gmail.com.
+
+# License
+
+The Shop project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
