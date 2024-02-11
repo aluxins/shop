@@ -9,6 +9,7 @@ Open the url in the browser: [https://shop.vi1.ru](https://shop.vi1.ru)
 
 # Screenshots
 ![Screenshot of messenger.](https://vi1.ru/imgDemo/shop.gif)
+![Screenshot of messenger.](https://vi1.ru/imgDemo/shop.png)
 
 # Setup
 

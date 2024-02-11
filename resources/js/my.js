@@ -387,7 +387,7 @@ window.Cart  = class Cart{
         return axios({
             url: '/cart',
             method: 'post',
-            timeout: 3000,
+            timeout: 15000,
             headers: {'Content-Type': 'application/json'},
             data: JSON.stringify(values)
         })

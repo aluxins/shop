@@ -39,7 +39,7 @@
                                 <span class="flex-none">{{ $siteSettings['order_status'][$order['status']] ?? '' }}</span>
                                 <span class="timestamp flex-none text-xs text-gray-400 pt-1">{{ $order['updated_at'] }}</span>
                                 <span class="grow text-right">
-                                    <a class="text-sky-600 hover:text-sky-500" href="{{ route('order.index', ['id' => $order['id']]) }}">
+                                    <a class="text-sky-600 hover:text-sky-500" href="{{ route('order.id', ['id' => $order['id']]) }}">
                                         <span class="hidden sm:inline">{{ __('account.view') }}</span>
                                         <span class="inline sm:hidden">→</span>
                                     </a>

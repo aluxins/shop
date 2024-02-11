@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\Interfaces\ProductsRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
-    public function index(Request $request, ProductsRepositoryInterface $productsRepository): array
+    public function index(Request $request, ProductsRepositoryInterface $productsRepository): JsonResponse
     {
         // Массив id товаров.
         $productsId = [];
@@ -25,24 +26,25 @@ class CartController extends Controller
 
             if(!$validator->fails()) {
                 // Формируем массив id товаров.
-                foreach ($validator->validated()['products'] as $el){
+                foreach ($validator->valid()['products'] as $el){
                     $productsId[] = $el['product'];
                 }
             }
         }
 
-        if(count($productsId) == 0) return [];
+        $products = [];
+        if(count($productsId)) {
+            // Запрос товаров.
+            $products = $productsRepository->cartProducts($productsId);
 
-        // Запрос товаров.
-        $products = $productsRepository->cartProducts($productsId);
-
-        // Добавляем к товарам path изображений. Если изображение отсутствует - устанавливаем изображение по умолчанию.
-        foreach ($products as $key => $product) {
-            if(is_null($product['images']))$products[$key]['images'] = json_encode([config('image.defaultSrc') => 0]);
-            $products[$key]['path_images'] = Storage::url(config('image.folder')) . config('image.modification.fit.prefix');
-            $products[$key]['path_products'] = route('product');
+            // Добавляем к товарам path изображений. Если изображение отсутствует - устанавливаем изображение по умолчанию.
+            foreach ($products as $key => $product) {
+                if (is_null($product['images'])) $products[$key]['images'] = json_encode([config('image.defaultSrc') => 0]);
+                $products[$key]['path_images'] = Storage::url(config('image.folder')) . config('image.modification.fit.prefix');
+                $products[$key]['path_products'] = route('product');
+            }
         }
 
-        return $products;
+        return response()->json($products);
     }
 }
