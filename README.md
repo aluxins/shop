@@ -1,12 +1,6 @@
 # About Shop project
 The Shop project is an online store for online trading and is created on the [Laravel](https://laravel.com/)  framework.
 
-# Demo
-Open the url in the browser: [https://shop.vi1.ru](https://shop.vi1.ru)
-#### Log in:
-* Email: noreply@vi1.ru
-* Password: password
-
 # Screenshots
 ![Screenshot of messenger.](https://vi1.ru/imgDemo/shop.gif)
 ![Screenshot of messenger.](https://vi1.ru/imgDemo/shop.png)
