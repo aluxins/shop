@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('article', 31)->nullable()->unique()->fulltext();
             $table->text('description')->nullable()->fulltext();
             $table->integer('brand')->nullable();
-            $table->decimal('price')->nullable();
-            $table->decimal('old_price')->nullable();
+            $table->decimal('price', 10, 2)->nullable();
+            $table->decimal('old_price', 10, 2)->nullable();
             $table->integer('available')->nullable();
             $table->boolean('visible')->nullable();
             $table->timestamps();

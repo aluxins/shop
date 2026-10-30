@@ -105,7 +105,7 @@ foreach($arr_for as $key => $value)
             <td>
                 <label>
                     <input type="text" class="form-input m-1 w-3/4" name="price"
-                           maxlength="9" value="{{ $price }}" />
+                           maxlength="11" value="{{ $price }}" />
                 </label>
             </td>
         </tr>
@@ -116,7 +116,7 @@ foreach($arr_for as $key => $value)
             <td>
                 <label>
                     <input type="text" class="form-input m-1 w-3/4" name="old_price"
-                           maxlength="9" value="{{ $old_price }}" />
+                           maxlength="11" value="{{ $old_price }}" />
                 </label>
             </td>
         </tr>
