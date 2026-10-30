@@ -137,7 +137,7 @@ foreach($arr_for as $key => $value)
             </td>
             <td>
                 <label>
-                    <textarea class="w-3/4" name="description">{{$description}}</textarea>
+                    <textarea class="w-3/4 wysiwyg" name="description">{{$description}}</textarea>
                 </label>
             </td>
         </tr>
