@@ -37,7 +37,7 @@
             <h3 class="sr-only">Description</h3>
 
             <div class="space-y-6">
-                <p class="text-base text-gray-900">{{ $product['description'] }}</p>
+                <p class="text-base text-gray-900">{!! $product['description'] !!}</p>
             </div>
         </div>
     </div>
