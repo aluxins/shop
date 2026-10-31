@@ -61,7 +61,16 @@ class CatalogController extends Controller
             'brands' => implode('_', $brands),
         ]);
 
-        return view('catalog', ['id' => $id, 'sections' => $sections, 'brands' => $brands, 'products' => $products]);
+        return view(
+            'catalog',
+            [
+                'id' => $id,
+                'sections' => $sections,
+                'brands' => $brands,
+                'products' => $products,
+                'title' => Arr::keyBy($array_all, 'id')[$id]["name"] ?? '',
+            ]
+        );
     }
 
     public function search(Request $request, ProductsRepositoryInterface $productsRepository): View
@@ -89,7 +98,7 @@ class CatalogController extends Controller
 
         }
 
-        return view('catalog', ['id' => 0, 'search' => $search ?? '', 'sections' => [], 'brands' => [], 'products' => $products ?? []]);
+        return view('catalog', ['id' => 0, 'search' => $search ?? '', 'title' => $search ?? '', 'sections' => [], 'brands' => [], 'products' => $products ?? []]);
     }
 
     /**

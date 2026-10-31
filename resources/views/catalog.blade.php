@@ -1,8 +1,8 @@
-@props(['products'])
+@props(['products', 'title'])
 <x-app-layout>
 
     <x-slot name="title">
-        {{ __("catalog.title") }}
+        {{ $title }} | {{ __("catalog.title") }}
     </x-slot>
 
     <x-slot name="header">
