@@ -20,6 +20,13 @@
                     </div>
 
                     <div>
+                    @if(in_array(request()->user()->id ?? 0, cache('siteSettings')['store_admin'] ?? []))
+                        <div class="text-right">
+                            <a class="text-sm text-red-500" href="{{ route('admin.products.index', ['id' => $product['id']]) }}" target="_blank">
+                                {{ __("catalog.admin.edit") }} &rarrhk;
+                            </a>
+                        </div>
+                    @endif
                         <h3 class="text-sm text-gray-700">
                             <a href="{{ route('product', ['id' => $product['id']]) }}">
                                 {{-- <span aria-hidden="true" class="absolute inset-0"></span> --}}
