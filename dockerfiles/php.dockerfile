@@ -21,7 +21,7 @@ RUN sed -i "s/user = www-data/user = laravel/g" /usr/local/etc/php-fpm.d/www.con
 RUN sed -i "s/group = www-data/group = laravel/g" /usr/local/etc/php-fpm.d/www.conf
 RUN echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
 
-RUN apk update && apk upgrade && apk add bash curl ca-certificates openssl openssh git nano libxml2-dev tzdata icu-dev openntpd libedit-dev libzip-dev libjpeg-turbo-dev libpng-dev freetype-dev autoconf dpkg-dev dpkg f$
+RUN apk update && apk upgrade && apk add bash curl ca-certificates openssl openssh git nano libxml2-dev tzdata icu-dev openntpd libedit-dev libzip-dev libjpeg-turbo-dev libpng-dev freetype-dev autoconf dpkg-dev dpkg file g++ gcc libc-dev make pkgconf re2c pcre-dev libffi-dev libressl-dev libevent-dev zlib-dev libtool automake supervisor
 
 RUN docker-php-ext-configure gd --with-jpeg --with-freetype
 
@@ -33,4 +33,3 @@ RUN mkdir -p /usr/src/php/ext/redis \
     && docker-php-ext-install redis
 
 CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]
-
