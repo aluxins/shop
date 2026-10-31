@@ -205,9 +205,27 @@ class StoreProductsController extends Controller
                     $constraint->upsize();
                 });
             $img_th->save(Storage::path($folder) . config('image.modification.th.prefix') . $img_name);
+			
+			// Замена fit с сохранением всего шаблона изображения.
+			
+			/*
+			$img_th_fit = Image::make($img_tmp)->fit(config('image.modification.fit.resize'));
+			$img_th_fit->save(Storage::path($folder) . config('image.modification.fit.prefix') . $img_name);
+			*/
+			
+			$img_th_fit = Image::make($img_tmp);
+			
+			// Шаг 1: вписываем изображение в config('image.modification.fit.resize') с сохранением пропорций
+			$img_th_fit->resize(config('image.modification.fit.resize'), config('image.modification.fit.resize'), function ($constraint) {
+				$constraint->aspectRatio();      // сохраняем пропорции
+				//$constraint->upsize(false);       // не увеличиваем, если оригинал меньше
+			});
 
-            $img_th_fit = Image::make($img_tmp)->fit(config('image.modification.fit.resize'));
-            $img_th_fit->save(Storage::path($folder) . config('image.modification.fit.prefix') . $img_name);
+			// Шаг 2: создаём белый холст и помещаем туда изображение по центру
+			$canvas = Image::canvas(config('image.modification.fit.resize'), config('image.modification.fit.resize'), '#FFFFFF');
+			$canvas->insert($img_th_fit, 'center');
+			
+            $canvas->save(Storage::path($folder) . config('image.modification.fit.prefix') . $img_name);
         }
         return $insert;
     }
