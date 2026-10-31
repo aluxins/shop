@@ -13,4 +13,7 @@ return[
         'priceMax' => 'Expensive first',
         'new' => 'Newest arrivals',
     ],
+    'admin' => [
+        'edit' => 'Edit',
+    ],
 ];
